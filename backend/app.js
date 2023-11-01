@@ -2,10 +2,9 @@ const express = require("express");
 const overviewRouter = require('./routers/overviewRouter')
 const cookieSession = require('cookie-session')
 const cors = require('cors')
-const passport = require('passport')
 const passportSetup = require("./passport")
+const passport = require('passport')
 const auth = require("./routers/auth")
-const session = require('express-session')
 
 
 
@@ -14,16 +13,10 @@ const app = express();
 //Middlewares
 app.use(express.json())
 app.use(cookieSession({
-    name : 'a',
+    name : 'session',
     keys: ['spotify-insights'],
     maxAge : 24*60*60*60
 }))
-app.use(
-    session({secret: 'spotify-insights', 
-    resave: true, 
-    saveUninitialized: true})
-  );
-
 
 app.use(passport.initialize());
 app.use(passport.session());

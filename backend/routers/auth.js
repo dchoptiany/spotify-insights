@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 
+
 const CLIENT_URL = "http://localhost:3000";
 
 router.get("/login/success", (req, res) => {
@@ -21,21 +22,22 @@ router.get("/login/failed", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  //req.logout();
+  req.logout();
   res.redirect(CLIENT_URL);
 });
 
 router.get("/spotify", passport.authenticate('spotify', {
-    scope: ['user-read-email', 'user-read-private'],
+    scope: [ 'user-read-email','user-read-private'],
     showDialog: true,
   }));
 
 router.get(
   "/spotify/callback",
-  passport.authenticate('spotify', {failureRedirect: '/login'}),
-  function (req, res) {
-    res.redirect(CLIENT_URL);
-  }
+  passport.authenticate('spotify', 
+  {
+    failureRedirect: '/login/failed',
+    successRedirect: CLIENT_URL,
+})
 );
 
 module.exports = router

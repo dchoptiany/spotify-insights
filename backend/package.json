@@ -7,7 +7,7 @@
     "express-session": "^1.17.3",
     "fs": "^0.0.1-security",
     "nodemon": "^3.0.1",
-    "passport": "^0.5.3",
+    "passport": "^0.5.0",
     "passport-spotify": "^2.0.0"
   },
   "scripts": {
