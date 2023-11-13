@@ -1,25 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import Navbar from "./components/Navbar"
+import Login from "./pages/Login"
+import { sendGetUserRequest } from './actions/authActions';
+
+import {
+  BrowserRouter,
+  RouterProvider,
+  Route,
+  Link,
+  Routes,
+  Navigate
+} from "react-router-dom";
+import { useEffect, useState } from "react";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const getUser = () => {
+      sendGetUserRequest()
+        .then((response) => {
+          if (response.status === 200) return response.json();
+          throw new Error("authentication has been failed!");
+        })
+        .then((resObject) => {
+          setUser(resObject.user);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getUser();
+  }, []);
+
+
+  return <BrowserRouter>
+        <div>
+          <Navbar user = {user}/>
+          <Routes>
+            <Route path='/login' 
+            element={user? <Navigate to="/"/> : <Login/>}/>
+          </Routes>
+        </div>
+  </BrowserRouter>
+  
+  
 }
 
 export default App;

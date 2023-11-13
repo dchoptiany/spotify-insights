@@ -1,4 +1,4 @@
-import Spotify from "../img/spotify.png"
+import Spotify from "../images/spotify.png"
 
 
 const spotify = ()=>{
