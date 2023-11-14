@@ -1,11 +1,21 @@
 import { Link } from "react-router-dom";
-import {logout} from "../actions/authActions"
+import {logout, makeRequest} from "../actions/authActions"
+
 
 
 const Navbar = ({user}) =>{
 
-    return (
-        
+    const handleClick = async () => {
+        try {
+          const response = await makeRequest('https://api.spotify.com/v1/me');
+          const data = await response.json();
+          console.log('Odpowiedź serwera:', data);
+        } catch (error) {
+          console.error('Błąd podczas zapytania:', error);
+        }
+      };
+
+    return (  
         <div className = "navbar">
             <span className="logo">
                 <Link className="link" to="/">
@@ -17,7 +27,7 @@ const Navbar = ({user}) =>{
                     <li className = "listItem">
                         <img scr={user.photos[0]} alt="" className="avatar"></img>
                     </li>
-                    <li className="listItem">{user.displayName}</li>
+                    <li className="listItem" onClick={handleClick} >{user.displayName}</li>
                     <li className="listItem" onClick={logout}>Logout</li>
                 </ul>
             )

@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/dchoptiany/spotify-insights#readme",
   "dependencies": {
+    "axios": "^1.6.1",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

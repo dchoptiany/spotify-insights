@@ -4,6 +4,7 @@ const cors = require('cors')
 const passportSetup = require("./passport")
 const passport = require('passport')
 const auth = require("./routers/auth")
+const api = require("./routers/apiRouter")
 
 
 const app = express();
@@ -27,5 +28,7 @@ app.use(cors({
     credentials : true
 }))
 app.use("/auth",auth)
+app.use("/api",api)
+
 
 module.exports = app

@@ -4,6 +4,7 @@ import Spotify from "../images/spotify.png"
 const spotify = ()=>{
     window.open("http://localhost:8000/auth/spotify", "_self")
   }
+
   
 
 const Login = () =>{

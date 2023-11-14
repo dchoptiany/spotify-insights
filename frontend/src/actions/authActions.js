@@ -16,5 +16,19 @@ export const sendGetUserRequest = ()=>{
 })
 }
 
+export const makeRequest = (endpoint) => {
+  return fetch("http://localhost:8000/api/api_data", {
+    method: 'GET',
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      'Content-Type': 'application/json',
+      'endpoint': endpoint, 
+      "Access-Control-Allow-Credentials": true,
+    }
+  })
+    
+}
+
 
 
