@@ -5,21 +5,12 @@ import {DataCollectorRequest} from './../actions/authActions';
 
 const MainPage = ({user}) => {
   const [textInput, setTextInput] = useState('');
-  const [checkBox1, setCheckBox1] = useState(false);
-  const [checkBox2, setCheckBox2] = useState(false);
+
 
   const handleInputChange = (event) => {
     setTextInput(event.target.value);
   };
 
-  const handleCheckBox1Change = () => {
-    setCheckBox1(!checkBox1);
-  };
-
-  const handleCheckBox2Change = () => {
-    setCheckBox2(!checkBox2);
-
-  };
 
   const parseSpotifyUrl = (url) => {
     const regex = /(\/track\/|\/playlist\/|\/artist\/)([a-zA-Z0-9]+)/;
@@ -29,34 +20,16 @@ const MainPage = ({user}) => {
   };
   
 
-
-  const getData = () => {
-    let data = {};
-  
-    switch (true) {
-      case checkBox1:
-        data.popularity = checkBox1;
-        break;
-      case checkBox2:
-        data.artists = checkBox2;
-        break;  
-      default:
-        break;
-    }
-  
-    return data;
-  };
   
   
   const handleButtonClick = async () => {
     try {
-      const dataJSON = getData();
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
         const parsedSpotifyURL = 'http://localhost:8080'+spotifyAdressData[2]+"/"+spotifyAdressData[0]+"ID="+spotifyAdressData[1];
         const response = await DataCollectorRequest(
           parsedSpotifyURL,
-         'PUT',dataJSON, user);
+         'PUT', user);
         const data = await response.json();
         console.log('Odpowiedź serwera:', data);
       }
@@ -73,23 +46,7 @@ const MainPage = ({user}) => {
           Link:
           <input className="input-field" type="text" value={textInput} onChange={handleInputChange} />
         </label>
-      </div>
-      <div className="checkbox-container">
-        <div className="checkbox-label">
-          <label>
-            Popularity:
-            <input type="checkbox"  className= "checkbox" checked={checkBox1} onChange={handleCheckBox1Change} />
-          </label>
-        </div>
-        <div className="checkbox-label">
-          <label>
-            Artists:
-            <input type="checkbox" className="checkbox" checked={checkBox2} onChange={handleCheckBox2Change} />
-          </label>
-        </div>
-
         <Button onClick={handleButtonClick} text="Submit" />
-          
       </div>
     </div>
   );
