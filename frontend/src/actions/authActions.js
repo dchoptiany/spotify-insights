@@ -29,15 +29,17 @@ export const makeRequest = (endpoint, method) => {
   })
 }
 
-export const DataCollectorRequest = (endpoint, method, data, user) => {
-  const jsonData = JSON.stringify({
-    data,
+export const DataCollectorRequest = (endpoint, method, user) => {
+  let jsonData = null;
+  if(user){
+    jsonData= JSON.stringify({
     "Token" :{
       "access_token" : user.accessToken,
       "token_type" : "Bearer",
       "expiry" : user.expiry
     }
   })
+  }
    
   return fetch(endpoint, {
     method: method,
