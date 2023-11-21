@@ -1,6 +1,7 @@
 import './App.css';
 import Navbar from "./components/Navbar"
 import Login from "./pages/Login"
+import MainPage from "./pages/MainPage"
 import { sendGetUserRequest } from './actions/authActions';
 
 import {
@@ -41,6 +42,7 @@ function App() {
           <Routes>
             <Route path='/login' 
             element={user? <Navigate to="/"/> : <Login/>}/>
+            <Route path='/' element = {<MainPage user = {user}/>}/>
           </Routes>
         </div>
   </BrowserRouter>

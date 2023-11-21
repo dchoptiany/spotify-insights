@@ -14,7 +14,6 @@ const Login = () =>{
                 <div className="center">
                 <div className="loginButton" onClick={spotify}>
                     <img src={Spotify} alt="" className="icon"></img>
-
                 </div>
                 <div className="loginDesc">
                 <h1 >Log in with your Spotify account</h1>

@@ -7,7 +7,7 @@ const Navbar = ({user}) =>{
 
     const handleClick = async () => {
         try {
-          const response = await makeRequest('https://api.spotify.com/v1/me');
+          const response = await makeRequest('https://api.spotify.com/v1/me', 'GET','');
           const data = await response.json();
           console.log('Odpowiedź serwera:', data);
         } catch (error) {

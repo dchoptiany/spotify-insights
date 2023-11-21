@@ -18,9 +18,9 @@ passport.use(new SpotifyStrategy({
   
  
 },
-function (accessToken, refreshToken, profile, done) {
+function (accessToken, refreshToken,expires_in, profile, done) {
   profile.accessToken = accessToken;
-  profile.accessToken = accessToken;
+  profile.expiry = expires_in;
   done(null, profile);
 }));
 
