@@ -28,17 +28,10 @@ const MainPage = ({user}) => {
     return match ? [match[1].replace(/\//g, ''), match[2], match[0]] : null;
   };
   
-  
 
-  const handleUrlSubmit = () => {
-    const spotifyId = parseSpotifyUrl(textInput);
-    console.log('Spotify ID:', spotifyId);
-  };
 
   const getData = () => {
-    let data = {
-      link: textInput,
-    };
+    let data = {};
   
     switch (true) {
       case checkBox1:
@@ -61,11 +54,11 @@ const MainPage = ({user}) => {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
         const parsedSpotifyURL = 'http://localhost:8080'+spotifyAdressData[2]+"/"+spotifyAdressData[0]+"ID="+spotifyAdressData[1];
-        window.open(parsedSpotifyURL)
         const response = await DataCollectorRequest(
           parsedSpotifyURL,
          'PUT',dataJSON, user);
         const data = await response.json();
+        console.log('Odpowiedź serwera:', data);
       }
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);

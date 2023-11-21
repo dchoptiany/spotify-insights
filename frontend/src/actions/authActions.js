@@ -30,6 +30,15 @@ export const makeRequest = (endpoint, method) => {
 }
 
 export const DataCollectorRequest = (endpoint, method, data, user) => {
+  const jsonData = JSON.stringify({
+    data,
+    "Token" :{
+      "access_token" : user.accessToken,
+      "token_type" : "Bearer",
+      "expiry" : user.expiry
+    }
+  })
+   
   return fetch(endpoint, {
     method: method,
     credentials: "include",
@@ -38,16 +47,10 @@ export const DataCollectorRequest = (endpoint, method, data, user) => {
       'Content-Type': 'application/json',
       "Access-Control-Allow-Credentials": true,
     },
-    body: JSON.stringify({
-      data,
-      "Token" :{
-        "access_token" : user.accessToken,
-        "token_type" : "Bearer",
-        "expiry" : user.expiry
-      }
-    })
+    body: jsonData
   })
-}
+
+};
 
 
 
