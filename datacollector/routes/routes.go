@@ -20,5 +20,7 @@ func SetUpRoutes() (*gin.Engine, error) {
 	spotifyAPI.GET("/playlist", controllers.GetSpotifyPlaylist)
 	spotifyAPI.GET("/playlist/artists", controllers.GetSpotifyPlaylistsArtists)
 
+	spotifyAPI.GET("/playlist/analysis", controllers.GetPlaylistForAnalysis)
+
 	return r, nil
 }

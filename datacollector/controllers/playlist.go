@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"net/http"
+	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/zmb3/spotify"
@@ -78,6 +79,92 @@ func GetSpotifyPlaylistsArtists(c *gin.Context) {
 	}
 }
 
-func GetPlaylistPopularity(c *gin.Context) {
+func GetPlaylistForAnalysis(c *gin.Context) {
+	var err error
+	var token oauth2.Token
 
+	var spotifyPlaylist *spotify.FullPlaylist = nil
+	var spotifyArtist *spotify.FullArtist = nil
+	var spotifyAudioFeaturesArr []*spotify.AudioFeatures = nil
+	var spotifyAudioFeatures *spotify.AudioFeatures = nil
+
+	var playlistForAnalysis models.SpotifyPlaylist = models.SpotifyPlaylist{Tracks: make([]models.SpotifyTrack, 0)}
+
+	// payload -> oauth2 token
+	if err = c.BindJSON(&token); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		// create spotify client
+		spotifyClient := NewSpotifyClient(&token)
+
+		// query string parametrs -> playlistID
+		playlistID, playlistID_ok := c.GetQuery("playlist_id")
+
+		if playlistID_ok {
+			spotifyPlaylist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				// analysis
+				totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
+				spotifyTrackArr := spotifyPlaylist.Tracks.Tracks
+
+				// fill the playlistForAnalysis
+				for i := 0; i < totalNumOfSpotifyTracks; i++ {
+					track := models.SpotifyTrack{Artists: make([]models.SpotifyArtist, 0)}
+					spotifyTrack := spotifyTrackArr[i].Track
+
+					// id
+					track.ID = string(spotifyTrack.ID)
+
+					// title
+					track.Title = spotifyTrack.Name
+
+					// artists
+					for a := 0; a < len(spotifyTrack.Artists); a++ {
+						artist := models.SpotifyArtist{ID: string(spotifyTrack.Artists[a].ID), Name: spotifyTrack.Artists[a].Name}
+						track.Artists = append(track.Artists, artist)
+					}
+
+					// genre
+					spotifyArtist, err = spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
+					if err != nil {
+						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+					}
+
+					track.Genre = spotifyArtist.Genres[0]
+
+					// release date
+					track.Release_date = spotifyTrack.Album.ReleaseDate
+
+					// duration
+					track.Duration = spotifyTrack.Duration
+
+					// popularity
+					track.Popularity = spotifyTrack.Popularity
+
+					// energy
+					spotifyAudioFeaturesArr, err = spotifyClient.GetAudioFeatures(spotify.ID(track.ID))
+					if err != nil {
+						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+					}
+
+					spotifyAudioFeatures = spotifyAudioFeaturesArr[0]
+					track.Energy = spotifyAudioFeatures.Energy
+
+					// danceability
+					track.Danceability = spotifyAudioFeatures.Danceability
+
+					// add tracks to playlistForAnalysis
+					playlistForAnalysis.Tracks = append(playlistForAnalysis.Tracks, track)
+				}
+
+				// send playlistForAnalysis as JSON
+				c.JSON(http.StatusOK, playlistForAnalysis)
+			}
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+	}
 }
