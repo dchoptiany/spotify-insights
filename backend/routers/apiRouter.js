@@ -27,11 +27,11 @@ router.get("/dataCollector", (req,res) =>{
         const expiry = req.user.expiry;
 
         jsonData= JSON.stringify({
-          "Token" :{
+         
             "access_token" : accessToken,
             "token_type" : "Bearer",
             "expires_in" : expiry
-          }
+          
         })
         
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
