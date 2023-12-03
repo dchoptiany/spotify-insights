@@ -106,13 +106,17 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			} else {
-				// analysis
 				totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
+
+				// playlist's tracks
 				spotifyTrackArr := spotifyPlaylist.Tracks.Tracks
 
 				// fill the playlistForAnalysis
 				for i := 0; i < totalNumOfSpotifyTracks; i++ {
+					// track model
 					track := models.SpotifyTrack{Artists: make([]models.SpotifyArtist, 0)}
+
+					// playlist's track
 					spotifyTrack := spotifyTrackArr[i].Track
 
 					// id
@@ -127,13 +131,16 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 						track.Artists = append(track.Artists, artist)
 					}
 
-					// genre
+					// get track's artist's full info
 					spotifyArtist, err = spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
 					if err != nil {
 						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 					}
 
-					track.Genre = spotifyArtist.Genres[0]
+					// genre
+					if len(spotifyArtist.Genres) > 0 {
+						track.Genre = spotifyArtist.Genres[0]
+					}
 
 					// release date
 					track.Release_date = spotifyTrack.Album.ReleaseDate
@@ -144,13 +151,14 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 					// popularity
 					track.Popularity = spotifyTrack.Popularity
 
-					// energy
+					// get track's audio features
 					spotifyAudioFeaturesArr, err = spotifyClient.GetAudioFeatures(spotify.ID(track.ID))
 					if err != nil {
 						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 					}
-
 					spotifyAudioFeatures = spotifyAudioFeaturesArr[0]
+
+					// energy
 					track.Energy = spotifyAudioFeatures.Energy
 
 					// danceability
