@@ -11,7 +11,7 @@ function makeSpotifyApiRequest(apiEndpoint, accessToken) {
   }
 
 function dataCollectorAction(apiEndpoint,jsonData){
-  return axios.put(apiEndpoint,{  
+  return axios.get(apiEndpoint,{  
   headers:{
     'Content-Type': 'application/json',
     "Access-Control-Allow-Credentials": true,

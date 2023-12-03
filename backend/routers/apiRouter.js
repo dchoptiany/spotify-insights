@@ -33,7 +33,7 @@ router.get("/dataCollector", (req,res) =>{
             "expiry" : expiry
           }
         })
-
+        
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
           res.redirect('http://localhost:3000')
         })
