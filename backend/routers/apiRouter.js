@@ -30,7 +30,7 @@ router.get("/dataCollector", (req,res) =>{
           "Token" :{
             "access_token" : accessToken,
             "token_type" : "Bearer",
-            "expiry" : expiry
+            "expires_in" : expiry
           }
         })
         
