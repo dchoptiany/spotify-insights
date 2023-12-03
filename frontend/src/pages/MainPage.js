@@ -26,12 +26,8 @@ const MainPage = ({user}) => {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
-        const parsedSpotifyURL = 'http://localhost:8080'+spotifyAdressData[2]+"/"+spotifyAdressData[0]+"ID="+spotifyAdressData[1];
-        const response = await DataCollectorRequest(
-          parsedSpotifyURL,
-         'PUT', user);
-        const data = await response.json();
-        console.log('Odpowiedź serwera:', data);
+        const parsedSpotifyURL = 'http://localhost:8080/spotify-api/'+spotifyAdressData[0]+"?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        await DataCollectorRequest(parsedSpotifyURL);
       }
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);

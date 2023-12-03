@@ -29,27 +29,16 @@ export const makeRequest = (endpoint, method) => {
   })
 }
 
-export const DataCollectorRequest = (endpoint, method, user) => {
-  let jsonData = null;
-  if(user){
-    jsonData= JSON.stringify({
-    "Token" :{
-      "access_token" : user.accessToken,
-      "token_type" : "Bearer",
-      "expiry" : user.expiry
-    }
-  })
-  }
-   
-  return fetch(endpoint, {
-    method: method,
+export const DataCollectorRequest = (endpoint) => {   
+  return fetch('http://localhost:8000/api/dataCollector', {
+    method: 'GET',
     credentials: "include",
     headers: {
       Accept: "application/json",
+      endpoint : endpoint,
       'Content-Type': 'application/json',
       "Access-Control-Allow-Credentials": true,
     },
-    body: jsonData
   })
 
 };
