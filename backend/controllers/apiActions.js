@@ -11,12 +11,13 @@ function makeSpotifyApiRequest(apiEndpoint, accessToken) {
   }
 
 function dataCollectorAction(apiEndpoint,jsonData){
+  console.log(jsonData)
   return axios.get(apiEndpoint,{  
   headers:{
     'Content-Type': 'application/json',
     "Access-Control-Allow-Credentials": true,
   },
-  body:{Token: jsonData}  
+  body:{jsonData}  
   })
   .then(response => response.data);
 }   
