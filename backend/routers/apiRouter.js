@@ -35,9 +35,11 @@ router.get("/dataCollector", (req,res) =>{
         })
         
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
-          res.redirect('http://localhost:3000')
+          res.status(200)
+          res.json(data)
         })
         .catch((error) => {
+          res.status(404)
           res.redirect('/error');
         });
 
