@@ -20,7 +20,12 @@ func SetUpRoutes() (*gin.Engine, error) {
 	spotifyAPI.GET("/playlist", controllers.GetSpotifyPlaylist)
 	spotifyAPI.GET("/playlist/artists", controllers.GetSpotifyPlaylistsArtists)
 
+	// playlist analysis
 	spotifyAPI.GET("/playlist/analysis", controllers.GetPlaylistForAnalysis)
+
+	// data sketches
+	spotifyAPI.GET("/data_sketches/global", controllers.GetTopTracksGlobal)
+	spotifyAPI.GET("/data_sketches/poland", controllers.GetTopTracksPoland)
 
 	return r, nil
 }
