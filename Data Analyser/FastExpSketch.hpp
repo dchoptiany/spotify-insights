@@ -16,6 +16,7 @@ private:
     unsigned randomInteger(unsigned k, unsigned m, unsigned seed);
     void swap(unsigned& lhs, unsigned& rhs);
     double hash(unsigned i, unsigned k);
+    
 public:
     FastExpSketch(unsigned size);
     void update(unsigned i, double lambda);

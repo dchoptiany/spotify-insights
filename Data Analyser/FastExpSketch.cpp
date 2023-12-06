@@ -1,4 +1,4 @@
-#include "fastExpSktech.hpp"
+#include "FastExpSketch.hpp"
 #include <cmath>
 #include <iostream>
 #include <algorithm>
@@ -100,20 +100,4 @@ double FastExpSketch::estimateCardinality()
 std::vector<double> FastExpSketch::getM()
 {
     return M;
-}
-
-// Function updating data sketch with all (i, lamda) pairs from stream
-void updateSketchWithStream(FastExpSketch* sketch, const std::vector<std::pair<unsigned, unsigned>>& stream)
-{
-    for(const std::pair<unsigned, unsigned>& pair : stream)
-    {
-        sketch->update(pair.first, pair.second);
-    }
-}
-
-int main()
-{
-    FastExpSketch* sketch = new FastExpSketch(1024);
-    delete sketch;
-    return 0;
 }
