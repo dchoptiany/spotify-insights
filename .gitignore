@@ -23,7 +23,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /datacollector/main
-/dataanalyser/main
+/dataanalyser/data_analyser
+/dataanalyser_api/main
 
 *.exe
 .vscode/settings.json
