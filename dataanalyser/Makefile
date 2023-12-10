@@ -1,2 +1,2 @@
 all:
-	g++ DataAnalyser.cpp FastExpSketch.cpp -O3 -Wall -pedantic -o data_analyser
+	g++ DataAnalyser.cpp FastExpSketch.cpp -O3 -Wall -pedantic -o ./_build/data_analyser

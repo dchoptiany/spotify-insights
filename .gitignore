@@ -23,7 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /datacollector/_build/*
-/dataanalyser/data_analyser
+/dataanalyser/_build/*
 /dataanalyser_api/_build/*
 
 *.exe
