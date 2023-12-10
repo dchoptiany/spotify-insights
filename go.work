@@ -1,6 +1,6 @@
 go 1.21.4
 
 use (
-	./dataanalyser
+	./dataanalyser_api
 	./datacollector
 )

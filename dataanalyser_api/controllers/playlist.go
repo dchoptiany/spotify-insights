@@ -7,21 +7,15 @@ import (
 	"io"
 	"net/http"
 
-	"spotify_insights/datacollector/models"
+	"dataanalyser_api/config"
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/oauth2"
 )
 
-const (
-	DatacollectorAddr                             = "http://localhost:8080"
-	Datacollector_GetPlaylistForAnalysis_Endpoint = "/spotify-api/playlist/analysis"
-)
-
 func GetPlaylistAnalysis(c *gin.Context) {
 	var err error
 	var token oauth2.Token
-	var playlistForAnalysis models.SpotifyPlaylist
 
 	// paylod -> oauth2 token
 	if err = c.BindJSON(&token); err != nil {
@@ -34,7 +28,7 @@ func GetPlaylistAnalysis(c *gin.Context) {
 			client := &http.Client{}
 
 			// create GET request
-			path := fmt.Sprint(DatacollectorAddr, Datacollector_GetPlaylistForAnalysis_Endpoint, "?", "playlist_id=", playlistID)
+			path := fmt.Sprint(config.DatacollectorAddr, config.Datacollector_GetPlaylistForAnalysis_Endpoint, "?", "playlist_id=", playlistID)
 
 			data, err := json.Marshal(token)
 			if err != nil {
@@ -60,17 +54,14 @@ func GetPlaylistAnalysis(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
 
-			err = json.Unmarshal(resp_data, &playlistForAnalysis)
+			// analysis
+			analysisOutput, err := RunDataAnalyserCli(resp_data)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
 
-			// analysis
-			// run cpp program for analysis
-
 			// send response back to UI
-			// TODO: Change 'playlistForAnalysis' to cpp program's output!
-			c.JSON(http.StatusOK, playlistForAnalysis)
+			c.JSON(http.StatusOK, analysisOutput)
 
 		} else {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

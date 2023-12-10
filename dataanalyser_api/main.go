@@ -1,7 +1,7 @@
 package main
 
 import (
-	"data_analyser/routes"
+	"dataanalyser_api/routes"
 )
 
 func main() {

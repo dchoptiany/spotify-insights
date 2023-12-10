@@ -1,4 +1,4 @@
-module data_analyser
+module dataanalyser_api
 
 go 1.21.4
 

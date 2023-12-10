@@ -150,10 +150,11 @@ std::string DataAnalyser::analyse(const std::string &jsonInput)
     return result.dump(4); // return indented json as string
 }
 
-int main()
+int main(int argc, char** argv)
 {
     DataAnalyser *dataAnalyser = new DataAnalyser(1024);
-    std::fstream file("sample.json", std::ios::in);
+    std::string filename = argv[1];
+    std::fstream file(filename, std::ios::in);
     std::stringstream buffer;
     buffer << file.rdbuf();
     std::string sampleData = buffer.str();

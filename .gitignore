@@ -22,11 +22,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/datacollector/main
+/datacollector/_build/*
 /dataanalyser/data_analyser
-/dataanalyser_api/main
+/dataanalyser_api/_build/*
 
 *.exe
 .vscode/settings.json
 .vscode/tasks.json
 config.env
+
+spotify-insights/runtime/*

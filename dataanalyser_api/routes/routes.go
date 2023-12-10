@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"data_analyser/controllers"
+	"dataanalyser_api/controllers"
 
 	"github.com/gin-gonic/gin"
 )
