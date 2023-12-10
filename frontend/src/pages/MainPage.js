@@ -22,13 +22,20 @@ const MainPage = ({user}) => {
 
   
   
-  const handleButtonClick = async () => {
+  const handleButtonClick =  () => {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
         const parsedSpotifyURL = 'http://localhost:8080/spotify-api/'+spotifyAdressData[0]+"?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-        await DataCollectorRequest(parsedSpotifyURL);
-      }
+        DataCollectorRequest(parsedSpotifyURL)
+        .then(response => response.json()) 
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);
     }
