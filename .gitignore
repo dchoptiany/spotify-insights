@@ -24,3 +24,8 @@ yarn-debug.log*
 yarn-error.log*
 /datacollector/main
 /dataanalyser/main
+
+*.exe
+.vscode/settings.json
+.vscode/tasks.json
+config.env
