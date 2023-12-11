@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/dchoptiany/spotify-insights#readme",
   "dependencies": {
+    "@heroicons/react": "^1.0.6",
+    "@tremor/react": "^3.11.1",
     "axios": "^1.6.1",
     "cookie-session": "^2.0.0",
     "cors": "^2.8.5",
@@ -27,6 +29,12 @@
     "fs": "^0.0.1-security",
     "nodemon": "^3.0.1",
     "passport": "^0.5.0",
-    "passport-spotify": "^1.0.1"
+    "passport-spotify": "^1.0.1",
+    "tremor": "^0.0.1"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6"
   }
 }

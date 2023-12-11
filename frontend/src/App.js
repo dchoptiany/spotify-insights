@@ -42,7 +42,7 @@ function App() {
           <Routes>
             <Route path='/login' 
             element={user? <Navigate to="/"/> : <Login/>}/>
-            <Route path='/' element = {<MainPage user = {user}/>}/>
+            <Route path='/' element = {user? <MainPage user = {user}/>:<Login/>}/>
           </Routes>
         </div>
   </BrowserRouter>
