@@ -7,7 +7,8 @@ const generateList = ({ data }) => (
     <List>
       {Object.entries(data).map(([key, value]) => (
         <ListItem key={key}>
-          <span>{`${key.replace(/_/g, ' ')}: ${value}`}</span>
+          <span>{`${key.replace(/_/g, ' ')}`}</span>
+          <span>{` ${value}`}</span>
         </ListItem>
       ))}
     </List>
