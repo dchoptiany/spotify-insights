@@ -45,12 +45,7 @@ body {
   cursor: pointer;
 }
 
-.avatar {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-}
+
 
 
 
@@ -73,7 +68,7 @@ body {
 }
 
 .wrapper {
-  margin-top: 5%;
+  margin-top: 1%;
   position: center;
   align-self: center;
   width: 100%;
@@ -175,7 +170,7 @@ body {
 
 .input-container {
   width: 100%;
-  margin-top: 15%;;
+  margin-top: 5%;;
   text-align: center;
   color :  rgb(122, 122, 122);
  flex-direction: column;
