@@ -3,7 +3,7 @@ import hostname from "../config/config.js"
 
 
 const spotify = ()=>{
-    window.open(hostname + ":8000/auth/spotify", "_self") // "http://localhost:8000/auth/spotify"
+    window.open("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/spotify", "_self") // "http://localhost:8000/auth/spotify"
   }
 
   
