@@ -15,7 +15,7 @@ const MainPage = ({user}) => {
     setTextInput(event.target.value);
   };
 
-  const requestData = ""
+  let requestData = ""
 
 
   const parseSpotifyUrl = (url) => {
