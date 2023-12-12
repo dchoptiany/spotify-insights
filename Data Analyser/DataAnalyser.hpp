@@ -6,14 +6,18 @@
 class DataAnalyser
 {
 private:
-    FastExpSketch* sketch;
 
     std::string getDecade(const std::string&);
-    std::vector<std::pair<std::string, int>> getTop(const std::unordered_map<std::string, int>&, size_t, const std::unordered_map<std::string, std::string>&);
-    void increment(std::unordered_map<std::string, int>&, const std::string &);
-    void increment(std::unordered_map<std::string, int>&, std::unordered_map<std::string, std::string>, const std::string&, const std::string&);
+    std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>&, size_t, const std::unordered_map<std::string, std::string>&);
+    void increment(std::unordered_map<std::string, unsigned>&, const std::string&);
+    void increment(std::unordered_map<std::string, unsigned>&, std::unordered_map<std::string, std::string>, const std::string&, const std::string&);
     
 public:
-    DataAnalyser(int n);
-    std::string analyse(const std::string &);
+    FastExpSketch* sketch;
+    
+    DataAnalyser(size_t n);
+    ~DataAnalyser();
+    std::string analysePlaylist(const std::string &);
+    std::string analyseLikedTracks(const std::string &);
+    void updateDataSketches(const std::vector<std::pair<unsigned, unsigned>>&);
 };
