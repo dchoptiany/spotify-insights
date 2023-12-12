@@ -61,7 +61,7 @@ function splitData(data) {
           setDisplay(true);
           const cleanedData = data.replace(/"/g, '');
           console.log(data)
-          requestData = atob(cleanedData);
+          requestData = JSON.parse(atob(cleanedData));
           console.log(requestData)
 
           const { objectData, arrayData } = splitData(requestData);
