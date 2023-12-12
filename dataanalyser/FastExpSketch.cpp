@@ -6,10 +6,9 @@
 #include <bitset>
 #include <numeric>
 
-FastExpSketch::FastExpSketch(unsigned size)
+FastExpSketch::FastExpSketch(size_t size)
 {
     this->size = size;
-    this->mt = std::mt19937();
     initialize();
 }
 
@@ -31,35 +30,32 @@ void FastExpSketch::initialize()
     maxValue = std::numeric_limits<double>::infinity();
 }
 
-// Function returning random integer from range [k, m] with given seed
-unsigned FastExpSketch::randomInteger(unsigned k, unsigned m, unsigned seed)
+template <typename T>
+void swapValues(T& lhs, T& rhs)
 {
-    mt.seed(seed);
-    return mt() % (m - k + 1) + k;
-}
-
-void swapValues(unsigned& lhs, unsigned& rhs)
-{
-    unsigned temp = lhs;
+    T temp = lhs;
     lhs = rhs;
     rhs = temp;
 }
 
 // Function calculating hash value of i || k, returning double value in range [0, 1]
-double FastExpSketch::hash(unsigned i, unsigned k)
+double FastExpSketch::hash(unsigned i, unsigned k, unsigned seed = 17)
 {
-    std::bitset<32> bitsetI(i);
-    std::bitset<32> bitsetK(k);
-    std::string iConcatK = bitsetI.to_string() + bitsetK.to_string();
-    return std::hash<std::string>{}(iConcatK) / static_cast<double>(SIZE_MAX);
+    std::bitset<8 * sizeof(i)> bitsetI(i);
+    std::bitset<8 * sizeof(k)> bitsetK(k);
+    std::bitset<8 * sizeof(seed)> bitsetSeed(seed);
+    std::string concatHash = bitsetI.to_string() + bitsetK.to_string() + bitsetSeed.to_string();
+    std::hash<std::string> hash{};
+    return static_cast<double>((hash(concatHash)) / pow(2, 8 * sizeof(size_t)));
 }
 
 // Function updating data sketch on arrival of pair (i, lambda)
 void FastExpSketch::update(unsigned i, double lambda)
 {
+    std::mt19937 mt{i};
     double S = 0;
     bool updateMax = false;
-    std::vector<unsigned> P = this->permInit;
+    std::vector<unsigned> P = permInit;
 
     for(unsigned k = 1; k <= size; k++)
     {
@@ -70,13 +66,25 @@ void FastExpSketch::update(unsigned i, double lambda)
         {
             break;
         }
-        unsigned r = randomInteger(k, size, i);
+
+        std::uniform_int_distribution<size_t> uniformDistribution{k, size};
+        size_t r = uniformDistribution(mt);
         swapValues(P[k-1], P[r-1]);
-        unsigned j = P[k-1] - 1;
-        if(M[j] == maxValue)
+        size_t j = P[k-1] - 1;
+
+        if (M[j] == std::numeric_limits<double>::infinity() && maxValue == std::numeric_limits<double>::infinity()) 
         {
             updateMax = true;
         }
+        else if (M[j] == std::numeric_limits<double>::infinity() || maxValue == std::numeric_limits<double>::infinity()) 
+        {
+            updateMax = false;
+        }
+        else if (fabs(M[j] - maxValue) < 10 * std::numeric_limits<double>::epsilon()) 
+        {
+            updateMax = true;
+        }
+        
         M[j] = std::min(M[j], S);
     }
 
@@ -90,14 +98,14 @@ void FastExpSketch::update(unsigned i, double lambda)
 double FastExpSketch::estimateCardinality()
 {
     double sum = 0.0;
-    for(unsigned i = 0; i < size; i++)
+    for(const auto& m : M)
     {
-        sum += M[i];
+        sum += m;
     }
-    return (size - 1.0) / sum;
-}
 
-std::vector<double> FastExpSketch::getM()
-{
-    return M;
+    if(sum == 0.0)
+    {
+        return 0.0;
+    }
+    return (double)(size - 1) / sum;
 }
