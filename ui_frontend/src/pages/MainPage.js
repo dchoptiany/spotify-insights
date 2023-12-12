@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import Button from './../components/Button';
 import {DataCollectorRequest} from './../actions/authActions';
+import generateList from '../components/List';
+import generateBarChart from '../components/BarChart';
 
 
 const MainPage = ({user}) => {
   const [textInput, setTextInput] = useState('');
+  const [display, setDisplay] = useState(false)
 
 
   const handleInputChange = (event) => {
     setTextInput(event.target.value);
   };
+
+  const requestData = ""
 
 
   const parseSpotifyUrl = (url) => {
@@ -20,27 +25,49 @@ const MainPage = ({user}) => {
   };
   
 
+
+function splitData(data) {
+  const objectData = {};
+  const arrayData = {};
+
+  for (const key in data) {
+    if (Array.isArray(data[key])) {
+      arrayData[key] = data[key];
+    } else {
+      objectData[key] = data[key];
+    }
+  }
+
+  return { objectData, arrayData };
+}
   
   
   const handleButtonClick =  () => {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
-        const parsedSpotifyURL = 'http://docker-gateway:8080/spotify-api/'+spotifyAdressData[0]+"?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        const parsedSpotifyURL = 'http://localhost:8080/spotify-api/'+spotifyAdressData[0]+"?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => response.json()) 
         .then(data => {
-          console.log(data);
+          setDisplay(true);
+          requestData = data
+
         })
         .catch(error => {
           console.log(error);
         });
+    }else{
+      setDisplay(false)
     }
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);
     }
   };
   
+
+  const {objectData, arrayData} = splitData(requestData)
+
 
   return (
     <div className="input-form-container">
@@ -50,8 +77,21 @@ const MainPage = ({user}) => {
           <input className="input-field" type="text" value={textInput} onChange={handleInputChange} />
         </label>
         <Button onClick={handleButtonClick} text="Submit" />
+        
       </div>
+      <div className='plots'>
+        { generateList({ data: objectData })}
+        {Object.keys(arrayData).map((category) => (
+          generateBarChart({
+            data: arrayData[category],
+            category: category,
+            category_name: category,
+          })
+        ))}
+        </div>
     </div>
+    
+    
   );
 
 };
