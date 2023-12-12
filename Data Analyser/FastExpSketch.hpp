@@ -9,16 +9,16 @@ private:
     std::mt19937 mt;
     std::vector<unsigned> permInit;
     std::vector<double> M;
-    unsigned size;
+    size_t size;
     double maxValue;
 
     void initialize();
     unsigned randomInteger(unsigned k, unsigned m, unsigned seed);
-    void swap(unsigned& lhs, unsigned& rhs);
+    template <typename T> void swap(T& lhs, T& rhs);
     double hash(unsigned i, unsigned k);
     
 public:
-    FastExpSketch(unsigned size);
+    FastExpSketch(size_t size);
     void update(unsigned i, double lambda);
     double estimateCardinality();
     std::vector<double> getM();

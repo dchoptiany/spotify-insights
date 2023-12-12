@@ -6,7 +6,7 @@
 #include <bitset>
 #include <numeric>
 
-FastExpSketch::FastExpSketch(unsigned size)
+FastExpSketch::FastExpSketch(size_t size)
 {
     this->size = size;
     this->mt = std::mt19937();
@@ -38,9 +38,10 @@ unsigned FastExpSketch::randomInteger(unsigned k, unsigned m, unsigned seed)
     return mt() % (m - k + 1) + k;
 }
 
-void swapValues(unsigned& lhs, unsigned& rhs)
+template <typename T>
+void swapValues(T& lhs, T& rhs)
 {
-    unsigned temp = lhs;
+    T temp = lhs;
     lhs = rhs;
     rhs = temp;
 }
@@ -57,6 +58,15 @@ double FastExpSketch::hash(unsigned i, unsigned k)
 // Function updating data sketch on arrival of pair (i, lambda)
 void FastExpSketch::update(unsigned i, double lambda)
 {
+    maxValue = M[0];
+    for(size_t i = 1; i < size; i++)
+    {
+        if(M[i] > maxValue)
+        {
+            maxValue = M[i];
+        }
+    }
+
     double S = 0;
     bool updateMax = false;
     std::vector<unsigned> P = this->permInit;
@@ -70,7 +80,7 @@ void FastExpSketch::update(unsigned i, double lambda)
         {
             break;
         }
-        unsigned r = randomInteger(k, size, i);
+        unsigned r = randomInteger(k, size, 17);
         swapValues(P[k-1], P[r-1]);
         unsigned j = P[k-1] - 1;
         if(M[j] == maxValue)
@@ -90,11 +100,11 @@ void FastExpSketch::update(unsigned i, double lambda)
 double FastExpSketch::estimateCardinality()
 {
     double sum = 0.0;
-    for(unsigned i = 0; i < size; i++)
+    for(size_t i = 0; i < size; i++)
     {
         sum += M[i];
     }
-    return (size - 1.0) / sum;
+    return (double)(size - 1) / sum;
 }
 
 std::vector<double> FastExpSketch::getM()
