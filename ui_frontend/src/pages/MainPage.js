@@ -3,7 +3,6 @@ import Button from './../components/Button';
 import {DataCollectorRequest} from './../actions/authActions';
 import generateList from '../components/List';
 import generateBarChart from '../components/BarChart';
-import hostname from "../config/config.js"
 
 
 const MainPage = ({user}) => {

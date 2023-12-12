@@ -1,5 +1,4 @@
 import Spotify from "../images/spotify.png"
-import hostname from "../config/config.js"
 
 
 const spotify = ()=>{
