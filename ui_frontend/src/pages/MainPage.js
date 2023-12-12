@@ -48,12 +48,12 @@ function splitData(data) {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
         // 'http://localhost:8080/spotify-api/'
-        const parsedSpotifyURL = "http://docker-gateway:8080/spotify-api/"+spotifyAdressData[0]+"?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        const parsedSpotifyURL = "http://docker-gateway:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => response.json()) 
         .then(data => {
           setDisplay(true);
-          requestData = data
+          requestData = atob(data)
 
         })
         .catch(error => {
