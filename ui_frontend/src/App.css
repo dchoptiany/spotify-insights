@@ -13,6 +13,7 @@ body {
   position: center;
   background: black;
   align-items: center;
+  justify-content: center;
   font-family: Arial, sans-serif; 
 }
 
