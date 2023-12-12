@@ -76,7 +76,7 @@ function splitData(data) {
   };
   
 
-  const {objectData, arrayData} = splitData(requestData)
+  let {objectData, arrayData} = splitData(requestData)
 
 
   return (
