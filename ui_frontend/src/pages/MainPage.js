@@ -49,6 +49,7 @@ function splitData(data) {
       if(spotifyAdressData!=null){
         // 'http://localhost:8080/spotify-api/'
         const parsedSpotifyURL = "http://docker-gateway:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        console.log(parseSpotifyUrl)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => response.json()) 
         .then(data => {
