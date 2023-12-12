@@ -28,8 +28,8 @@ const MainPage = ({user}) => {
 
 
 function splitData(data) {
-  const objectData = {};
-  const arrayData = {};
+  let objectData = {};
+  let arrayData = {};
 
   for (const key in data) {
     if (Array.isArray(data[key])) {
