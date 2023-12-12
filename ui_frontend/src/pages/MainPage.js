@@ -51,7 +51,9 @@ function splitData(data) {
         const parsedSpotifyURL = "http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
-        .then(response => response.json()) 
+        .then(response => {
+          console.log(response)
+          response.json()}) 
         .then(data => {
           setDisplay(true);
           requestData = atob(data)
