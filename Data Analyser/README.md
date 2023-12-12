@@ -3,18 +3,19 @@ This module writen in C++ provides functions to calculate various parameters of 
 
 ## Playlist analysis
 Given list of tracks from Data Collector, Data Analyser returns JSON output containing:
-- top artists
-- top genres
-- top decades
-- number of tracks
-- number of artists
-- number of genres
-- total playlist length in seconds
-- general playlist energy
-- general playlist danceability
-- general playlist uniqueness
+- top artists - list of pairs (string aritst name, int count)
+- top genres - list of pairs (string genre, int count)
+- top decades - list of pairs (string decade, int count)
+- number of tracks - int
+- number of artists - int
+- number of genres - int
+- total playlist length in seconds - int
+- general playlist energy - int in range [0, 100]
+- general playlist danceability - int in range [0, 100]
+- general playlist uniqueness - int in range [0, 100]
 
 For sample input:
+
 `
 {
     "tracks": [
@@ -71,6 +72,7 @@ For sample input:
 `
 
 returns:
+
 `
 {
     "artists_count": 2,
@@ -112,15 +114,16 @@ returns:
 
 ## Personal music taste analysis
 Given list of user's all liked tracks from Data Collector, Data Analyser returns JSON output containing:
-- top artists
-- top genres
-- top decades
-- number of liked tracks
-- number of artists
-- number of genres
-- general uniqueness
+- top artists - list of pairs (string aritst name, int count)
+- top genres - list of pairs (string genre, int count)
+- top decades - list of pairs (string decade, int count)
+- number of liked tracks - int
+- number of artists - int
+- number of genres - int
+- general uniqueness - int in range [0, 100]
 
 For sample input:
+
 `
 {
     "tracks": [
@@ -177,6 +180,7 @@ For sample input:
 `
 
 returns:
+
 `
 {
     "artists_count": 2,
