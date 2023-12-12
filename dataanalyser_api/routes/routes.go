@@ -11,9 +11,11 @@ func SetUpRoutes() (*gin.Engine, error) {
 
 	// route gropus
 	playlist := r.Group("/playlist")
+	userSaved := r.Group("/user_saved")
 
 	// playlist analysis
 	playlist.GET("/analyse", controllers.GetPlaylistAnalysis)
+	userSaved.GET("/analyse", controllers.GetUsersTracksAnalysis)
 
 	return r, nil
 }
