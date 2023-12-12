@@ -47,34 +47,17 @@ void shuffle(std::vector<T>& vec)
     }
 }
 
-void testDataSketches(size_t n)
+void testDataSketches(size_t size, size_t samples)
 {
-    DataAnalyser* dataAnalyser = new DataAnalyser(1024);
+    DataAnalyser* dataAnalyser = new DataAnalyser(size);
     FastExpSketch* sketch = dataAnalyser->sketch;
     
     std::vector<std::pair<unsigned, unsigned>> stream;
-    stream.reserve(n);
-    for(size_t i = 0; i < n / 2; i++)
+    stream.reserve(samples);
+    for(size_t i = 0; i < samples; i++)
     {
-        stream.push_back(std::make_pair(1, 1));
+        stream.push_back(std::make_pair(i, 1));
     }
-    for(size_t i = 0; i < n / 4; i++)
-    {
-        stream.push_back(std::make_pair(2, 1));
-    }
-    for(size_t i = 0; i < n / 8; i++)
-    {
-        stream.push_back(std::make_pair(3, 1));
-        stream.push_back(std::make_pair(4, 1));
-    }
-
-    std::cout << "1: " << n/2 << std::endl;
-    std::cout << "2: " << n/4 << std::endl;
-    std::cout << "3: " << n/8 << std::endl;
-    std::cout << "4: " << n/8 << std::endl;
-    std::cout << "Total: " << stream.size() << std::endl;
-
-    shuffle(stream);
 
     auto start = std::chrono::high_resolution_clock().now();
     dataAnalyser->updateDataSketches(stream);
@@ -89,10 +72,19 @@ void testDataSketches(size_t n)
     delete dataAnalyser;
 }
 
-int main()
+int main(int argc, char** argv)
 {
-    testPlaylistAnalysis("sample.json");
-    testLikedTracksAnalysis("sample.json");
-    testDataSketches(128);
+    if(argc > 2)
+    {
+        size_t size = std::stoi(argv[1]);
+        size_t samples = std::stoi(argv[2]);
+        testDataSketches(size, samples);    
+    }
+    else
+    {
+        testPlaylistAnalysis("sample.json");
+        testLikedTracksAnalysis("sample.json");
+    }
+    
     return 0;
 }
