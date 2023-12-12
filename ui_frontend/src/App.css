@@ -70,7 +70,7 @@ body {
 
 .wrapper {
   margin-top: 5%;
-  position: center;
+  position: center; 
   align-self: center;
   width: 60%;
   height: 100%;
@@ -83,17 +83,21 @@ body {
 }
 
 
-.center{
+
+.center {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: rgb(43, 41, 41);
   border-radius: 20px;
   padding: 1%;
   width: 40%;
   height: 30%;
+  margin: auto;
 }
+
 
 
 
