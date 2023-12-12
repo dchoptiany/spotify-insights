@@ -80,8 +80,8 @@ function splitData(data) {
         
       </div>
       <div className='plots'>
-        { generateList({ data: objectData })}
-        {Object.keys(arrayData).map((category) => (
+        {display && generateList({ data: objectData })}
+        {display && Object.keys(arrayData).map((category) => (
           generateBarChart({
             data: arrayData[category],
             category: category,
