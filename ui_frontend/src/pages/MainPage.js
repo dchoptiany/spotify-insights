@@ -53,10 +53,13 @@ function splitData(data) {
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
           console.log(response)
-          response.json()}) 
+          return response.text()
+        }) 
         .then(data => {
           setDisplay(true);
-          requestData = atob(data)
+          const decodedData = atob(data);
+          console.log("Odkodowane dane:", decodedData);
+          requestData = JSON.parse(decodedData);
 
         })
         .catch(error => {
