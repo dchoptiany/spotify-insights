@@ -26,18 +26,18 @@ std::string DataAnalyser::getDecade(const std::string& releaseDate)
 }
 
 // Returns TOP min{n, values.size()} pairs with greatest values from given map sorted in descending order
-std::vector<std::pair<std::string, unsigned>> DataAnalyser::getTop(const std::unordered_map<std::string, unsigned>& values, size_t n,
-                                                              const std::unordered_map<std::string, std::string>& labels = std::unordered_map<std::string, std::string>())
+std::vector<std::pair<std::string, unsigned>> DataAnalyser::getTop(const std::unordered_map<std::string, unsigned>& values,
+                                                                   size_t n,
+                                                                   const std::unordered_map<std::string, std::string>& labels = std::unordered_map<std::string, std::string>())
 {
-    n = std::min(n, values.size());
-
     std::vector<std::pair<std::string, unsigned>> vec;
+    n = std::min(n, values.size());
 
     if(!labels.empty())
     {
         for (const auto &v : values)
         {
-            vec.push_back(std::make_pair(v.first, v.second));
+            vec.push_back(std::make_pair(labels.at(v.first), v.second));
         }
     }
     else
@@ -71,7 +71,7 @@ void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, 
 }
 
 // Increments key counter in unordered map or creates counter an initializes it with 1 and sets its' label if it does not exists yet
-void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, std::unordered_map<std::string, std::string> labels,
+void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, std::unordered_map<std::string, std::string>& labels,
                              const std::string& key, const std::string& label)
 {
     if (values.find(key) == values.end())
@@ -86,23 +86,17 @@ void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, 
 }
 
 /*
-Processes data containing information about tracks on playlist and returns JSON string containing:
+Processes data containing information about user's favourite tracks on and returns JSON string containing:
 - top artists
 - top genres
 - top decades
-- number of tracks
+- number of liked tracks
 - number of artists
 - number of genres
-- total playlist length in seconds
-- general playlist energy
-- general playlist danceability
-- general playlist uniqueness
+- general uniqueness
 */
 std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 {
-    unsigned totalDuration = 0;
-    double totalEnergy = 0;
-    double totalDanceability = 0;
     double uniqueness = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
@@ -116,9 +110,6 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
         std::string id = track["id"];
         std::string title = track["title"];
         std::string genre = track["genre"];
-        unsigned duration_ms = track["duration_ms"];
-        double danceability = track["danceability"];
-        double energy = track["energy"];
         unsigned popularity = track["popularity"];
         std::string releaseDate = track["release_date"];
         std::string decade = getDecade(releaseDate);
@@ -130,10 +121,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
             increment(artists, artistsNames, artistId, artistName);
         }
 
-        totalDuration += duration_ms / 1000;
         uniqueness += 100.0 - popularity;
-        totalEnergy += energy;
-        totalDanceability += danceability;
 
         increment(genres, genre);
         increment(decades, decade);
@@ -144,8 +132,6 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
     size_t genresCount = genres.size();
 
     uniqueness /= (double)tracksCount;
-    totalEnergy /= (double)tracksCount;
-    totalDanceability /= (double)tracksCount;
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
@@ -158,9 +144,6 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
     result["tracks_count"] = tracksCount;
     result["artists_count"] = artistsCount;
     result["genres_count"] = genresCount;
-    result["duration_s"] = totalDuration;
-    result["energy"] = (int)std::round(totalEnergy * 100.0);
-    result["danceability"] = (int)std::round(totalDanceability * 100.0);
     result["uniqueness"] = (int)std::round(uniqueness);
     return result.dump(4); // return indented json as string
 }

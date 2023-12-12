@@ -92,7 +92,7 @@ void testDataSketches(size_t n)
 int main()
 {
     testPlaylistAnalysis("sample.json");
-    // testLikedTracksAnalysis
+    testLikedTracksAnalysis("sample.json");
     testDataSketches(128);
     return 0;
 }
