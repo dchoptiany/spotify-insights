@@ -1,12 +1,12 @@
 import hostname from "../config/config.js"
 
 export const logout = () =>{
-    window.open("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/logout", '_self'); // 'http://localhost:8000/auth/logout'
+    window.open("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/logout", '_self');
  
 }
 
 export const sendGetUserRequest = ()=>{
-    return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/login/success", { // "http://localhost:8000/auth/login/success"
+    return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/login/success", {
         method: "GET",
         credentials: "include",
         headers: {
@@ -18,7 +18,7 @@ export const sendGetUserRequest = ()=>{
 }
 
 export const makeRequest = (endpoint, method) => {
-  return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/api/api_data", { // "http://localhost:8000/api/api_data"
+  return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/api/api_data", {
     method: method,
     credentials: "include",
     headers: {
@@ -31,7 +31,7 @@ export const makeRequest = (endpoint, method) => {
 }
 
 export const DataCollectorRequest = (endpoint) => {   
-  return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/api/dataCollector", { // 'http://localhost:8000/api/dataCollector'
+  return fetch("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/api/dataCollector", {
     method: 'GET',
     credentials: "include",
     headers: {

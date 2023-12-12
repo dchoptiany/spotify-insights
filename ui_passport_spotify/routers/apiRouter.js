@@ -10,7 +10,7 @@ router.get("/api_data", (req, res) => {
         makeSpotifyApiRequest(apiEndpoint, accessToken)
         .then((userData) => {
           console.log( userData);
-          res.redirect('http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:3000'); // http://localhost:3000
+          res.redirect('http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:3000');
         })
         .catch((error) => {
           res.redirect('/error');

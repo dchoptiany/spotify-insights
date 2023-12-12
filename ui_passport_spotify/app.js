@@ -23,7 +23,7 @@ app.use(passport.session());
 
 //Routers
 app.use(cors({
-    origin: ["http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:3000", "http://docker-gateway:8080"], // http://localhost:3000
+    origin: ["http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:3000", "http://docker-gateway:8080"],
     methods: "GET,POST,PUT,DELETE",
     credentials : true
 }))
