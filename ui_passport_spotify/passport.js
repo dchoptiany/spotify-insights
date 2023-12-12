@@ -14,7 +14,7 @@ passport.use(new SpotifyStrategy({
   clientSecret: SPOTIFY_CLIENT_SECRET,
   callbackURL: "/auth/spotify/callback",
   enableProof: true,
-  scope: [ 'user-read-email','user-read-private'],
+  scope: [ 'user-read-email','user-read-private', 'user-library-read'],
   
  
 },
