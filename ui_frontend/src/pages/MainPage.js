@@ -57,8 +57,9 @@ function splitData(data) {
         }) 
         .then(data => {
           setDisplay(true);
+          const cleanedData = data.replace(/"/g, '');
           console.log(data)
-          const decodedData = atob(data);
+          const decodedData = atob(cleanedData);
           console.log("Odkodowane dane:", decodedData);
           requestData = JSON.parse(decodedData);
 
