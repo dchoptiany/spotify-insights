@@ -3,3 +3,5 @@
 .vscode/settings.json
 .vscode/tasks.json
 config.env
+*.o
+Data Analyser/.vscode/settings.json
