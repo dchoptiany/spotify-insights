@@ -68,7 +68,7 @@ body {
 }
 
 .wrapper {
-  margin-top: 1%;
+  margin-top: 5%;
   position: center;
   align-self: center;
   width: 100%;
@@ -89,8 +89,8 @@ body {
   align-items: center;
   background-color: rgb(43, 41, 41);
   border-radius: 20px;
-  padding: 2%;
-  width: 60%;
+  padding: 1%;
+  width: 40%;
   height: 30%;
 }
 
