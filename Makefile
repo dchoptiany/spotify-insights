@@ -20,6 +20,7 @@ ui_frontend_dir=ui_frontend
 ui_passport_spotify_dir=ui_passport_spotify
 
 build_datacollector:
+	mkdir -p $(datacollector_build)
 	GOARCH=amd64 GOOS=linux go build -o $(datacollector_build)/$(datacollector_bin)-$(VERSION) $(datacollector_dir)/main.go
 
 build_datacollector_docker: build_datacollector
@@ -27,6 +28,7 @@ build_datacollector_docker: build_datacollector
 	docker tag spotify-insights-datacollector:$(VERSION) spotify-insights-datacollector:latest
 
 build_dataanalyser:
+	mkdir -p $(dataanalyser_build)
 	g++ $(dataanalyser_dir)/DataAnalyser.cpp $(dataanalyser_dir)/FastExpSketch.cpp -O3 -Wall -pedantic -o $(dataanalyser_build)/$(dataanalyser_bin)-$(VERSION)
 
 build_dataanalyser_docker: build_dataanalyser
@@ -34,6 +36,7 @@ build_dataanalyser_docker: build_dataanalyser
 	docker tag spotify-insights-dataanalyser:$(VERSION) spotify-insights-dataanalyser:latest
 
 build_dataanalyser_api:
+	mkdir -p $(dataanalyser_api_build)
 	GOARCH=amd64 GOOS=linux go build -o $(dataanalyser_api_build)/$(dataanalyser_api_bin)-$(VERSION) $(dataanalyser_api_dir)/main.go
 
 build_dataanalyser_api_docker: build_dataanalyser_api build_dataanalyser_docker
