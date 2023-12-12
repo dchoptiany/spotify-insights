@@ -57,6 +57,7 @@ function splitData(data) {
         }) 
         .then(data => {
           setDisplay(true);
+          console.log(data)
           const decodedData = atob(data);
           console.log("Odkodowane dane:", decodedData);
           requestData = JSON.parse(decodedData);
