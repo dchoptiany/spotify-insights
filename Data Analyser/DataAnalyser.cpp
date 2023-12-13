@@ -156,17 +156,23 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 }
 
 /*
-Processes data containing information about tracks liked by user and returns JSON string containing:
+Processes data containing information about tracks on playlist and returns JSON string containing:
 - top artists
 - top genres
 - top decades
 - number of tracks
 - number of artists
 - number of genres
-- general music taste uniqueness
+- total playlist length in format HH:MM:SS
+- general playlist energy
+- general playlist danceability
+- general playlist uniqueness
 */
 std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 {
+    unsigned totalDuration = 0;
+    double totalEnergy = 0;
+    double totalDanceability = 0;
     double uniqueness = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
@@ -180,6 +186,9 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
         std::string id = track["id"];
         std::string title = track["title"];
         std::string genre = track["genre"];
+        unsigned duration_ms = track["duration_ms"];
+        double danceability = track["danceability"];
+        double energy = track["energy"];
         unsigned popularity = track["popularity"];
         std::string releaseDate = track["release_date"];
         std::string decade = getDecade(releaseDate);
@@ -191,7 +200,10 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
             increment(artists, artistsNames, artistId, artistName);
         }
 
+        totalDuration += duration_ms / 1000;
         uniqueness += 100.0 - popularity;
+        totalEnergy += energy;
+        totalDanceability += danceability;
 
         increment(genres, genre);
         increment(decades, decade);
@@ -202,6 +214,8 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     size_t genresCount = genres.size();
 
     uniqueness /= (double)tracksCount;
+    totalEnergy /= (double)tracksCount;
+    totalDanceability /= (double)tracksCount;
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
@@ -214,6 +228,9 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     result["tracks_count"] = tracksCount;
     result["artists_count"] = artistsCount;
     result["genres_count"] = genresCount;
+    result["duration"] = formatDuration(totalDuration);
+    result["energy"] = (int)std::round(totalEnergy * 100.0);
+    result["danceability"] = (int)std::round(totalDanceability * 100.0);
     result["uniqueness"] = (int)std::round(uniqueness);
     return result.dump(4); // return indented json as string
 }
