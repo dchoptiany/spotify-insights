@@ -5,7 +5,7 @@
     Script to run playlist analysis. 
     Requires JSON string containing playlist's tracklist as first parameter.
     All other parameters will be ignored.
-    Returns results as a indented JSON to the standard output and returns 0 in case of success.
+    Sends results as a indented JSON to the standard output and returns 0 in case of success.
     Sends 'Invalid arguments.' to the error output instead and returns 1 in case of no arguments.
     Sends 'Invalid input.' to the error output instead and returns 1 in case of invalid data.
 */
