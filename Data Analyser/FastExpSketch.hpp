@@ -7,16 +7,16 @@ class FastExpSketch
 {
 private:
     std::vector<unsigned> permInit;
-    std::vector<double> M;
+    std::vector<float> M;
     size_t size;
-    double maxValue;
+    float maxValue;
 
     void initialize();
     template <typename T> void swap(T& lhs, T& rhs);
-    double hash(unsigned i, unsigned k, unsigned seed);
+    float hash(unsigned i, unsigned k, unsigned seed);
     
 public:
     FastExpSketch(size_t size);
-    void update(unsigned i, double lambda);
-    double estimateCardinality();
+    void update(unsigned i, float lambda);
+    float estimateCardinality();
 };
