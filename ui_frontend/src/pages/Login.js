@@ -2,7 +2,7 @@ import Spotify from "../images/spotify.png"
 
 
 const spotify = ()=>{
-    window.open("http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:8000/auth/spotify", "_self")
+    window.open("http://aws_hostname:8000/auth/spotify", "_self")
   }
 
   
