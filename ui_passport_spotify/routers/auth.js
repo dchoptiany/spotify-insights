@@ -2,7 +2,7 @@ const router = require("express").Router();
 const passport = require("passport");
 
 
-const CLIENT_URL = "http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:3000"; // http://localhost:3000
+const CLIENT_URL = "http://aws_hostname:3000";
 
 router.get("/login/success", (req, res) => {
   if (req.user) {
@@ -28,7 +28,7 @@ router.get("/logout", (req, res) => {
 
 router.get("/spotify", passport.authenticate('spotify', {
     showDialog: true,
-    scope: [ 'user-read-email','user-read-private'],
+    scope: [ 'user-read-email','user-read-private', 'user-library-read'],
 
   }));
 

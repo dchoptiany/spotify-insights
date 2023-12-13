@@ -3,7 +3,6 @@ import Button from './../components/Button';
 import {DataCollectorRequest} from './../actions/authActions';
 import generateList from '../components/List';
 import generateBarChart from '../components/BarChart';
-import hostname from "../config/config.js"
 
 
 const MainPage = ({user}) => {
@@ -49,8 +48,7 @@ function splitData(data) {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
-        // 'http://localhost:8080/spotify-api/'
-        const parsedSpotifyURL = "http://ec2-52-59-247-253.eu-central-1.compute.amazonaws.com:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
