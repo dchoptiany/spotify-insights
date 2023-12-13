@@ -6,7 +6,6 @@
 class DataAnalyser
 {
 private:
-
     std::string getDecade(const std::string&);
     std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>&, size_t, const std::unordered_map<std::string, std::string>&);
     void increment(std::unordered_map<std::string, unsigned>&, const std::string&);
@@ -15,6 +14,7 @@ private:
 public:
     FastExpSketch* sketch;
     
+    DataAnalyser();
     DataAnalyser(size_t n);
     ~DataAnalyser();
     std::string analysePlaylist(const std::string &);

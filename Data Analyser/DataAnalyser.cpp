@@ -4,6 +4,11 @@
 
 using json = nlohmann::json;
 
+DataAnalyser::DataAnalyser()
+{
+    sketch = nullptr;
+}
+
 DataAnalyser::DataAnalyser(size_t n)
 {
     sketch = new FastExpSketch(n);
