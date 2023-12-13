@@ -1,6 +1,8 @@
 #include "DataAnalyser.hpp"
 #include "json.hpp"
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 using json = nlohmann::json;
 
@@ -90,6 +92,17 @@ void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, 
     {
         values[key]++;
     }
+}
+
+std::string DataAnalyser::formatDuration(unsigned totalSeconds)
+{
+    unsigned hours = totalSeconds / 3600;
+    unsigned minutes = (totalSeconds % 3600) / 60;
+    unsigned seconds = totalSeconds % 60;
+
+    std::stringstream sstream;
+    sstream << hours << ":" << std::setfill('0') << std::setw(2) << minutes << ":" << seconds;
+    return sstream.str();
 }
 
 /*

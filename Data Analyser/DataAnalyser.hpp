@@ -10,7 +10,8 @@ private:
     std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>&, size_t, const std::unordered_map<std::string, std::string>&);
     void increment(std::unordered_map<std::string, unsigned>&, const std::string&);
     void increment(std::unordered_map<std::string, unsigned>&, std::unordered_map<std::string, std::string>&, const std::string&, const std::string&);
-    
+    std::string formatDuration(unsigned);
+
 public:
     FastExpSketch* sketch;
     
