@@ -4,11 +4,13 @@
 
 using json = nlohmann::json;
 
+// Constructor without Data Sketches initialization
 DataAnalyser::DataAnalyser()
 {
     sketch = nullptr;
 }
 
+// Constructor with initialization of Data Sketches with given size
 DataAnalyser::DataAnalyser(size_t n)
 {
     sketch = new FastExpSketch(n);
