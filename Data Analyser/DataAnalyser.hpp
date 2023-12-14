@@ -11,6 +11,7 @@ private:
     void increment(std::unordered_map<std::string, unsigned>&, const std::string&);
     void increment(std::unordered_map<std::string, unsigned>&, std::unordered_map<std::string, std::string>&, const std::string&, const std::string&);
     std::string formatDuration(unsigned);
+    std::vector<std::string> split(const std::string&, const std::string&);
 
 public:
     FastExpSketch* sketch;

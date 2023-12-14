@@ -94,6 +94,7 @@ void DataAnalyser::increment(std::unordered_map<std::string, unsigned>& values, 
     }
 }
 
+// Formats duration expressed in seconds and returns string in format HH:MM:SS
 std::string DataAnalyser::formatDuration(unsigned totalSeconds)
 {
     unsigned hours = totalSeconds / 3600;
@@ -103,6 +104,33 @@ std::string DataAnalyser::formatDuration(unsigned totalSeconds)
     std::stringstream sstream;
     sstream << hours << ":" << std::setfill('0') << std::setw(2) << minutes << ":" << seconds;
     return sstream.str();
+}
+
+// Splits string by given delimiter (space by default) and returns vector of tokens
+std::vector<std::string> DataAnalyser::split(const std::string& str, const std::string& delimeter = " ")
+{
+    std::vector<std::string> tokens;
+    std::string token;
+    size_t start = 0;
+    size_t width = delimeter.size();
+    size_t end;
+
+    while((end = str.find(delimeter, start)) != std::string::npos)
+    {
+        token = str.substr(start, end - start);
+        tokens.push_back(token);
+        start = end + width;
+    }
+    token = str.substr(start, end - start);
+    tokens.push_back(token);
+    return tokens;
+}
+
+// Converts string containing id to unsigned integer using hashing function
+unsigned DataAnalyser::hash(const std::string& id)
+{
+    std::hash<std::string> hash{};
+    return static_cast<unsigned>(hash(id));
 }
 
 /*
