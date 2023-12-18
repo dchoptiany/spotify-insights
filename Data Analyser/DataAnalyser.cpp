@@ -6,23 +6,24 @@
 
 using json = nlohmann::json;
 
-// Constructor without Data Sketches initialization
-DataAnalyser::DataAnalyser()
+// Constructor with optional Data Sketches initialization
+DataAnalyser::DataAnalyser(bool initializeSketches = false)
 {
-    sketch = nullptr;
-}
-
-// Constructor with initialization of Data Sketches with given size
-DataAnalyser::DataAnalyser(size_t n)
-{
-    sketch = new FastExpSketch(n);
+    if(initializeSketches)
+    {
+        sketches = std::map<SketchKey, FastExpSketch*>();
+        for(const auto& genre : GENRES)
+        {
+            sketches[SketchKey(genre, 0, 0, 0)] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
+        }
+    }
 }
 
 DataAnalyser::~DataAnalyser()
 {
-    if(sketch != nullptr)
+    for(const auto& pair : sketches)
     {
-        delete sketch;
+        delete pair.second;
     }
 }
 
@@ -277,10 +278,36 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 }
 
 // Updates data sketch with pairs in passed vector
-void DataAnalyser::updateDataSketches(const std::vector<std::pair<unsigned, unsigned>>& stream)
+void DataAnalyser::updateDataSketch(FastExpSketch* sketch, const std::vector<std::pair<unsigned, float>>& stream)
 {
     for(const auto& p : stream)
     {
         sketch->update(p.first, p.second);
+    }
+}
+
+// Updates data sketches with tracklist given in JSON format
+void DataAnalyser::updateDataSketches(const std::string& jsonInput)
+{
+    std::map<SketchKey, std::vector<std::pair<unsigned, float>>> dataPairs;
+    json j = json::parse(jsonInput);
+    json tracks = j["tracks"];
+    
+    for(const auto& track : tracks)
+    {
+        std::string id = track["id"];
+        std::string genre = track["genre"];
+        std::vector<std::string> genreKeywords = split(genre, " ");
+
+        SketchKey key = SketchKey(genre, 0, 0, 0);
+        if(dataPairs.find(key) != dataPairs.end())
+        {
+            dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
+        }        
+    }
+
+    for(const auto& pair : dataPairs)
+    {
+        updateDataSketch(sketches[pair.first], pair.second);
     }
 }

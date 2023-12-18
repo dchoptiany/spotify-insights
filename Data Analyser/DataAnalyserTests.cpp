@@ -47,20 +47,20 @@ void shuffle(std::vector<T>& vec)
     }
 }
 
-void testDataSketches(size_t size, size_t samples)
+void testDataSketches(size_t samples)
 {
-    DataAnalyser* dataAnalyser = new DataAnalyser(size);
-    FastExpSketch* sketch = dataAnalyser->sketch;
+    DataAnalyser* dataAnalyser = new DataAnalyser(true);
+    FastExpSketch* sketch = dataAnalyser->sketches[SketchKey("pop", 0, 0, 0)];
     
-    std::vector<std::pair<unsigned, unsigned>> stream;
+    std::vector<std::pair<unsigned, float>> stream;
     stream.reserve(samples);
     for(size_t i = 0; i < samples; i++)
     {
-        stream.push_back(std::make_pair(i, 1));
+        stream.push_back(std::make_pair(i, 1.0));
     }
 
     auto start = std::chrono::high_resolution_clock().now();
-    dataAnalyser->updateDataSketches(stream);
+    dataAnalyser->updateDataSketch(sketch, stream);
     auto end = std::chrono::high_resolution_clock().now();
 
     std::cout << "Updating " << stream.size() << " pairs took " << 
@@ -76,9 +76,8 @@ int main(int argc, char** argv)
 {
     if(argc > 2)
     {
-        size_t size = std::stoi(argv[1]);
-        size_t samples = std::stoi(argv[2]);
-        testDataSketches(size, samples);    
+        size_t samples = std::stoi(argv[1]);
+        testDataSketches(samples);    
     }
     else
     {

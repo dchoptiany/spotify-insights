@@ -18,7 +18,7 @@ int main(int argc, char* argv[])
     }
     std::string inputJson = argv[1];
     
-    DataAnalyser* dataAnalyser = new DataAnalyser();
+    DataAnalyser* dataAnalyser = new DataAnalyser(false);
     try
     {
         std::cout << dataAnalyser->analysePlaylist(inputJson) << std::endl;

@@ -2,10 +2,13 @@
 #include "DataAnalyser.hpp"
 
 /*
-    Script to run user's music taste analysis. 
-    Requires JSON string containing user's liked tracks list as first parameter.
+    Script to update data sketches. 
+    Requires JSON string containing playlist's tracklist as first parameter.
     All other parameters will be ignored.
-    Sends results as a indented JSON to the standard output and returns 0 in case of success.
+
+    Creates new data sketches for the day and updates them with given tracklist.
+
+    Returns 0 in case of success.
     Sends 'Invalid arguments.' to the error output instead and returns 1 in case of no arguments.
     Sends 'Invalid input.' to the error output instead and returns 1 in case of invalid data.
 */
@@ -18,10 +21,10 @@ int main(int argc, char* argv[])
     }
     std::string inputJson = argv[1];
     
-    DataAnalyser* dataAnalyser = new DataAnalyser(false);
+    DataAnalyser* dataAnalyser = new DataAnalyser(true);
     try
     {
-        std::cout << dataAnalyser->analyseLikedTracks(inputJson) << std::endl;
+        dataAnalyser->updateDataSketches(inputJson);
     }
     catch(const std::exception& e)
     {
@@ -29,7 +32,7 @@ int main(int argc, char* argv[])
         delete dataAnalyser;
         return 1;
     }
-
+    
     delete dataAnalyser;
     return 0;
 }
