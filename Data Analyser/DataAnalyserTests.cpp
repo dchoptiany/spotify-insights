@@ -7,6 +7,12 @@
 #include <ctime>
 #include <chrono>
 
+/*
+Simple script for testing Data Analyser.
+Running without arguments will run analysePlaylist and analyseLikedTracks with data from file sample.json.
+Running with one parameter will run single cardinality estimation test on FastExpSketch with given number of samples.
+*/
+
 std::mt19937 mt(time(NULL));
 
 void testPlaylistAnalysis(const std::string& filename)
@@ -74,7 +80,7 @@ void testDataSketches(size_t samples)
 
 int main(int argc, char** argv)
 {
-    if(argc > 2)
+    if(argc > 1)
     {
         size_t samples = std::stoi(argv[1]);
         testDataSketches(samples);    
