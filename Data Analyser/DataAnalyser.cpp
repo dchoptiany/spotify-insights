@@ -215,7 +215,7 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     unsigned totalDuration = 0;
     double totalEnergy = 0;
     double totalDanceability = 0;
-    double uniqueness = 0.0;
+    double uniquenessInversionsSum = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
@@ -243,7 +243,7 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
         }
 
         totalDuration += duration_ms / 1000;
-        uniqueness += 100.0 - popularity;
+        uniquenessInversionsSum += 1.0 / std::max(0.5, 100.0 - popularity);
         totalEnergy += energy;
         totalDanceability += danceability;
 
@@ -255,7 +255,7 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
-    uniqueness /= (double)tracksCount;
+    double uniqueness = (double)tracksCount / uniquenessInversionsSum;
     totalEnergy /= (double)tracksCount;
     totalDanceability /= (double)tracksCount;
 
