@@ -17,7 +17,7 @@ private:
         "classical",
         "dance",
         "disco",
-        "hip hop",
+        "hip", // hip hop
         "indie",
         "j-pop",
         "jazz",

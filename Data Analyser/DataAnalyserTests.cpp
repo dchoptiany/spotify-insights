@@ -9,31 +9,38 @@
 
 /*
 Simple script for testing Data Analyser.
-Running without arguments will run analysePlaylist and analyseLikedTracks with data from file sample.json.
-Running with one parameter will run single cardinality estimation test on FastExpSketch with given number of samples.
+Running without arguments will run analysePlaylist, analyseLikedTracks 
+and single cardinality esitmation test with data from file sample.json.
+Running with one parameter will run single cardinality estimation test 
+on FastExpSketch with given number of samples.
 */
 
 std::mt19937 mt(time(NULL));
 
-void testPlaylistAnalysis(const std::string& filename)
+void testPlaylistAnalysis(const std::string& inputJson)
 {
-    DataAnalyser *dataAnalyser = new DataAnalyser(1024);
-    std::fstream file(filename, std::ios::in);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string sampleData = buffer.str();
-    std::cout << dataAnalyser->analysePlaylist(sampleData) << std::endl;
+    DataAnalyser *dataAnalyser = new DataAnalyser(false);
+    std::cout << dataAnalyser->analysePlaylist(inputJson) << std::endl;
     delete dataAnalyser;
 }
 
-void testLikedTracksAnalysis(const std::string& filename)
+void testLikedTracksAnalysis(const std::string& inputJson)
 {
-    DataAnalyser *dataAnalyser = new DataAnalyser(1024);
-    std::fstream file(filename, std::ios::in);
-    std::stringstream buffer;
-    buffer << file.rdbuf();
-    std::string sampleData = buffer.str();
-    std::cout << dataAnalyser->analyseLikedTracks(sampleData) << std::endl;
+    DataAnalyser *dataAnalyser = new DataAnalyser(false);
+    std::cout << dataAnalyser->analyseLikedTracks(inputJson) << std::endl;
+    delete dataAnalyser;
+}
+
+void testDataSketches(const std::string& inputJson)
+{
+    DataAnalyser* dataAnalyser = new DataAnalyser(true);
+    dataAnalyser->updateDataSketches(inputJson);
+
+    for(const auto& sketch : dataAnalyser->sketches)
+    {
+        std::cout << "[" << sketch.first.toString() << "]: " << sketch.second->estimateCardinality() << std::endl;
+    }
+
     delete dataAnalyser;
 }
 
@@ -56,7 +63,7 @@ void shuffle(std::vector<T>& vec)
 void testDataSketches(size_t samples)
 {
     DataAnalyser* dataAnalyser = new DataAnalyser(true);
-    FastExpSketch* sketch = dataAnalyser->sketches[SketchKey("pop", 0, 0, 0)];
+    FastExpSketch* sketch = dataAnalyser->sketches[SketchKey("pop")];
     
     std::vector<std::pair<unsigned, float>> stream;
     stream.reserve(samples);
@@ -87,8 +94,18 @@ int main(int argc, char** argv)
     }
     else
     {
-        testPlaylistAnalysis("sample.json");
-        testLikedTracksAnalysis("sample.json");
+        std::fstream file("sample.json", std::ios::in);
+        if(!file.good())
+        {
+            std::cerr << "Could not open file sample.json" << std::endl;
+            return 1;
+        }
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        std::string sampleData = buffer.str();
+        testPlaylistAnalysis(sampleData);
+        testLikedTracksAnalysis(sampleData);
+        testDataSketches(sampleData);
     }
     
     return 0;

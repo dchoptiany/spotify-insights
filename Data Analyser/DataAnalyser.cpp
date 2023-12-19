@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
+#include <iostream>
 
 using json = nlohmann::json;
 
@@ -14,7 +15,7 @@ DataAnalyser::DataAnalyser(bool initializeSketches = false)
         sketches = std::map<SketchKey, FastExpSketch*>();
         for(const auto& genre : GENRES)
         {
-            sketches[SketchKey(genre, 0, 0, 0)] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
+            sketches[SketchKey(genre)] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
         }
     }
 }
@@ -299,10 +300,15 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
         std::string genre = track["genre"];
         std::vector<std::string> genreKeywords = split(genre, " ");
 
-        SketchKey key = SketchKey(genre, 0, 0, 0);
-        if(dataPairs.find(key) != dataPairs.end())
+        for(const auto& keyword : genreKeywords)
         {
-            dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
+            SketchKey key = SketchKey(keyword);
+            std::cout << "key = " << key.toString() << std::endl;
+            if(dataPairs.find(key) != dataPairs.end())
+            {
+                std::cout << "found key " << key.toString() << std::endl;
+                dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
+            }
         }        
     }
 

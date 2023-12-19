@@ -1,6 +1,20 @@
 #include "SketchKey.hpp"
+#include <ctime>
+#include <sstream>
 
-SketchKey::SketchKey(const std::string& tag, unsigned day = 0, unsigned month = 0, unsigned year = 0)
+// Constructor for given tag and current date
+SketchKey::SketchKey(const std::string &tag)
+{
+    this->tag = tag;
+    std::time_t t = std::time(0);
+    std::tm *now = std::localtime(&t);
+    this->day = now->tm_mday;
+    this->month = now->tm_mon + 1;
+    this->year = now->tm_year + 1900;
+}
+
+// Constructor for given tag and date
+SketchKey::SketchKey(const std::string &tag, unsigned day, unsigned month, unsigned year)
 {
     this->tag = tag;
     this->day = day;
@@ -8,7 +22,19 @@ SketchKey::SketchKey(const std::string& tag, unsigned day = 0, unsigned month = 
     this->year = year;
 }
 
-bool SketchKey::operator <(const SketchKey& rhs) const
+bool SketchKey::operator<(const SketchKey &rhs) const
 {
     return year < rhs.year || month < rhs.month || day < rhs.day || tag < rhs.tag;
+}
+
+bool SketchKey::operator==(const SketchKey &rhs) const
+{
+    return year == rhs.year && month == rhs.month && day == rhs.day && tag == rhs.tag;
+}
+
+std::string SketchKey::toString() const
+{
+    std::stringstream sstream;
+    sstream << day << "." << month << "." << year << " " << tag;
+    return sstream.str();
 }
