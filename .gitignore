@@ -1,0 +1,30 @@
+# dependencies
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/datacollector/_build/*
+/dataanalyser/_build/*
+/dataanalyser_api/_build/*
+
+*.exe
+.vscode/settings.json
+.vscode/tasks.json
+
+scripts/secrets.env

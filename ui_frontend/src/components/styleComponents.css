@@ -1,0 +1,21 @@
+.List {
+    text-align: center;
+    width: 40%;
+    height: 100%;
+   }
+   
+   .barList {
+    text-align: center;
+    align-items: center;
+    width: 40%;
+    height: 100%;
+   }
+   
+   .barElement {
+    width: 100%;
+    text-align: center;
+    height: fit-content;
+   }
+
+
+  
