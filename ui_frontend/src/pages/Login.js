@@ -9,8 +9,7 @@ const spotify = ()=>{
 
 const Login = () =>{
     return (
-        <div>
-            <div className="wrapper">
+        <div className="wrapper">
                 <div className="center">
                 <div className="loginButton" onClick={spotify}>
                     <img src={Spotify} alt="" className="icon"></img>
@@ -20,7 +19,6 @@ const Login = () =>{
 
                 </div>
                 </div>
-            </div>
         </div>
     )
 }

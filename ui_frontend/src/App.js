@@ -1,7 +1,8 @@
 import './App.css';
-import Navbar from "./components/Navbar"
+import Sidebar from "./components/SideBart"
 import Login from "./pages/Login"
-import MainPage from "./pages/MainPage"
+import UrlAnalysis from "./pages/urlAnalysis"
+import Overview from './pages/Overview';
 import { sendGetUserRequest } from './actions/authActions';
 
 import {
@@ -36,14 +37,20 @@ function App() {
   }, []);
 
 
+
   return <BrowserRouter>
         <div>
-          <Navbar user = {user}/>
-          <Routes>
+          <div>
+          <Sidebar user={user}/>    
+          </div>
+          <div>   
+            <Routes>
             <Route path='/login' 
             element={user? <Navigate to="/"/> : <Login/>}/>
-            <Route path='/' element = {user? <MainPage user = {user}/>:<Login/>}/>
+            <Route path='/' element={<Overview/>}/>
+            <Route path='/urlAnalysis' element={<UrlAnalysis/>}/>
           </Routes>
+          </div>   
         </div>
   </BrowserRouter>
   
