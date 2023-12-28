@@ -185,7 +185,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
-    std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 3);
+    std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 5);
 
     json result;
     result["top_artists"] = topArtists;
@@ -221,9 +221,15 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
     std::unordered_map<std::string, unsigned> decades;
+    std::vector<int> tracksDanceability;
+    std::vector<int> tracksEnergy;
     json j = json::parse(jsonInput);
 
     json tracks = j["tracks"];
+    size_t tracksCount = tracks.size();
+    tracksDanceability.reserve(tracksCount);
+    tracksEnergy.reserve(tracksCount);
+
     for (const auto &track : tracks)
     {
         std::string id = track["id"];
@@ -250,9 +256,11 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 
         increment(genres, genre);
         increment(decades, decade);
+
+        tracksDanceability.push_back(danceability * 100);
+        tracksEnergy.push_back(energy * 100);
     }
 
-    size_t tracksCount = tracks.size();
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
@@ -262,9 +270,13 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
-    std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 3);
+    std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 5);
 
     json result;
+    result["name"] = j["name"];
+    result["owner"] = j["owner"];
+    result["description"] = j["description"];
+    result["image"] = j["image"];
     result["top_artists"] = topArtists;
     result["top_genres"] = topGenres;
     result["top_decades"] = topDecades;
@@ -272,8 +284,10 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     result["artists_count"] = artistsCount;
     result["genres_count"] = genresCount;
     result["duration"] = formatDuration(totalDuration);
-    result["energy"] = (int)std::round(totalEnergy * 100.0);
-    result["danceability"] = (int)std::round(totalDanceability * 100.0);
+    result["general_energy"] = (int)std::round(totalEnergy * 100.0);
+    result["general_danceability"] = (int)std::round(totalDanceability * 100.0);
+    result["tracks_danceability"] = tracksDanceability;
+    result["tracks_energy"] = tracksEnergy;
     result["uniqueness"] = (int)std::round(uniqueness);
     return result.dump(4); // return indented json as string
 }
@@ -303,12 +317,11 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
         for(const auto& keyword : genreKeywords)
         {
             SketchKey key = SketchKey(keyword);
-            std::cout << "key = " << key.toString() << std::endl;
-            if(dataPairs.find(key) != dataPairs.end())
+            if(dataPairs.find(key) == dataPairs.end())
             {
-                std::cout << "found key " << key.toString() << std::endl;
-                dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
+                dataPairs[key] = std::vector<std::pair<unsigned, float>>();
             }
+            dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
         }        
     }
 
