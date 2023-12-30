@@ -94,7 +94,7 @@ int main(int argc, char** argv)
     }
     else
     {
-        std::fstream file("sample.json", std::ios::in);
+        std::fstream file("../sample.json.ORIG", std::ios::in);
         if(!file.good())
         {
             std::cerr << "Could not open file sample.json" << std::endl;

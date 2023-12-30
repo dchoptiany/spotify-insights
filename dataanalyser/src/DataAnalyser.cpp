@@ -273,10 +273,10 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 5);
 
     json result;
-    result["name"] = j["name"];
-    result["owner"] = j["owner"];
-    result["description"] = j["description"];
-    result["image"] = j["image"];
+    result["name"] = "My playlist";
+    result["owner"] = "Damian";
+    result["description"] = "Sample playlist description";
+    result["image"] = "https://www.cabq.gov/artsculture/biopark/news/10-cool-facts-about-penguins/@@images/1a36b305-412d-405e-a38b-0947ce6709ba.jpeg";
     result["top_artists"] = topArtists;
     result["top_genres"] = topGenres;
     result["top_decades"] = topDecades;
