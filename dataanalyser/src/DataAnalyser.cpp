@@ -316,7 +316,11 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
 
         for(const auto& keyword : genreKeywords)
         {
-            SketchKey key = SketchKey(keyword);
+            if(std::find(GENRES.begin(), GENRES.end(), keyword) == GENRES.end()) // Genre not stored in data sketches
+            {
+                continue;
+            }
+            SketchKey key = SketchKey(keyword); // Creating key with current date and keyword
             if(dataPairs.find(key) == dataPairs.end())
             {
                 dataPairs[key] = std::vector<std::pair<unsigned, float>>();
