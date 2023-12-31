@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../components/Button';
 import {DataCollectorRequest} from '../actions/authActions';
 import generateList from '../components/List';
 import generateBarChart from '../components/BarChart';
+import generateBarList from '../components/BarList';
+import generateDonut from '../components/DonutChart';
+import generateCard from '../components/Cart';
+import generateProgressCircle from '../components/ProgressCircle';
+import { Flex } from "@tremor/react";
+
 
 
 const UrlAnalysis = () => {
   const [textInput, setTextInput] = useState('');
-  const [display, setDisplay] = useState(false)
-  const [objectData, setObjectData] = useState({});
+  const [display, setDisplay] = useState(true)
   const [arrayData, setArrayData] = useState({});
+  const [playlistInfo, setPlaylistData] = useState({});
 
 
   const handleInputChange = (event) => {
@@ -26,62 +32,123 @@ const UrlAnalysis = () => {
     return match ? [match[1].replace(/\//g, ''), match[2], match[0]] : null;
   };
   
+ let exampleData={
+  "artists_count": 2,
+  "description": "Sample playlist description",
+  "duration": "0:08:22",
+  "general_danceability": 61,
+  "general_energy": 81,
+  "genres_count": 2,
+  "image": "https://www.cabq.gov/artsculture/biopark/news/10-cool-facts-about-penguins/@@images/1a36b305-412d-405e-a38b-0947ce6709ba.jpeg",
+  "name": "My playlist",
+  "owner": "Damian",
+  "top_artists": [
+      [
+          "Artist 2",
+          2
+      ],
+      [
+          "Artist 1",
+          1
+      ]
+  ],
+  "top_decades": [
+      [
+          "2020'",
+          2
+      ],
+      [
+          "2000'",
+          1
+      ]
+  ],
+  "top_genres": [
+      [
+          "pop",
+          2
+      ],
+      [
+          "rap",
+          1
+      ]
+  ],
+  "tracks_count": 3,
+  "tracks_danceability": [
+      60,
+      91,
+      30
+  ],
+  "tracks_energy": [
+      57,
+      100,
+      87
+  ],
+  "uniqueness": 1
+}; 
 
 
 function splitData(data) {
-  let objectData = {};
   let arrayData = {};
+  let playlistInfo = {};
 
   for (const key in data) {
-    if (Array.isArray(data[key])) {
+    if (key === "name" || key === "owner" || key === "description") {
+      playlistInfo[key] = data[key];
+    }
+    if (key === "top_artists" || key === "top_genres") {
       arrayData[key] = data[key];
-    } else {
-      objectData[key] = data[key];
     }
   }
-
-  return { objectData, arrayData };
+ setArrayData(arrayData);
+ setPlaylistData(playlistInfo)
 }
   
   
   const handleButtonClick =  () => {
-    try {
-      const spotifyAdressData = parseSpotifyUrl(textInput);
-      if(spotifyAdressData!=null){
-        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-        console.log(parsedSpotifyURL)
-        DataCollectorRequest(parsedSpotifyURL)
-        .then(response => {
-          console.log(response)
-          return response.text()
-        }) 
-        .then(data => {
-          setDisplay(true);
-          const cleanedData = data.replace(/"/g, '');
-          console.log(data)
-          requestData = JSON.parse(atob(cleanedData));
-          console.log(requestData)
-
-          const { objectData, arrayData } = splitData(requestData);
-          setObjectData(objectData);
-          setArrayData(arrayData);
-
-
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }else{
-      setDisplay(false)
-    }
-    } catch (error) {
-      console.error('Błąd podczas zapytania:', error);
-    }
+    //try {
+    //  const spotifyAdressData = parseSpotifyUrl(textInput);
+    //  if(spotifyAdressData!=null){
+    //    const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+    //    console.log(parsedSpotifyURL)
+    //    DataCollectorRequest(parsedSpotifyURL)
+    //    .then(response => {
+    //      console.log(response)
+    //      return response.text()
+    //    }) 
+    //    .then(data => {
+    //      //setDisplay(true);
+    //      //const cleanedData = data.replace(/"/g, '');
+    //      //console.log(data)
+    //      //requestData = JSON.parse(atob(cleanedData));
+    //      //console.log(requestData)
+////
+    //      //const { objectData, arrayData } = splitData(requestData);
+    //      //setObjectData(objectData);
+    //      //setArrayData(arrayData);
+//
+//
+    //    })
+    //    .catch(error => {
+    //      console.log(error);
+    //    });
+    //}else{
+    //  setDisplay(false)
+    //}
+    //} catch (error) {
+    //  console.error('Błąd podczas zapytania:', error);
+    //}
   };
+
+
+
+
+
+   // Run once after the component mounts
+   useEffect(() => {
+    // Call splitData when the component mounts
+    splitData(exampleData);
+  }, []);
   
-
-
-
   return (
     <div className="input-form-container">
       <div className="input-container">
@@ -93,7 +160,25 @@ function splitData(data) {
         
       </div>
       <div className='plots'>
-        {display && generateList({ data: objectData })}
+
+      <Flex justifyContent="center" alignItems="center">
+      {display && <img src={exampleData.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+        {display && generateList({ data: playlistInfo })}
+      </Flex>
+      <Flex justifyContent="center" alignItems="center">
+
+        {display && generateCard({data: exampleData.tracks_count, text: "Tracks count"}) }
+        {display && generateCard({data: exampleData.artists_count, text: "Artists count"}) }
+        {display && generateCard({data: exampleData.duration, text: "Duration"}) }
+        {display && generateCard({data: exampleData.uniqueness, text: "Uniquness"}) }
+      </Flex>
+      <Flex justifyContent="center" alignItems="center">
+        {display && generateProgressCircle({data: exampleData.general_energy, text:"Average energy"})}
+        {display && generateProgressCircle({data: exampleData.general_danceability, text:"Average danceability"})}
+        {display && generateProgressCircle({data: exampleData.uniqueness, text:"Uniquness"})}
+        </Flex>
+        <Flex justifyContent="center" alignItems="center">
+
         {display && Object.keys(arrayData).map((category) => (
           generateBarChart({
             data: arrayData[category],
@@ -101,6 +186,14 @@ function splitData(data) {
             category_name: category,
           })
         ))}
+        </Flex>
+
+        <Flex justifyContent="center" alignItems="center">
+
+        {display && generateDonut({data: exampleData.top_genres, text: "Genres"})}
+        {display && generateDonut({data: exampleData.top_decades, text: "Decades"})}
+        </Flex>
+
         </div>
     </div>
     

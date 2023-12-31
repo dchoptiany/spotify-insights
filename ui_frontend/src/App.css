@@ -125,7 +125,7 @@ body {
   font-size: 20px;
 }
 
-@media screen and (max-width: 992px) {
+@media screen {
 
   .wrapper {
     width: 65%;
@@ -160,6 +160,19 @@ body {
     width: 300px;
   }
 
+.plots {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  height: 100%;
+  margin-bottom: 5%;
+ }
+
   
 }
 
@@ -186,7 +199,8 @@ body {
 }
 
 .input-field {
-  margin-top: 15%;
+  margin-top: 5%;
+  margin-bottom: 3%;
   margin-left: 1%;
   width: 20%;
   padding: 0.5%;
@@ -229,7 +243,6 @@ body {
 
 .plots {
   text-align: center;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,6 +251,7 @@ body {
   gap: 16px;
   margin-top: 16px;
   height: 100%;
+  margin-left: 7%;
  }
 
  .sidebar-item-selected{
