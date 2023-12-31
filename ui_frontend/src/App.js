@@ -3,6 +3,7 @@ import Sidebar from "./components/SideBart"
 import Login from "./pages/Login"
 import UrlAnalysis from "./pages/urlAnalysis"
 import Overview from './pages/Overview';
+import GlobalTrends from './pages/GlobalTrends';
 import { sendGetUserRequest } from './actions/authActions';
 
 import {
@@ -49,6 +50,7 @@ function App() {
             element={user? <Navigate to="/"/> : <Login/>}/>
             <Route path='/' element={<Overview/>}/>
             <Route path='/urlAnalysis' element={<UrlAnalysis/>}/>
+            <Route path='/globalTrends' element={<GlobalTrends/>}/>
           </Routes>
           </div>   
         </div>
