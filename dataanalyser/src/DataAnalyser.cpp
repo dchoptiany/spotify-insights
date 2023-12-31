@@ -104,7 +104,10 @@ std::string DataAnalyser::formatDuration(unsigned totalSeconds)
     unsigned seconds = totalSeconds % 60;
 
     std::stringstream sstream;
-    sstream << hours << ":" << std::setfill('0') << std::setw(2) << minutes << ":" << seconds;
+    sstream << std::setfill('0') <<
+               std::setw(2) << hours << ":" << 
+               std::setw(2) << minutes << ":" <<
+               std::setw(2) << seconds;
     return sstream.str();
 }
 
