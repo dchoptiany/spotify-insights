@@ -2,11 +2,11 @@
     "tracks": [
         {
             "id": "1",
-            "title": "Tytuł 1",
+            "title": "Title 1",
             "artists": [
                 {
                     "id": "100",
-                    "name": "Artysta 1"
+                    "name": "Artist 1"
                 }
             ],
             "genre": "pop",
@@ -18,11 +18,11 @@
         },
         {
             "id": "2",
-            "title": "Tytuł 2",
+            "title": "Title 2",
             "artists": [
                 {
                     "id": "200",
-                    "name": "Artysta 2"
+                    "name": "Artist 2"
                 }
             ],
             "genre": "pop",
@@ -34,11 +34,11 @@
         },
         {
             "id": "3",
-            "title": "Tytuł 3",
+            "title": "Title 3",
             "artists": [
                 {
                     "id": "200",
-                    "name": "Artysta 2"
+                    "name": "Artist 2"
                 }
             ],
             "genre": "rap",

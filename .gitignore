@@ -28,3 +28,4 @@ yarn-error.log*
 .vscode/tasks.json
 
 scripts/secrets.env
+*.o
