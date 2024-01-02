@@ -1,9 +1,11 @@
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "DataAnalyser.hpp"
 
 /*
     Script to provide global trends analysis results. 
-    Requires JSON string containing date span (start date and end date) as first parameter.
+    Requires string with path to JSON containing date span (start date and end date) as first parameter.
     All other parameters will be ignored.
     Sends results as a indented JSON to the standard output and returns 0 in case of success.
     Sends 'Invalid arguments.' to the error output instead and returns 1 in case of no arguments.
@@ -16,7 +18,16 @@ int main(int argc, char* argv[])
         std::cerr << "Invalid arguments." << std::endl;
         return 1;
     }
-    std::string inputJson = argv[1];
+    std::string filename = argv[1];
+    std::fstream file(filename, std::ios::in);
+    if(!file.good())
+    {
+        std::cerr << "Invalid path." << std::endl;
+        return 1;
+    }
+    std::stringstream buffer;
+    buffer << file.rdbuf();
+    std::string inputJson = buffer.str();
     
     DataAnalyser* dataAnalyser = new DataAnalyser(false);
     try
