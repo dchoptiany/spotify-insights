@@ -47,6 +47,7 @@ public:
     ~DataAnalyser();
     std::string analysePlaylist(const std::string &);
     std::string analyseLikedTracks(const std::string &);
+    std::string analyseGlobalTrends(const std::string&);
     void updateDataSketch(FastExpSketch*, const std::vector<std::pair<unsigned, float>>&);
     void updateDataSketches(const std::string&);
 };
