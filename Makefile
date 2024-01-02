@@ -27,7 +27,7 @@ build_datacollector_docker: build_datacollector
 	docker tag spotify-insights-datacollector:$(VERSION) spotify-insights-datacollector:latest
 
 build_dataanalyser:
-	g++ $(dataanalyser_dir)/DataAnalyser.cpp $(dataanalyser_dir)/FastExpSketch.cpp -O3 -Wall -pedantic -o $(dataanalyser_build)/$(dataanalyser_bin)-$(VERSION)
+	cd dataanalyser && make all
 
 build_dataanalyser_docker: build_dataanalyser
 	docker build --build-arg VERSION=$(VERSION) -t spotify-insights-dataanalyser:$(VERSION) -f $(dataanalyser_dir)/docker/Dockerfile $(dataanalyser_dir)
