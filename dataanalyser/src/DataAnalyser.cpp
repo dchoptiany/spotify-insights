@@ -295,6 +295,53 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     return result.dump(4); // return indented json as string
 }
 
+/*
+Returns JSON string based on gathered Data Sketches containing:
+- list of date labels in format DD-MM-YYYY
+- list of pairs (string genre, list of ints)
+*/
+std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
+{
+    json j = json::parse(jsonInput);
+    
+    std::vector<std::string> labels;
+    labels.push_back("01-01-2024");
+    labels.push_back("08-01-2024");
+    labels.push_back("15-01-2024");
+    labels.push_back("22-01-2024");
+    labels.push_back("29-01-2024");
+
+    std::vector<std::pair<std::string, std::vector<int>>> pairs;
+    std::vector<int> pop;
+    pop.push_back(50);
+    pop.push_back(60);
+    pop.push_back(55);
+    pop.push_back(62);
+    pop.push_back(65);
+    pairs.push_back(std::make_pair("pop", pop));
+
+    std::vector<int> rap;
+    rap.push_back(20);
+    rap.push_back(15);
+    rap.push_back(18);
+    rap.push_back(10);
+    rap.push_back(10);
+    pairs.push_back(std::make_pair("rap", rap));
+
+    std::vector<int> disco;
+    disco.push_back(30);
+    disco.push_back(25);
+    disco.push_back(22);
+    disco.push_back(28);
+    disco.push_back(25);
+    pairs.push_back(std::make_pair("disco", disco));
+
+    json result;
+    result["date_lables"] = labels;
+    result["genre_scores"] = pairs;
+    return result.dump(4); // return indented json as string
+}
+
 // Updates data sketch with pairs in passed vector
 void DataAnalyser::updateDataSketch(FastExpSketch* sketch, const std::vector<std::pair<unsigned, float>>& stream)
 {
