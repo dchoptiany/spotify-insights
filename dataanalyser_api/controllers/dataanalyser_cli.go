@@ -23,7 +23,8 @@ func RunDataAnalyserCli(jsonData []byte) ([]byte, error) {
 	}
 
 	// run dataanalyser
-	out, err := exec.Command(fmt.Sprint(config.DataAnalyserCliBinary), f.Name()).Output()
+	//out, err := exec.Command(fmt.Sprint(config.DataAnalyserCliBinary), f.Name()).Output()
+	out, err := exec.Command(fmt.Sprint(config.AnalysePlaylistBinary), f.Name()).Output()
 
 	if err != nil {
 		return nil, err
