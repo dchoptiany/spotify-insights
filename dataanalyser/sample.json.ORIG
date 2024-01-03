@@ -1,8 +1,4 @@
 {
-    "name": "My playlist",
-    "owner": "Owner's name",
-    "description": "This is a sample description",
-    "image": "https://images.pexels.com/photos/5967959/pexels-photo-5967959.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
     "tracks": [
         {
             "id": "1",

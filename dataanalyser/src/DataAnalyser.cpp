@@ -213,6 +213,9 @@ Processes data containing information about tracks on playlist and returns JSON 
 - general playlist energy
 - general playlist danceability
 - general playlist uniqueness
+- list of tracks' energy
+- list of tracks' danceability
+- music taste uniqueness
 */
 std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 {
@@ -276,10 +279,6 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 5);
 
     json result;
-    result["name"] = j["name"];
-    result["owner"] = j["owner"];
-    result["description"] = j["description"];
-    result["image"] = j["image"];
     result["top_artists"] = topArtists;
     result["top_genres"] = topGenres;
     result["top_decades"] = topDecades;
@@ -337,7 +336,7 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
     pairs.push_back(std::make_pair("disco", disco));
 
     json result;
-    result["date_lables"] = labels;
+    result["date_labels"] = labels;
     result["genre_scores"] = pairs;
     return result.dump(4); // return indented json as string
 }
