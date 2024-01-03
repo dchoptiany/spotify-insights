@@ -47,5 +47,33 @@ router.get("/dataCollector", (req,res) =>{
 
 })    
 
+
+router.get("/dataSketches", (req,res) =>{
+  if(req.user){
+        const accessToken = req.user.accessToken;
+        const apiEndpoint = req.headers.endpoint;
+        const expiry = req.user.expiry;
+
+        jsonData= JSON.stringify({
+         
+            "access_token" : accessToken,
+            "token_type" : "Bearer",
+            "expires_in" : expiry
+          
+        })
+        
+        dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
+          res.status(200)
+          res.json(data)
+        })
+        .catch((error) => {
+          res.status(404)
+          res.redirect('/error');
+        });
+
+  }
+
+})  
+
 module.exports = router
     

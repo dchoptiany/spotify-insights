@@ -13,7 +13,7 @@ import { Flex } from "@tremor/react";
 
 const UrlAnalysis = () => {
   const [textInput, setTextInput] = useState('');
-  const [display, setDisplay] = useState(true)
+  const [display, setDisplay] = useState(false)
   const [arrayData, setArrayData] = useState({});
   const [playlistInfo, setPlaylistData] = useState({});
 
@@ -105,39 +105,37 @@ function splitData(data) {
   
   
   const handleButtonClick =  () => {
-    //try {
-    //  const spotifyAdressData = parseSpotifyUrl(textInput);
-    //  if(spotifyAdressData!=null){
-    //    const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-    //    console.log(parsedSpotifyURL)
-    //    DataCollectorRequest(parsedSpotifyURL)
-    //    .then(response => {
-    //      console.log(response)
-    //      return response.text()
-    //    }) 
-    //    .then(data => {
-    //      //setDisplay(true);
-    //      //const cleanedData = data.replace(/"/g, '');
-    //      //console.log(data)
-    //      //requestData = JSON.parse(atob(cleanedData));
-    //      //console.log(requestData)
-////
-    //      //const { objectData, arrayData } = splitData(requestData);
-    //      //setObjectData(objectData);
-    //      //setArrayData(arrayData);
+    try {
+      const spotifyAdressData = parseSpotifyUrl(textInput);
+      if(spotifyAdressData!=null){
+        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        console.log(parsedSpotifyURL)
+        DataCollectorRequest(parsedSpotifyURL)
+        .then(response => {
+          console.log(response)
+          return response.text()
+        }) 
+        .then(data => {
+          setDisplay(true);
+          const cleanedData = data.replace(/"/g, '');
+          console.log(data)
+          requestData = JSON.parse(atob(cleanedData));
+          console.log(requestData)
+///
+          exampleData = requestData;
 //
 //
-    //    })
-    //    .catch(error => {
-    //      console.log(error);
-    //    });
-    //}else{
-    //  setDisplay(false)
-    //}
-    //} catch (error) {
-    //  console.error('Błąd podczas zapytania:', error);
-    //}
-  };
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }else{
+      setDisplay(false)
+    }
+    } catch (error) {
+      console.error('Błąd podczas zapytania:', error);
+    }
+  }
 
 
 

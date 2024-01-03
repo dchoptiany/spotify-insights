@@ -228,6 +228,7 @@ body {
   font-size: 20px;
   font-weight: bold;
   margin: 1%;
+  margin-bottom: 0%;
   color:  rgb(41, 40, 40);
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-color:  rgb(30 215 96);
@@ -241,6 +242,21 @@ body {
   transform: translateX(+50%);
 }
 
+.form{
+  color: aliceblue;
+  font-size: large;
+}
+
+.element{
+  margin-top: 1%;
+  color: darkgray;
+}
+
+.dateInput{
+  color: gray;
+  background-color: rgb(52, 52, 54);
+}
+
 .plots {
   text-align: center;
   display: flex;
@@ -249,7 +265,7 @@ body {
   line-height: 100%;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 0.1%;
   height: 100%;
   margin-left: 7%;
  }
