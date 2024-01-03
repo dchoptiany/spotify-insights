@@ -19,21 +19,21 @@ std::mt19937 mt(time(NULL));
 
 void testPlaylistAnalysis(const std::string& inputJson)
 {
-    DataAnalyser *dataAnalyser = new DataAnalyser(false);
+    DataAnalyser *dataAnalyser = new DataAnalyser();
     std::cout << dataAnalyser->analysePlaylist(inputJson) << std::endl;
     delete dataAnalyser;
 }
 
 void testLikedTracksAnalysis(const std::string& inputJson)
 {
-    DataAnalyser *dataAnalyser = new DataAnalyser(false);
+    DataAnalyser *dataAnalyser = new DataAnalyser();
     std::cout << dataAnalyser->analyseLikedTracks(inputJson) << std::endl;
     delete dataAnalyser;
 }
 
 void testDataSketches(const std::string& inputJson)
 {
-    DataAnalyser* dataAnalyser = new DataAnalyser(true);
+    DataAnalyser* dataAnalyser = new DataAnalyser();
     dataAnalyser->updateDataSketches(inputJson);
 
     for(const auto& sketch : dataAnalyser->sketches)
@@ -62,7 +62,7 @@ void shuffle(std::vector<T>& vec)
 
 void testDataSketches(size_t samples)
 {
-    DataAnalyser* dataAnalyser = new DataAnalyser(true);
+    DataAnalyser* dataAnalyser = new DataAnalyser();
     FastExpSketch* sketch = dataAnalyser->sketches[SketchKey("pop")];
     
     std::vector<std::pair<unsigned, float>> stream;
@@ -85,6 +85,13 @@ void testDataSketches(size_t samples)
     delete dataAnalyser;
 }
 
+void testGlobalTrendsAnalysis(const std::string datespan)
+{
+    DataAnalyser *dataAnalyser = new DataAnalyser();
+    std::cout << dataAnalyser->analyseGlobalTrends(datespan) << std::endl;
+    delete dataAnalyser;
+}
+
 int main(int argc, char** argv)
 {
     if(argc > 1)
@@ -94,18 +101,32 @@ int main(int argc, char** argv)
     }
     else
     {
-        std::fstream file("../sample.json.ORIG", std::ios::in);
+        std::fstream file;
+        file.open("../trackList.json", std::ios::in);
         if(!file.good())
         {
-            std::cerr << "Could not open file sample.json" << std::endl;
+            std::cerr << "Could not open file trackList.json" << std::endl;
             return 1;
         }
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        std::string sampleData = buffer.str();
+
+        std::stringstream bufferTracklist;
+        bufferTracklist << file.rdbuf();
+        std::string sampleData = bufferTracklist.str();
         testPlaylistAnalysis(sampleData);
         testLikedTracksAnalysis(sampleData);
         testDataSketches(sampleData);
+        file.close();
+
+        file.open("../datespan.json", std::ios::in);
+        if(!file.good())
+        {
+            std::cerr << "Could not open file datespan.json" << std::endl;
+            return 1;
+        }
+        std::stringstream bufferDatespan;
+        bufferDatespan << file.rdbuf();
+        std::string datespan = bufferDatespan.str();
+        testGlobalTrendsAnalysis(datespan);
     }
     
     return 0;

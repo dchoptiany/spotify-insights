@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     buffer << file.rdbuf();
     std::string inputJson = buffer.str();
     
-    DataAnalyser* dataAnalyser = new DataAnalyser(false);
+    DataAnalyser* dataAnalyser = new DataAnalyser();
     try
     {
         std::cout << dataAnalyser->analyseLikedTracks(inputJson) << std::endl;

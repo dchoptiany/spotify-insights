@@ -5,11 +5,19 @@
 #include <string>
 #include <bitset>
 #include <numeric>
+#include <fstream>
 
 FastExpSketch::FastExpSketch(size_t size)
 {
     this->size = size;
     initialize();
+}
+
+FastExpSketch::FastExpSketch(const std::vector<float>& values)
+{
+    this->size = values.size();
+    this->M = values;
+    this->maxValue = *std::max_element(values.begin(), values.end());
 }
 
 // Data sketch initialization
@@ -98,9 +106,9 @@ void FastExpSketch::update(unsigned i, float lambda)
 float FastExpSketch::estimateCardinality()
 {
     float sum = 0.0;
-    for(const auto& m : M)
+    for(const auto& value : M)
     {
-        sum += m;
+        sum += value;
     }
 
     if(sum == 0.0)
@@ -108,4 +116,14 @@ float FastExpSketch::estimateCardinality()
         return 0.0;
     }
     return (float)(size - 1) / sum;
+}
+
+// Saves data sketch to text file with every value from M vector in separate line
+void FastExpSketch::saveToFile(const std::string& filename)
+{
+    std::fstream file("../sketches/" + filename, std::ios::out);
+    for(const auto& value : M)
+    {
+        file << value << "\n";
+    }
 }
