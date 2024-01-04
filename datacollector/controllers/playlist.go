@@ -198,8 +198,6 @@ func GetPlaylistInfo(c *gin.Context) {
 
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			} else {
-				c.JSON(http.StatusOK, playlist)
 			}
 
 			playlistInfo.Name = playlist.Name
