@@ -29,7 +29,7 @@ build_datacollector_docker: build_datacollector
 build_dataanalyser:
 	cd dataanalyser && make all
 
-clean_datanalyser:
+clean_dataanalyser:
 	cd dataanalyser && make clean
 
 build_dataanalyser_docker: build_dataanalyser
