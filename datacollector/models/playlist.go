@@ -20,3 +20,11 @@ type SpotifyTrack struct {
 type SpotifyPlaylist struct {
 	Tracks []SpotifyTrack `json:"tracks"`
 }
+
+type PlaylistInfo struct {
+	Name           string `json:"name"`
+	OwnerName      string `json:"owner_name"`
+	Desc           string `json:"desc"`
+	Image          string `json:"image"`
+	NumOfFollowers int    `json:"num_of_followers"`
+}

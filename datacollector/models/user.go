@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"spotify_insights/datacollector/config"
 
 	"github.com/google/uuid"
 	"github.com/zmb3/spotify"
@@ -20,6 +21,17 @@ type Client struct {
 	Token         *oauth2.Token
 	SpotifyClient spotify.Client
 	Uuid          uuid.UUID `json:"Uuid"`
+}
+
+func CreateClient() Client {
+	c := Client{}
+	c.ClientID = config.SPOTIFY_CLIENT_ID
+	c.ClientSecret = config.SPOTIFY_CLIENT_SECRET
+	c.Authenticate()
+	c.SpotifyClient = spotify.Authenticator{}.NewClient(c.Token)
+	c.GenUUID()
+
+	return c
 }
 
 func (c *Client) GenUUID() {

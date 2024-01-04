@@ -176,3 +176,43 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 		}
 	}
 }
+
+func GetPlaylistInfo(c *gin.Context) {
+	var err error
+	var token oauth2.Token
+	var playlist *spotify.FullPlaylist = nil
+	var playlistInfo models.PlaylistInfo = models.PlaylistInfo{}
+
+	// payload -> oauth2 token
+	if err = c.BindJSON(&token); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		// create spotify client
+		spotifyClient := NewSpotifyClient(&token)
+
+		// query string parametrs -> playlistID
+		playlistID, playlistID_ok := c.GetQuery("playlist_id")
+
+		if playlistID_ok {
+			playlist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			} else {
+				c.JSON(http.StatusOK, playlist)
+			}
+
+			playlistInfo.Name = playlist.Name
+			playlistInfo.OwnerName = playlist.Owner.DisplayName
+			playlistInfo.Desc = playlist.Description
+			playlistInfo.Image = playlist.Images[0].URL
+			playlistInfo.NumOfFollowers = int(playlist.Followers.Count)
+
+			// send playlistInfo as JSON
+			c.JSON(http.StatusOK, playlistInfo)
+
+		} else {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+	}
+}

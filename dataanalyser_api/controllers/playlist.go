@@ -55,7 +55,7 @@ func GetPlaylistAnalysis(c *gin.Context) {
 			}
 
 			// analysis
-			analysisOutput, err := RunDataAnalyserCli(resp_data)
+			analysisOutput, err := RunAnalysePlaylist(resp_data)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
