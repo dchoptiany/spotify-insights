@@ -143,7 +143,7 @@ func GetUsersTopArtists(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
 
-			totalNumOfSpotifyArtists := spotifyArtistArr.Total
+			totalNumOfSpotifyArtists := len(spotifyArtistArr.Artists)
 
 			for i := 0; i < totalNumOfSpotifyArtists; i++ {
 				// create models artist
@@ -194,7 +194,7 @@ func GetUsersTopTracks(c *gin.Context) {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
 
-			totalNumOfSpotifyTracks := spotifyTracksArr.Total
+			totalNumOfSpotifyTracks := len(spotifyTracksArr.Tracks)
 
 			for i := 0; i < totalNumOfSpotifyTracks; i++ {
 				// create models track
