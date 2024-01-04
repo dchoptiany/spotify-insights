@@ -13,7 +13,7 @@ import (
 
 const PlaylistsFilename = config.TopPlaylistsIDFile
 
-func GetTopTracks(c *gin.Context) {
+func GetTrendTracks(c *gin.Context) {
 	var err error
 	var client models.Client
 	var spotifyPlaylist *spotify.FullPlaylist = nil

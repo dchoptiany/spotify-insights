@@ -33,7 +33,7 @@ func SetUpRoutes() (*gin.Engine, error) {
 	spotifyAPI.GET("/user/saved/analysis", controllers.GetUsersSavedTracksForAnalysis)
 
 	// data sketches
-	//spotifyAPI.GET("/data_sketches/global", controllers.GetTopTracksGlobal)
+	spotifyAPI.GET("/data_sketches/tracks", controllers.GetTrendTracks)
 
 	return r, nil
 }
