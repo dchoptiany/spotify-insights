@@ -156,7 +156,9 @@ func GetUsersTopArtists(c *gin.Context) {
 				artist.Name = spotifyArtist.Name
 
 				// genre
-				artist.Genre = spotifyArtist.Genres[0]
+				if len(spotifyArtist.Genres) > 0 {
+					artist.Genre = spotifyArtist.Genres[0]
+				}
 
 				// image
 				artist.Image = spotifyArtist.Images[0].URL
@@ -250,7 +252,9 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 	for i := 0; i < 5; i++ {
 		artist := spotifyArtistsArr.Artists[i]
 		artistSeed = append(artistSeed, artist.ID)
-		genreSeed = append(genreSeed, artist.Genres[0])
+		if len(artist.Genres) > 0 {
+			genreSeed = append(genreSeed, artist.Genres[0])
+		}
 	}
 
 	// get seed track
