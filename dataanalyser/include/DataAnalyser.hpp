@@ -9,6 +9,16 @@
 
 class DataAnalyser
 {
+public:
+    std::map<SketchKey, FastExpSketch*> sketches;
+    
+    ~DataAnalyser();
+    std::string analysePlaylist(const std::string& jsonInput);
+    std::string analyseLikedTracks(const std::string& jsonInput);
+    std::string analyseGlobalTrends(const std::string& jsonInput);
+    void updateDataSketch(FastExpSketch* sketch, const std::vector<std::pair<unsigned, float>>& stream);
+    void updateDataSketches(const std::string& jsonInput);
+
 private:
     const static size_t DEFAULT_SKETCH_SIZE = 512;
     const static size_t NUMBER_OF_GENRES = 17;
@@ -53,23 +63,13 @@ private:
         {"techno", "Techno"}
     };
 
-    std::string getDecade(const std::string&);
-    std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>&, size_t, const std::unordered_map<std::string, std::string>&);
-    void increment(std::unordered_map<std::string, unsigned>&, const std::string&);
-    void increment(std::unordered_map<std::string, unsigned>&, std::unordered_map<std::string, std::string>&, const std::string&, const std::string&);
-    std::string formatDuration(unsigned);
-    std::string formatDate(std::tm);
-    std::tm stringToDate(const std::string&);
-    std::vector<std::string> split(const std::string&, const std::string&);
-    unsigned hash(const std::string&);
-
-public:
-    std::map<SketchKey, FastExpSketch*> sketches;
-    
-    ~DataAnalyser();
-    std::string analysePlaylist(const std::string &);
-    std::string analyseLikedTracks(const std::string &);
-    std::string analyseGlobalTrends(const std::string&);
-    void updateDataSketch(FastExpSketch*, const std::vector<std::pair<unsigned, float>>&);
-    void updateDataSketches(const std::string&);
+    std::vector<std::string> split(const std::string& str, const std::string& delimeter);
+    unsigned hash(const std::string& id);
+    std::string formatDuration(unsigned totalSeconds);
+    std::string formatDate(std::tm tm);
+    std::tm stringToDate(const std::string& date);
+    std::string getDecade(const std::string& releaseDate);
+    std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>& values, size_t n, const std::unordered_map<std::string, std::string>& labels);
+    void increment(std::unordered_map<std::string, unsigned>& values, const std::string& key);
+    void increment(std::unordered_map<std::string, unsigned>& values, std::unordered_map<std::string, std::string>& labels, const std::string& key, const std::string& label);
 };
