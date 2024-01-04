@@ -56,13 +56,7 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 		// create spotify client
 		spotifyClient := NewSpotifyClient(&token)
 
-		var limit *int
-		*limit = 50
-		opt := spotify.Options{
-			Limit: limit,
-		}
-
-		savedTrackPage, err := spotifyClient.CurrentUsersTracksOpt(&opt)
+		savedTrackPage, err := spotifyClient.CurrentUsersTracks()
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
