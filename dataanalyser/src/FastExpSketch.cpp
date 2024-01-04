@@ -20,6 +20,26 @@ FastExpSketch::FastExpSketch(const std::vector<float>& values)
     this->maxValue = *std::max_element(values.begin(), values.end());
 }
 
+template <typename T>
+void swapValues(T& lhs, T& rhs)
+{
+    T temp = lhs;
+    lhs = rhs;
+    rhs = temp;
+}
+
+// Function calculating hash value of i || k, returning float value in range [0, 1]
+float FastExpSketch::hash(unsigned i, unsigned k, unsigned seed = 17)
+{
+    std::bitset<8 * sizeof(i)> bitsetI(i);
+    std::bitset<8 * sizeof(k)> bitsetK(k);
+    std::bitset<8 * sizeof(seed)> bitsetSeed(seed);
+    std::string concatHash = bitsetI.to_string() + bitsetK.to_string() + bitsetSeed.to_string();
+    std::hash<std::string> hash{};
+    return static_cast<float>((hash(concatHash)) / pow(2, 8 * sizeof(size_t)));
+}
+
+
 // Function calculating estimation of the sketch cardinality
 float FastExpSketch::estimateCardinality()
 {
@@ -107,23 +127,4 @@ void FastExpSketch::initialize()
     }
 
     maxValue = std::numeric_limits<float>::infinity();
-}
-
-template <typename T>
-void swapValues(T& lhs, T& rhs)
-{
-    T temp = lhs;
-    lhs = rhs;
-    rhs = temp;
-}
-
-// Function calculating hash value of i || k, returning float value in range [0, 1]
-float FastExpSketch::hash(unsigned i, unsigned k, unsigned seed = 17)
-{
-    std::bitset<8 * sizeof(i)> bitsetI(i);
-    std::bitset<8 * sizeof(k)> bitsetK(k);
-    std::bitset<8 * sizeof(seed)> bitsetSeed(seed);
-    std::string concatHash = bitsetI.to_string() + bitsetK.to_string() + bitsetSeed.to_string();
-    std::hash<std::string> hash{};
-    return static_cast<float>((hash(concatHash)) / pow(2, 8 * sizeof(size_t)));
 }

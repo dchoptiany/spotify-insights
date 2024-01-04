@@ -19,7 +19,7 @@ private:
     size_t size;
     float maxValue;
 
-    void initialize();
     template <typename T> void swap(T& lhs, T& rhs);
     float hash(unsigned i, unsigned k, unsigned seed);
+    void initialize();
 };

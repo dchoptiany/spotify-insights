@@ -365,7 +365,7 @@ std::string DataAnalyser::getDecade(const std::string& releaseDate)
 // Returns TOP min{n, values.size()} pairs with greatest values from given map sorted in descending order
 std::vector<std::pair<std::string, unsigned>> DataAnalyser::getTop(const std::unordered_map<std::string, unsigned>& values,
                                                                    size_t n,
-                                                                   const std::unordered_map<std::string, std::string>& labels = std::unordered_map<std::string, std::string>())
+                                                                   const std::unordered_map<std::string, std::string>& labels)
 {
     std::vector<std::pair<std::string, unsigned>> vec;
     n = std::min(n, values.size());
