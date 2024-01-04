@@ -11,4 +11,5 @@ RUN apt-get install -y ca-certificates iproute2
 COPY docker/spotify.pem /usr/local/share/ca-certificates/spotify.pem
 RUN update-ca-certificates
 RUN ln -s datacollector-${VERSION} datacollector
+CMD [ "/spotify-insights/datacollector/entrypoint.sh" ]
 CMD [ "/spotify-insights/datacollector/datacollector" ]
