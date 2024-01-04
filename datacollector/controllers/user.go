@@ -249,12 +249,10 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 		return nil, nil, nil, err
 	}
 
-	for i := 0; i < 2; i++ {
-		artist := spotifyArtistsArr.Artists[i]
-		artistSeed = append(artistSeed, artist.ID)
-		if len(artist.Genres) > 0 {
-			genreSeed = append(genreSeed, artist.Genres[0])
-		}
+	artist := spotifyArtistsArr.Artists[0]
+	artistSeed = append(artistSeed, artist.ID)
+	if len(artist.Genres) > 0 {
+		genreSeed = append(genreSeed, artist.Genres[0])
 	}
 
 	// get seed track
@@ -265,10 +263,8 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 		return nil, nil, nil, err
 	}
 
-	for i := 0; i < 1; i++ {
-		track := spotifyTracksArr.Tracks[i]
-		trackSeed = append(trackSeed, track.ID)
-	}
+	track := spotifyTracksArr.Tracks[0]
+	trackSeed = append(trackSeed, track.ID)
 
 	return artistSeed, trackSeed, genreSeed, nil
 }
