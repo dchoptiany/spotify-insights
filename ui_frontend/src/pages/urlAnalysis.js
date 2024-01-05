@@ -114,20 +114,16 @@ function splitData(data) {
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
           console.log(response)
-          return response.text()
+          return response.json();
         }) 
         .then(data => {
           //const cleanedData = data.replace(/"/g, '');
-          const jsonData = JSON.parse(data); // Parsowanie danych
-          console.log(jsonData)
+          console.log(data)
           //requestData = JSON.parse(atob(cleanedData));
 
-          setData(jsonData);
-          splitData(jsonData);
+          setData(data);
+          splitData(data);
           setDisplay(true);
-
-//
-//
         })
         .catch(error => {
           console.log(error);
