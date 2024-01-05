@@ -121,7 +121,7 @@ function splitData(data) {
           //console.log(data)
           //requestData = JSON.parse(atob(cleanedData));
 
-          setData(requestData);
+          setData(data);
           splitData(url_data);
           setDisplay(true);
 
