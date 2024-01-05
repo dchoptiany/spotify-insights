@@ -113,17 +113,23 @@ function splitData(data) {
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response)
-          return response.json();
+          console.log(response);
+          return response.body.getReader().read(); // Odczytaj dane z ReadableStream
         }) 
-        .then(data => {
-          //const cleanedData = data.replace(/"/g, '');
-          console.log(data)
-          //requestData = JSON.parse(atob(cleanedData));
-
-          setData(data);
-          splitData(data);
-          setDisplay(true);
+        .then(result => {
+          if (!result.done) {
+            const data = result.value; // Otrzymaj dane z obiektu { value: Uint8Array, done: true/false }
+            console.log(data);
+            // Teraz możesz przetworzyć otrzymane dane, np. zamieniając je na tekst lub JSON
+            const textData = new TextDecoder().decode(data);
+            const jsonData = JSON.parse(textData);
+            console.log(jsonData);
+            setData(jsonData);
+            splitData(jsonData);
+            setDisplay(true);
+          } else {
+            console.error('Odpowiedź strumienia jest pusta.');
+          }
         })
         .catch(error => {
           console.log(error);
