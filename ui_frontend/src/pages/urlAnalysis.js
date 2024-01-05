@@ -16,6 +16,7 @@ const UrlAnalysis = () => {
   const [display, setDisplay] = useState(false)
   const [arrayData, setArrayData] = useState({});
   const [playlistInfo, setPlaylistData] = useState({});
+  const [data, setData] = useState({});
 
 
   const handleInputChange = (event) => {
@@ -116,13 +117,12 @@ function splitData(data) {
           return response.text()
         }) 
         .then(data => {
-          setDisplay(true);
           const cleanedData = data.replace(/"/g, '');
           console.log(data)
           requestData = JSON.parse(atob(cleanedData));
-          console.log(requestData)
-///
-          exampleData = requestData;
+          data = requestData;
+          setData(data);
+          setDisplay(true);
 //
 //
         })
