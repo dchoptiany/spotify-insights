@@ -117,9 +117,9 @@ function splitData(data) {
           return response.text()
         }) 
         .then(data => {
-          const cleanedData = data.replace(/"/g, '');
-          console.log(data)
-          requestData = JSON.parse(atob(cleanedData));
+          //const cleanedData = data.replace(/"/g, '');
+          //console.log(data)
+          //requestData = JSON.parse(atob(cleanedData));
 
           setData(requestData);
           splitData(url_data);
