@@ -28,7 +28,7 @@ router.get("/logout", (req, res) => {
 
 router.get("/spotify", passport.authenticate('spotify', {
     showDialog: true,
-    scope: [ 'user-read-email','user-read-private', 'user-library-read'],
+    scope: [ 'user-read-email','user-read-private', 'user-library-read', 'user-top-read', 'user-follow-read'],
 
   }));
 

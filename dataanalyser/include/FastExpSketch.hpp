@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <random>
+#include <string>
 
 class FastExpSketch
 {
@@ -17,6 +18,8 @@ private:
     
 public:
     FastExpSketch(size_t size);
+    FastExpSketch(const std::vector<float>& values);
     void update(unsigned i, float lambda);
     float estimateCardinality();
+    void saveToFile(const std::string&);
 };

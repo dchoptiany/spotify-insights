@@ -4,21 +4,10 @@
 #include <sstream>
 #include <iomanip>
 #include <iostream>
+#include <fstream>
 
 using json = nlohmann::json;
-
-// Constructor with optional Data Sketches initialization
-DataAnalyser::DataAnalyser(bool initializeSketches = false)
-{
-    if(initializeSketches)
-    {
-        sketches = std::map<SketchKey, FastExpSketch*>();
-        for(const auto& genre : GENRES)
-        {
-            sketches[SketchKey(genre)] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
-        }
-    }
-}
+using namespace std::literals;
 
 DataAnalyser::~DataAnalyser()
 {
@@ -213,6 +202,9 @@ Processes data containing information about tracks on playlist and returns JSON 
 - general playlist energy
 - general playlist danceability
 - general playlist uniqueness
+- list of tracks' energy
+- list of tracks' danceability
+- music taste uniqueness
 */
 std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 {
@@ -276,10 +268,6 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     std::vector<std::pair<std::string, unsigned>> topDecades = getTop(decades, 5);
 
     json result;
-    result["name"] = j["name"];
-    result["owner"] = j["owner"];
-    result["description"] = j["description"];
-    result["image"] = j["image"];
     result["top_artists"] = topArtists;
     result["top_genres"] = topGenres;
     result["top_decades"] = topDecades;
@@ -295,6 +283,36 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     return result.dump(4); // return indented json as string
 }
 
+// Formats date as string in DD-MM-YYYY format
+std::string DataAnalyser::formatDate(std::tm tm)
+{
+    std::stringstream sstream;
+    sstream << std::setfill('0')
+            << std::setw(2) << tm.tm_mday << "-"
+            << std::setw(2) << (1 + tm.tm_mon) << "-" 
+            << std::setw(2) << (1900 + tm.tm_year);
+    return sstream.str();
+}
+
+// Converts string in format DD-MM-YYYY to std::tm
+std::tm DataAnalyser::stringToDate(const std::string& date)
+{
+    std::vector<std::string> dateSplit = split(date, "-");
+    int day = std::stoi(dateSplit[0]);
+    int month = std::stoi(dateSplit[1]);
+    int year = std::stoi(dateSplit[2]);
+
+    std::tm tm{};
+    tm.tm_year = year - 1900;
+    tm.tm_mon = month - 1;
+    tm.tm_mday = day;
+    tm.tm_hour = 12;
+    tm.tm_min = 0;
+    tm.tm_sec = 0;
+    std::mktime(&tm);
+    return tm;
+}
+
 /*
 Returns JSON string based on gathered Data Sketches containing:
 - list of date labels in format DD-MM-YYYY
@@ -303,41 +321,52 @@ Returns JSON string based on gathered Data Sketches containing:
 std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
 {
     json j = json::parse(jsonInput);
-    
+    std::string startDateString = j["start_date"];
+    std::string endDateString = j["end_date"];
+
+    std::tm endDate = stringToDate(endDateString);
+    endDate.tm_mday++;
+    std::mktime(&endDate);
+    std::tm currentDate = stringToDate(startDateString);
     std::vector<std::string> labels;
-    labels.push_back("01-01-2024");
-    labels.push_back("08-01-2024");
-    labels.push_back("15-01-2024");
-    labels.push_back("22-01-2024");
-    labels.push_back("29-01-2024");
+    std::map<std::string, std::vector<unsigned>> pairs;
+    for(const auto& genre : GENRES)
+    {
+        pairs[DISPLAYABLE_GENRES.at(genre)] = std::vector<unsigned>();
+    }
+    
+    do
+    {
+        labels.push_back(formatDate(currentDate));
+        currentDate.tm_mday++;
+        std::mktime(&currentDate);
 
-    std::vector<std::pair<std::string, std::vector<int>>> pairs;
-    std::vector<int> pop;
-    pop.push_back(50);
-    pop.push_back(60);
-    pop.push_back(55);
-    pop.push_back(62);
-    pop.push_back(65);
-    pairs.push_back(std::make_pair("pop", pop));
-
-    std::vector<int> rap;
-    rap.push_back(20);
-    rap.push_back(15);
-    rap.push_back(18);
-    rap.push_back(10);
-    rap.push_back(10);
-    pairs.push_back(std::make_pair("rap", rap));
-
-    std::vector<int> disco;
-    disco.push_back(30);
-    disco.push_back(25);
-    disco.push_back(22);
-    disco.push_back(28);
-    disco.push_back(25);
-    pairs.push_back(std::make_pair("disco", disco));
+        for(const auto& genre : GENRES)
+        {
+            SketchKey key(genre, currentDate);
+            std::fstream file("../sketches/" + key.toString(), std::ios::in);
+            if(file.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                float value;
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    file >> value;
+                    values[i] = value;
+                }
+                FastExpSketch sketch = FastExpSketch(values);
+                float cardinality = sketch.estimateCardinality();
+                pairs[DISPLAYABLE_GENRES.at(genre)].push_back(static_cast<unsigned>(std::round(cardinality)));
+            }
+            else
+            {
+                pairs[DISPLAYABLE_GENRES.at(genre)].push_back(0);
+            }
+        }
+    } while(currentDate.tm_year != endDate.tm_year || currentDate.tm_mon != endDate.tm_mon || currentDate.tm_mday != endDate.tm_mday);
 
     json result;
-    result["date_lables"] = labels;
+    result["date_labels"] = labels;
     result["genre_scores"] = pairs;
     return result.dump(4); // return indented json as string
 }
@@ -354,27 +383,29 @@ void DataAnalyser::updateDataSketch(FastExpSketch* sketch, const std::vector<std
 // Updates data sketches with tracklist given in JSON format
 void DataAnalyser::updateDataSketches(const std::string& jsonInput)
 {
+    sketches = std::map<SketchKey, FastExpSketch*>();
     std::map<SketchKey, std::vector<std::pair<unsigned, float>>> dataPairs;
+    for(const auto& genre : GENRES)
+    {
+        SketchKey key = SketchKey(genre); // Creating key with current date and keyword
+        sketches[key] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
+        dataPairs[key] = std::vector<std::pair<unsigned, float>>();
+    }
+    
     json j = json::parse(jsonInput);
     json tracks = j["tracks"];
-    
     for(const auto& track : tracks)
     {
         std::string id = track["id"];
         std::string genre = track["genre"];
         std::vector<std::string> genreKeywords = split(genre, " ");
-
         for(const auto& keyword : genreKeywords)
         {
             if(std::find(GENRES.begin(), GENRES.end(), keyword) == GENRES.end()) // Genre not stored in data sketches
             {
                 continue;
             }
-            SketchKey key = SketchKey(keyword); // Creating key with current date and keyword
-            if(dataPairs.find(key) == dataPairs.end())
-            {
-                dataPairs[key] = std::vector<std::pair<unsigned, float>>();
-            }
+            SketchKey key = SketchKey(genre); // Creating key with current date and keyword
             dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
         }        
     }
@@ -382,5 +413,11 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
     for(const auto& pair : dataPairs)
     {
         updateDataSketch(sketches[pair.first], pair.second);
+    }
+
+    // Saving new sketches to text files
+    for(const auto& pair : sketches)
+    {
+        pair.second->saveToFile(pair.first.toString());
     }
 }

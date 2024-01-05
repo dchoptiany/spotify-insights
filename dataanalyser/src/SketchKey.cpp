@@ -13,13 +13,22 @@ SketchKey::SketchKey(const std::string &tag)
     this->year = now->tm_year + 1900;
 }
 
-// Constructor for given tag and date
+// Constructor for given tag, day, month and year
 SketchKey::SketchKey(const std::string &tag, unsigned day, unsigned month, unsigned year)
 {
     this->tag = tag;
     this->day = day;
     this->month = month;
     this->year = year;
+}
+
+// Constructor for given tag and date
+SketchKey::SketchKey(const std::string &tag, std::tm tm)
+{
+    this->tag = tag;
+    this->day = tm.tm_mday;
+    this->month = 1 + tm.tm_mon;
+    this->year = 1900 + tm.tm_year;
 }
 
 bool SketchKey::operator<(const SketchKey &rhs) const
@@ -35,6 +44,6 @@ bool SketchKey::operator==(const SketchKey &rhs) const
 std::string SketchKey::toString() const
 {
     std::stringstream sstream;
-    sstream << day << "." << month << "." << year << " " << tag;
+    sstream << day << "-" << month << "-" << year << "_" << tag;
     return sstream.str();
 }

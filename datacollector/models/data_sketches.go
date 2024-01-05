@@ -1,8 +1,9 @@
 package models
 
 type DataSketchesTrack struct {
-	Artists []SpotifyArtist `json:"artist"`
-	Genre   string          `json:"genre"`
+	ID           string `json:"id"`
+	Genre        string `json:"genre"`
+	Release_date string `json:"release_date"`
 }
 
 type DataSketchesPlaylist struct {

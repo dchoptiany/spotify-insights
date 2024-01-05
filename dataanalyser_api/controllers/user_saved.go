@@ -50,9 +50,12 @@ func GetUsersTracksAnalysis(c *gin.Context) {
 		}
 
 		// analysis
+		analysisOutput, err := RunAnalyseProfile(resp_data)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
 
 		// send response back to UI
-		//c.JSON(http.StatusOK, analysisOutput)
-		c.JSON(http.StatusOK, resp_data)
+		c.JSON(http.StatusOK, analysisOutput)
 	}
 }

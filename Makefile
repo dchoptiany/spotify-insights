@@ -29,6 +29,9 @@ build_datacollector_docker: build_datacollector
 build_dataanalyser:
 	cd dataanalyser && make all
 
+clean_dataanalyser:
+	cd dataanalyser && make clean
+
 build_dataanalyser_docker: build_dataanalyser
 	docker build --build-arg VERSION=$(VERSION) -t spotify-insights-dataanalyser:$(VERSION) -f $(dataanalyser_dir)/docker/Dockerfile $(dataanalyser_dir)
 	docker tag spotify-insights-dataanalyser:$(VERSION) spotify-insights-dataanalyser:latest

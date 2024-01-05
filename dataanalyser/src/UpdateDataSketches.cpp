@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
     buffer << file.rdbuf();
     std::string inputJson = buffer.str();
     
-    DataAnalyser* dataAnalyser = new DataAnalyser(true);
+    DataAnalyser* dataAnalyser = new DataAnalyser();
     try
     {
         dataAnalyser->updateDataSketches(inputJson);
