@@ -16,7 +16,7 @@ const UrlAnalysis = () => {
   const [display, setDisplay] = useState(false)
   const [arrayData, setArrayData] = useState({});
   const [playlistInfo, setPlaylistData] = useState({});
-  const [data, setData] = useState({});
+  const [url_data, setData] = useState({});
 
 
   const handleInputChange = (event) => {
@@ -120,9 +120,11 @@ function splitData(data) {
           const cleanedData = data.replace(/"/g, '');
           console.log(data)
           requestData = JSON.parse(atob(cleanedData));
-          data = requestData;
-          setData(data);
+
+          setData(requestData);
+          splitData(url_data);
           setDisplay(true);
+
 //
 //
         })
@@ -140,13 +142,6 @@ function splitData(data) {
 
 
 
-
-   // Run once after the component mounts
-   useEffect(() => {
-    // Call splitData when the component mounts
-    splitData(data);
-  }, []);
-  
   return (
     <div className="input-form-container">
       <div className="input-container">
@@ -160,20 +155,20 @@ function splitData(data) {
       <div className='plots'>
 
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+      {display && <img src={url_data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
         {display && generateList({ data: playlistInfo })}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
 
-        {display && generateCard({data: data.tracks_count, text: "Tracks count"}) }
-        {display && generateCard({data: data.artists_count, text: "Artists count"}) }
-        {display && generateCard({data: data.duration, text: "Duration"}) }
-        {display && generateCard({data: data.uniqueness, text: "Uniquness"}) }
+        {display && generateCard({data: url_data.tracks_count, text: "Tracks count"}) }
+        {display && generateCard({data: url_data.artists_count, text: "Artists count"}) }
+        {display && generateCard({data: url_data.duration, text: "Duration"}) }
+        {display && generateCard({data: url_data.uniqueness, text: "Uniquness"}) }
       </Flex>
       <Flex justifyContent="center" alignItems="center">
-        {display && generateProgressCircle({data: data.general_energy, text:"Average energy"})}
-        {display && generateProgressCircle({data: data.general_danceability, text:"Average danceability"})}
-        {display && generateProgressCircle({data: data.uniqueness, text:"Uniquness"})}
+        {display && generateProgressCircle({data: url_data.general_energy, text:"Average energy"})}
+        {display && generateProgressCircle({data: url_data.general_danceability, text:"Average danceability"})}
+        {display && generateProgressCircle({data: url_data.uniqueness, text:"Uniquness"})}
         </Flex>
         <Flex justifyContent="center" alignItems="center">
 
@@ -188,8 +183,8 @@ function splitData(data) {
 
         <Flex justifyContent="center" alignItems="center">
 
-        {display && generateDonut({data: data.top_genres, text: "Genres"})}
-        {display && generateDonut({data: data.top_decades, text: "Decades"})}
+        {display && generateDonut({data: url_data.top_genres, text: "Genres"})}
+        {display && generateDonut({data: url_data.top_decades, text: "Decades"})}
         </Flex>
 
         </div>
