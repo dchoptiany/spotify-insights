@@ -109,7 +109,7 @@ function splitData(data) {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
-        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        const parsedSpotifyURL = "http://aws_hostname:8080/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
@@ -144,7 +144,7 @@ function splitData(data) {
    // Run once after the component mounts
    useEffect(() => {
     // Call splitData when the component mounts
-    splitData(exampleData);
+    splitData(data);
   }, []);
   
   return (
@@ -160,20 +160,20 @@ function splitData(data) {
       <div className='plots'>
 
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={exampleData.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+      {display && <img src={data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
         {display && generateList({ data: playlistInfo })}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
 
-        {display && generateCard({data: exampleData.tracks_count, text: "Tracks count"}) }
-        {display && generateCard({data: exampleData.artists_count, text: "Artists count"}) }
-        {display && generateCard({data: exampleData.duration, text: "Duration"}) }
-        {display && generateCard({data: exampleData.uniqueness, text: "Uniquness"}) }
+        {display && generateCard({data: data.tracks_count, text: "Tracks count"}) }
+        {display && generateCard({data: data.artists_count, text: "Artists count"}) }
+        {display && generateCard({data: data.duration, text: "Duration"}) }
+        {display && generateCard({data: data.uniqueness, text: "Uniquness"}) }
       </Flex>
       <Flex justifyContent="center" alignItems="center">
-        {display && generateProgressCircle({data: exampleData.general_energy, text:"Average energy"})}
-        {display && generateProgressCircle({data: exampleData.general_danceability, text:"Average danceability"})}
-        {display && generateProgressCircle({data: exampleData.uniqueness, text:"Uniquness"})}
+        {display && generateProgressCircle({data: data.general_energy, text:"Average energy"})}
+        {display && generateProgressCircle({data: data.general_danceability, text:"Average danceability"})}
+        {display && generateProgressCircle({data: data.uniqueness, text:"Uniquness"})}
         </Flex>
         <Flex justifyContent="center" alignItems="center">
 
@@ -188,8 +188,8 @@ function splitData(data) {
 
         <Flex justifyContent="center" alignItems="center">
 
-        {display && generateDonut({data: exampleData.top_genres, text: "Genres"})}
-        {display && generateDonut({data: exampleData.top_decades, text: "Decades"})}
+        {display && generateDonut({data: data.top_genres, text: "Genres"})}
+        {display && generateDonut({data: data.top_decades, text: "Decades"})}
         </Flex>
 
         </div>
