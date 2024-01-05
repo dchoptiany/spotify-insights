@@ -118,11 +118,12 @@ function splitData(data) {
         }) 
         .then(data => {
           //const cleanedData = data.replace(/"/g, '');
-          //console.log(data)
+          const jsonData = JSON.parse(data); // Parsowanie danych
+          console.log(jsonData)
           //requestData = JSON.parse(atob(cleanedData));
 
-          setData(data);
-          splitData(url_data);
+          setData(jsonData);
+          splitData(jsonData);
           setDisplay(true);
 
 //
