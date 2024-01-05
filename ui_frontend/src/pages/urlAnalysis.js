@@ -109,27 +109,21 @@ function splitData(data) {
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
-        const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/"+spotifyAdressData[0]+"/info?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response);
-          return response.body.getReader().read(); // Odczytaj dane z ReadableStream
+          console.log(response)
+          return response.text();
         }) 
-        .then(result => {
-          if (!result.done) {
-            const data = result.value; // Otrzymaj dane z obiektu { value: Uint8Array, done: true/false }
-            console.log(data);
-            // Teraz możesz przetworzyć otrzymane dane, np. zamieniając je na tekst lub JSON
-            const textData = new TextDecoder().decode(data);
-            const jsonData = JSON.parse(textData);
-            console.log(jsonData);
-            setData(jsonData);
-            splitData(jsonData);
-            setDisplay(true);
-          } else {
-            console.error('Odpowiedź strumienia jest pusta.');
-          }
+        .then(data => {
+          const cleanedData = data.replace(/"/g, '');
+          requestData = JSON.parse(atob(cleanedData));
+          console.log(requestData);
+
+          setData(requestData);
+          splitData(requestData);
+          setDisplay(true);
         })
         .catch(error => {
           console.log(error);
