@@ -66,7 +66,7 @@ func GetGlobalTrends(c *gin.Context) {
 		}
 
 		// run data sketches
-		analysisOutput, err := RunAnalysePlaylist(data)
+		analysisOutput, err := RunAnalyseGlobalTrends(data)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
