@@ -80,8 +80,7 @@ const GlobalTrends = () => {
 
  const handleButtonClick =  () => {
    try {
-     const spotifyAdressData = parseSpotifyUrl(textInput);
-     if(spotifyAdressData!=null){
+
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
        console.log(parsedSpotifyURL)
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
@@ -103,10 +102,8 @@ const GlobalTrends = () => {
        })
        .catch(error => {
          console.log(error);
+         setDisplay(false);
        });
-   }else{
-     setDisplay(false)
-   }
    } catch (error) {
      console.error('Błąd podczas zapytania:', error);
    }
