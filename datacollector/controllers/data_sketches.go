@@ -2,13 +2,14 @@ package controllers
 
 import (
 	"bufio"
+	"context"
 	"net/http"
 	"os"
 	"spotify_insights/datacollector/config"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
 )
 
 const PlaylistsFilename = config.TopPlaylistsIDFile
@@ -36,7 +37,7 @@ func GetTrendTracks(c *gin.Context) {
 
 	for scanner.Scan() {
 		playlistID := scanner.Text()
-		spotifyPlaylist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+		spotifyPlaylist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -56,7 +57,7 @@ func GetTrendTracks(c *gin.Context) {
 			dataTrack.ID = string(spotifyTrack.ID)
 
 			// get track's artist's full info
-			spotifyArtist, err = spotifyClient.GetArtist(spotifyTrack.Artists[0].ID)
+			spotifyArtist, err = spotifyClient.GetArtist(context.Background(), spotifyTrack.Artists[0].ID)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}

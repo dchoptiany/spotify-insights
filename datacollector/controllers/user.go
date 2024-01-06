@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"context"
 	"net/http"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
 	"golang.org/x/oauth2"
 )
 
@@ -22,7 +23,7 @@ func GetUserInfo(c *gin.Context) {
 		spotifyClient := NewSpotifyClient(&token)
 
 		// get current user
-		spotifyUser, err := spotifyClient.CurrentUser()
+		spotifyUser, err := spotifyClient.CurrentUser(context.Background())
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -30,7 +31,7 @@ func GetUserInfo(c *gin.Context) {
 		userInfo.Name = spotifyUser.DisplayName
 		userInfo.NumOfFollowers = int(spotifyUser.Followers.Count)
 
-		followedSpotifyArtists, err := spotifyClient.CurrentUsersFollowedArtists()
+		followedSpotifyArtists, err := spotifyClient.CurrentUsersFollowedArtists(context.Background())
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -56,7 +57,7 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 		// create spotify client
 		spotifyClient := NewSpotifyClient(&token)
 
-		savedTrackPage, err := spotifyClient.CurrentUsersTracks()
+		savedTrackPage, err := spotifyClient.CurrentUsersTracks(context.Background())
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -79,7 +80,7 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 				}
 
 				// get track's artist's full info
-				spotifyArtist, err := spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
+				spotifyArtist, err := spotifyClient.GetArtist(context.Background(), spotify.ID(track.Artists[0].ID))
 				if err != nil {
 					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				}
@@ -99,7 +100,7 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 				track.Popularity = st.Popularity
 
 				// get track's audio features
-				spotifyAudioFeaturesArr, err := spotifyClient.GetAudioFeatures(spotify.ID(track.ID))
+				spotifyAudioFeaturesArr, err := spotifyClient.GetAudioFeatures(context.Background(), spotify.ID(track.ID))
 				if err != nil {
 					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				}
@@ -138,8 +139,12 @@ func GetUsersTopArtists(c *gin.Context) {
 
 		if timeRange_ok {
 			// get user's top artists
-			spotifyOptions := spotify.Options{Timerange: &timeRange}
-			spotifyArtistArr, err := spotifyClient.CurrentUsersTopArtistsOpt(&spotifyOptions)
+
+			//spotifyOptions := spotify.Options{Timerange: &timeRange}
+			//spotifyArtistArr, err := spotifyClient.CurrentUsersTopArtistsOpt(&spotifyOptions)
+
+			options := spotify.Timerange(spotify.Range(timeRange))
+			spotifyArtistArr, err := spotifyClient.CurrentUsersTopArtists(context.Background(), options)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
@@ -191,8 +196,11 @@ func GetUsersTopTracks(c *gin.Context) {
 
 		if timeRange_ok {
 			// get user's top tracks
-			spotifyOptions := spotify.Options{Timerange: &timeRange}
-			spotifyTracksArr, err := spotifyClient.CurrentUsersTopTracksOpt(&spotifyOptions)
+			//spotifyOptions := spotify.Options{Timerange: &timeRange}
+			//spotifyTracksArr, err := spotifyClient.CurrentUsersTopTracksOpt(&spotifyOptions)
+
+			options := spotify.Timerange(spotify.Range(timeRange))
+			spotifyTracksArr, err := spotifyClient.CurrentUsersTopTracks(context.Background(), options)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
@@ -245,7 +253,7 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 	var artistSeed []spotify.ID = make([]spotify.ID, 0)
 	var genreSeed []string = make([]string, 0)
 
-	spotifyArtistsArr, err := spotifyClient.CurrentUsersTopArtists()
+	spotifyArtistsArr, err := spotifyClient.CurrentUsersTopArtists(context.Background())
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -259,7 +267,7 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 	// get seed track
 	var trackSeed []spotify.ID = make([]spotify.ID, 0)
 
-	spotifyTracksArr, err := spotifyClient.CurrentUsersTopTracks()
+	spotifyTracksArr, err := spotifyClient.CurrentUsersTopTracks(context.Background())
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -294,7 +302,7 @@ func GetUsersRecommendations(c *gin.Context) {
 			Genres:  genreSeed,
 		}
 
-		spotifyRecommendations, err := spotifyClient.GetRecommendations(seeds, nil, nil)
+		spotifyRecommendations, err := spotifyClient.GetRecommendations(context.Background(), seeds, nil, nil)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
@@ -325,7 +333,7 @@ func GetUsersRecommendations(c *gin.Context) {
 			}
 
 			// get full spotify track
-			spotifyFullTrack, err := spotifyClient.GetTrack(spotifyTrack.ID)
+			spotifyFullTrack, err := spotifyClient.GetTrack(context.Background(), spotifyTrack.ID)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}
