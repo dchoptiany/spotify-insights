@@ -10,18 +10,28 @@ const GlobalTrends = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [display, setDisplay] = useState(false);
+    const [url_data, setData] = useState({});
+
   
     const handleStartDateChange = (e) => {
-      setStartDate(e.target.value);
+      const selectedDate = e.target.value;
+      const formattedDate = formatDate(selectedDate);
+      setStartDate(formattedDate);
     };
-  
+    
     const handleEndDateChange = (e) => {
-      setEndDate(e.target.value);
+      const selectedDate = e.target.value;
+      const formattedDate = formatDate(selectedDate);
+      setEndDate(formattedDate);
+    };
+    
+    const formatDate = (dateString) => {
+      const [year, month, day] = dateString.split("-");
+      return `${day}-${month}-${year}`;
     };
   
     const handleSubmit = (e) => {
       e.preventDefault();
-      // TODO: Add logic to generate line chart with the selected dates
     };
   
  let exampleData=
@@ -69,37 +79,37 @@ const GlobalTrends = () => {
 
 
  const handleButtonClick =  () => {
-   // try {
-   //   const spotifyAdressData = parseSpotifyUrl(textInput);
-   //   if(spotifyAdressData!=null){
-   //     const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-   //     console.log(parsedSpotifyURL)
-   //     DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
-   //     .then(response => {
-   //       console.log(response)
-   //       return response.text()
-   //     }) 
-   //     .then(data => {
-   //       setDisplay(true);
-   //       const cleanedData = data.replace(/"/g, '');
-   //       console.log(data)
-   //       let requestData = JSON.parse(atob(cleanedData));
-   //       console.log(requestData)
-/////
-   //       exampleData=requestData;
-   //       setDisplay(true);
-////
-////
-   //     })
-   //     .catch(error => {
-   //       console.log(error);
-   //     });
-   // }else{
-   //   setDisplay(false)
-   // }
-   // } catch (error) {
-   //   console.error('Błąd podczas zapytania:', error);
-   // }
+   try {
+     const spotifyAdressData = parseSpotifyUrl(textInput);
+     if(spotifyAdressData!=null){
+       const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
+       console.log(parsedSpotifyURL)
+       DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
+       .then(response => {
+         console.log(response)
+         return response.text()
+       }) 
+       .then(data => {
+         setDisplay(true);
+         const cleanedData = data.replace(/"/g, '');
+         console.log(data)
+         let requestData = JSON.parse(atob(cleanedData));
+         console.log(requestData)
+ 
+         setData(requestData);
+         setDisplay(true);
+ 
+ 
+       })
+       .catch(error => {
+         console.log(error);
+       });
+   }else{
+     setDisplay(false)
+   }
+   } catch (error) {
+     console.error('Błąd podczas zapytania:', error);
+   }
   };
 
   

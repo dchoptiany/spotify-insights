@@ -50,12 +50,10 @@ export const DataSketchesRequest = (endpoint,startDate, endDate) => {
     headers: {
       Accept: "application/json",
       endpoint : endpoint,
-      'Content-Type': 'application/json',
-      "Access-Control-Allow-Credentials": true,
-    },
-    data: {
       startDate: startDate,
       endDate: endDate,
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Credentials": true,
     },
   })
 

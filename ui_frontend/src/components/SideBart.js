@@ -52,8 +52,7 @@ function UserData({ user }) {
   }
   return (
     <div className="userData">
-      <div>{user.name}</div>
-      <div>{user.surname}</div>
+      <div>{user.displayName}</div>
     </div>
   );
 }

@@ -50,15 +50,15 @@ router.get("/dataCollector", (req,res) =>{
 
 router.get("/dataSketches", (req,res) =>{
   if(req.user){
-        const accessToken = req.user.accessToken;
+
         const apiEndpoint = req.headers.endpoint;
-        const expiry = req.user.expiry;
+        const startDate = req.headers.startDate;
+        const endDate = req.headers.endDate;
+
 
         jsonData= JSON.stringify({
-         
-            "access_token" : accessToken,
-            "token_type" : "Bearer",
-            "expires_in" : expiry
+            "start_date" : startDate,
+            "end_date" : endDate
           
         })
         
