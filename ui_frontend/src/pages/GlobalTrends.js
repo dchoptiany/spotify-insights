@@ -82,6 +82,8 @@ const GlobalTrends = () => {
    try {
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
        console.log(parsedSpotifyURL)
+       console.log(startDate)
+       console.log(endDate)
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
        .then(response => {
          console.log(response)
@@ -140,7 +142,7 @@ const GlobalTrends = () => {
       
       <div className='plots'>
         <Flex justifyContent="center" alignItems="center" width="50%">
-          {display && generateLineChart({ data: exampleData, text: "Global trends" })}
+          {display && generateLineChart({ data: url_data, text: "Global trends" })}
         </Flex>
       </div>
     </div>
