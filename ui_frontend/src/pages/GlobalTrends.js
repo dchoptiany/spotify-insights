@@ -80,7 +80,6 @@ const GlobalTrends = () => {
 
  const handleButtonClick =  () => {
    try {
-
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
        console.log(parsedSpotifyURL)
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
