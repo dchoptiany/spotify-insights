@@ -85,7 +85,7 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 				}
 
 				// genre
-				if len(spotifyArtist.Genres) > 0 {
+				if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
 					track.Genre = spotifyArtist.Genres[0]
 				}
 
@@ -157,7 +157,7 @@ func GetUsersTopArtists(c *gin.Context) {
 				artist.Name = spotifyArtist.Name
 
 				// genre
-				if len(spotifyArtist.Genres) > 0 {
+				if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
 					artist.Genre = spotifyArtist.Genres[0]
 				}
 
@@ -252,7 +252,7 @@ func GenSeeds(spotifyClient spotify.Client) ([]spotify.ID, []spotify.ID, []strin
 
 	artist := spotifyArtistsArr.Artists[0]
 	artistSeed = append(artistSeed, artist.ID)
-	if len(artist.Genres) > 0 {
+	if artist.Genres != nil && len(artist.Genres) > 0 {
 		genreSeed = append(genreSeed, artist.Genres[0])
 	}
 

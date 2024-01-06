@@ -138,7 +138,7 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 					}
 
 					// genre
-					if len(spotifyArtist.Genres) > 0 {
+					if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
 						track.Genre = spotifyArtist.Genres[0]
 					}
 
