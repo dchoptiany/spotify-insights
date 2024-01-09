@@ -176,6 +176,30 @@ body {
   
 }
 
+.textCart{
+  width: 40vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 5%;
+}
+
+.text{
+  font-size: 1.2em;
+  align-items: center;
+  position: center;
+  text-align: center;
+
+}
+
+.textItem{
+  align-items: center;
+  position: center;
+  text-align: center;
+
+}
+
 .userInfo{
   margin-top: 10%;
   margin-left: 2%;
