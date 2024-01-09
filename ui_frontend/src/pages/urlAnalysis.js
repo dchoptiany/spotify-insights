@@ -106,36 +106,39 @@ function splitData(data) {
   
   
   const handleButtonClick =  () => {
-    try {
-      const spotifyAdressData = parseSpotifyUrl(textInput);
-      if(spotifyAdressData!=null){
-        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-        console.log(parsedSpotifyURL)
-        DataCollectorRequest(parsedSpotifyURL)
-        .then(response => {
-          console.log(response)
-          return response.text();
-        }) 
-        .then(data => {
-          const cleanedData = data.replace(/"/g, '');
-          requestData = JSON.parse(atob(cleanedData));
-          console.log(requestData);
+    splitData(exampleData)
+    setDisplay(true);
 
-          setData(requestData);
-          splitData(requestData);
-          setDisplay(true);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }else{
-      setDisplay(false)
-    }
-    } catch (error) {
-      console.error('Błąd podczas zapytania:', error);
-    }
-  }
-
+  //  try {
+  //    const spotifyAdressData = parseSpotifyUrl(textInput);
+  //    if(spotifyAdressData!=null){
+  //      const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+  //      console.log(parsedSpotifyURL)
+  //      DataCollectorRequest(parsedSpotifyURL)
+  //      .then(response => {
+  //        console.log(response)
+  //        return response.text();
+  //      }) 
+  //      .then(data => {
+  //        const cleanedData = data.replace(/"/g, '');
+  //        requestData = JSON.parse(atob(cleanedData));
+  //        console.log(requestData);
+//
+  //        setData(requestData);
+  //        splitData(requestData);
+  //        setDisplay(true);
+  //      })
+  //      .catch(error => {
+  //        console.log(error);
+  //      });
+  //  }else{
+  //    setDisplay(false)
+  //  }
+  //  } catch (error) {
+  //    console.error('Błąd podczas zapytania:', error);
+  //  }
+  //
+}
 
 
 
@@ -152,20 +155,20 @@ function splitData(data) {
       <div className='plots'>
 
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={url_data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+      {display && <img src={exampleData.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
         {display && generateList({ data: playlistInfo })}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
 
-        {display && generateCard({data: url_data.tracks_count, text: "Tracks count"}) }
-        {display && generateCard({data: url_data.artists_count, text: "Artists count"}) }
-        {display && generateCard({data: url_data.duration, text: "Duration"}) }
-        {display && generateCard({data: url_data.uniqueness, text: "Uniquness"}) }
+        {display && generateCard({data: exampleData.tracks_count, text: "Tracks count"}) }
+        {display && generateCard({data: exampleData.artists_count, text: "Artists count"}) }
+        {display && generateCard({data: exampleData.duration, text: "Duration"}) }
+        {display && generateCard({data: exampleData.uniqueness, text: "Uniquness"}) }
       </Flex>
       <Flex justifyContent="center" alignItems="center">
-        {display && generateProgressCircle({data: url_data.general_energy, text:"Average energy"})}
-        {display && generateProgressCircle({data: url_data.general_danceability, text:"Average danceability"})}
-        {display && generateProgressCircle({data: url_data.uniqueness, text:"Uniquness"})}
+        {display && generateProgressCircle({data: exampleData.general_energy, text:"Average energy"})}
+        {display && generateProgressCircle({data: exampleData.general_danceability, text:"Average danceability"})}
+        {display && generateProgressCircle({data: exampleData.uniqueness, text:"Uniquness"})}
         </Flex>
         <Flex justifyContent="center" alignItems="center">
 

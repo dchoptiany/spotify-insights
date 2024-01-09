@@ -16,13 +16,13 @@ const GlobalTrends = () => {
     const handleStartDateChange = (e) => {
       const selectedDate = e.target.value;
       const formattedDate = formatDate(selectedDate);
-      setStartDate(formattedDate);
+      setStartDate(selectedDate);
     };
     
     const handleEndDateChange = (e) => {
       const selectedDate = e.target.value;
       const formattedDate = formatDate(selectedDate);
-      setEndDate(formattedDate);
+      setEndDate(selectedDate);
     };
     
     const formatDate = (dateString) => {
@@ -79,35 +79,33 @@ const GlobalTrends = () => {
 
 
  const handleButtonClick =  () => {
-   try {
-       const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
-       console.log(parsedSpotifyURL)
-       console.log(startDate)
-       console.log(endDate)
-       DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
-       .then(response => {
-         console.log(response)
-         return response.text()
-       }) 
-       .then(data => {
-         setDisplay(true);
-         const cleanedData = data.replace(/"/g, '');
-         console.log(data)
-         let requestData = JSON.parse(atob(cleanedData));
-         console.log(requestData)
- 
-         setData(requestData);
-         setDisplay(true);
- 
- 
-       })
-       .catch(error => {
-         console.log(error);
-         setDisplay(false);
-       });
-   } catch (error) {
-     console.error('Błąd podczas zapytania:', error);
-   }
+  setDisplay(true);
+  // try {
+  //     const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
+  //     DataSketchesRequest(parsedSpotifyURL, formatDate(startDate), formatDate(endDate))
+  //     .then(response => {
+  //       console.log(response)
+  //       return response.text()
+  //     }) 
+  //     .then(data => {
+  //       setDisplay(true);
+  //       const cleanedData = data.replace(/"/g, '');
+  //       console.log(data)
+  //       let requestData = JSON.parse(atob(cleanedData));
+  //       console.log(requestData)
+ //
+  //       setData(requestData);
+  //       setDisplay(true);
+ //
+ //
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //       setDisplay(false);
+  //     });
+  // } catch (error) {
+  //   console.error('Błąd podczas zapytania:', error);
+  // }
   };
 
   
@@ -142,7 +140,7 @@ const GlobalTrends = () => {
       
       <div className='plots'>
         <Flex justifyContent="center" alignItems="center" width="50%">
-          {display && generateLineChart({ data: url_data, text: "Global trends" })}
+          {display && generateLineChart({ data: exampleData, text: "Global trends" })}
         </Flex>
       </div>
     </div>
