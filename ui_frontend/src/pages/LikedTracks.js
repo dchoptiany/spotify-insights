@@ -7,6 +7,8 @@ import { DataCollectorRequest } from '../actions/authActions';
 
 
 const LikedTracks = () => {
+    const [display, setDisplay] = useState(false);
+  const [userData, setUserData] = useState({});
 
     let requestData=""
 
