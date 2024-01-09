@@ -51,7 +51,7 @@ useEffect(() => {
       <div className='plots'>
     <div className='userInfo'>
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={user_data.image} style={{ width: '70px', height: '70px', marginBottom: '2%' }} />}
+      {display && <img src={user_data.image} style={{ width: '70px', height: '70px', marginBottom: '5%' }} />}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
       {display && generateTextCard(user_data.name, "Name")}
