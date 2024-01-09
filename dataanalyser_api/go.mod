@@ -2,6 +2,8 @@ module dataanalyser_api
 
 go 1.19
 
+replace github.com/zmb3/spotify/v2 v2.4.0 => github.com/ouchang/spotify/v2 v2.4.0-ouchang2
+
 require (
 	github.com/gin-gonic/gin v1.9.1
 	golang.org/x/oauth2 v0.15.0

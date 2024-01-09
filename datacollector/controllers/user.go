@@ -302,7 +302,7 @@ func GetUsersRecommendations(c *gin.Context) {
 			Genres:  genreSeed,
 		}
 
-		spotifyRecommendations, err := spotifyClient.GetRecommendations(context.Background(), seeds, nil, nil)
+		spotifyRecommendations, err := spotifyClient.GetRecommendations(context.Background(), seeds, nil)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		}
