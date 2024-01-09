@@ -19,6 +19,7 @@ import {
   Navigate
 } from "react-router-dom";
 import { useEffect, useState } from "react";
+import LikedTracks from './pages/LikedTracks';
 
 
 
@@ -60,6 +61,8 @@ function App() {
             <Route path='/topArtists' element={user? <TopArtists/> : <Overview/>}/>
             <Route path='/topTracks' element={user? <TopTracks/>:<Overview/>}/>
             <Route path='/recommendations' element={user? <Recommendations/>:<Overview/>}/>
+            <Route path='/likedTracks' element={user? <LikedTracks/>:<Overview/>}/>
+            
           </Routes>
           </div>   
         </div>

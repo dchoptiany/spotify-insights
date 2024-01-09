@@ -11,6 +11,7 @@ const sidebarItems = [
     { id: '3', title: 'Top Artists', url: "/topArtists" },
     { id: '4', title: 'Top Tracks', url: "/topTracks" },
     { id: '5', title: 'Recommendations', url: "/recommendations" },
+    { id: '6', title: 'Liked tracks', url: "/likedTracks" },
   ],
 
 ];
