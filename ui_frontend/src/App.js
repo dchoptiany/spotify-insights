@@ -57,9 +57,9 @@ function App() {
             <Route path='/urlAnalysis' element={<UrlAnalysis/>}/>
             <Route path='/globalTrends' element={<GlobalTrends/>}/>
             <Route path='/user_info' element={<UserInfo/>}/>
-            <Route path='/topArtists' element={<TopArtists/>}/>
-            <Route path='/topTracks' element={<TopTracks/>}/>
-            <Route path='/recommendations' element={<Recommendations/>}/>
+            <Route path='/topArtists' element={user? <TopArtists/> : <Overview/>}/>
+            <Route path='/topTracks' element={user? <TopTracks/>:<Overview/>}/>
+            <Route path='/recommendations' element={user? <Recommendations/>:<Overview/>}/>
           </Routes>
           </div>   
         </div>
