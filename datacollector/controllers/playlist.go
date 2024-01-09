@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"context"
 	"net/http"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
 	"golang.org/x/oauth2"
 )
 
@@ -25,7 +26,7 @@ func GetSpotifyPlaylist(c *gin.Context) {
 		playlistID, playlistID_ok := c.GetQuery("playlist_id")
 
 		if playlistID_ok {
-			playlist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+			playlist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -56,7 +57,7 @@ func GetSpotifyPlaylistsArtists(c *gin.Context) {
 		playlistID, playlistID_ok := c.GetQuery("playlist_id")
 
 		if playlistID_ok {
-			playlist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+			playlist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -101,7 +102,7 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 		playlistID, playlistID_ok := c.GetQuery("playlist_id")
 
 		if playlistID_ok {
-			spotifyPlaylist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+			spotifyPlaylist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -132,13 +133,13 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 					}
 
 					// get track's artist's full info
-					spotifyArtist, err = spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
+					spotifyArtist, err = spotifyClient.GetArtist(context.Background(), spotify.ID(track.Artists[0].ID))
 					if err != nil {
 						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 					}
 
 					// genre
-					if len(spotifyArtist.Genres) > 0 {
+					if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
 						track.Genre = spotifyArtist.Genres[0]
 					}
 
@@ -152,7 +153,7 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 					track.Popularity = spotifyTrack.Popularity
 
 					// get track's audio features
-					spotifyAudioFeaturesArr, err = spotifyClient.GetAudioFeatures(spotify.ID(track.ID))
+					spotifyAudioFeaturesArr, err = spotifyClient.GetAudioFeatures(context.Background(), spotify.ID(track.ID))
 					if err != nil {
 						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 					}
@@ -194,7 +195,7 @@ func GetPlaylistInfo(c *gin.Context) {
 		playlistID, playlistID_ok := c.GetQuery("playlist_id")
 
 		if playlistID_ok {
-			playlist, err = spotifyClient.GetPlaylist(spotify.ID(playlistID))
+			playlist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

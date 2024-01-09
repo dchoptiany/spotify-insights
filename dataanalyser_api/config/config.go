@@ -14,5 +14,5 @@ const (
 	DatacollectorAddr                             = "http://docker-gateway:8080"
 	Datacollector_GetPlaylistForAnalysis_Endpoint = "/spotify-api/playlist/analysis"
 	Datacollector_GetUsersSavedTracks_Endpoint    = "/spotify-api/user/saved/analysis"
-	Datacollector_GetTrendTracks_Endpoint         = "/spotify-api/data_sketches/tracks" // Refresh Data Sketches
+	Datacollector_GetTrendTracks_Endpoint         = "/spotify-api/data-sketches/tracks" // Refresh Data Sketches
 )

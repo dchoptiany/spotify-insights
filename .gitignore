@@ -21,6 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 /datacollector/_build/*
 /dataanalyser/_build/*
+/dataanalyser/bin
 /dataanalyser_api/_build/*
 
 *.exe

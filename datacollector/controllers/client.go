@@ -1,13 +1,15 @@
 package controllers
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
+	spotifyauth "github.com/zmb3/spotify/v2/auth"
 	"golang.org/x/oauth2"
 )
 
@@ -33,7 +35,9 @@ func NewClient(credentials models.SpotifyAuthCredentials) (models.Client, error)
 		return models.Client{}, err
 	}
 
-	client.SpotifyClient = spotify.Authenticator{}.NewClient(client.Token)
+	//client.SpotifyClient = spotify.Authenticator{}.NewClient(client.Token)
+	httpClient := spotifyauth.New().Client(context.Background(), client.Token)
+	client.SpotifyClient = *spotify.New(httpClient)
 
 	return client, nil
 }

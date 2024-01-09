@@ -5,7 +5,8 @@ import (
 	"os"
 
 	"github.com/google/uuid"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
+	spotifyauth "github.com/zmb3/spotify/v2/auth"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -32,7 +33,9 @@ func CreateClient() Client {
 	c.ClientID = spotifyClientID
 	c.ClientSecret = spotifyClientSecret
 	c.Authenticate()
-	c.SpotifyClient = spotify.Authenticator{}.NewClient(c.Token)
+	//c.SpotifyClient = spotify.Authenticator{}.NewClient(c.Token)
+	httpClient := spotifyauth.New().Client(context.Background(), c.Token)
+	c.SpotifyClient = *spotify.New(httpClient)
 	c.GenUUID()
 
 	return c
@@ -52,7 +55,7 @@ func (c *Client) Authenticate() error {
 	c.AuthConfig = &clientcredentials.Config{
 		ClientID:     c.ClientID,
 		ClientSecret: c.ClientSecret,
-		TokenURL:     spotify.TokenURL,
+		TokenURL:     spotifyauth.TokenURL,
 	}
 
 	c.Token, err = c.AuthConfig.Token(context.Background())
