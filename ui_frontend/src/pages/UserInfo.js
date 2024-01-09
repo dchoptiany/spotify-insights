@@ -47,15 +47,15 @@ useEffect(() => {
 
   return (
     <div className="input-form-container">
-    <div className='userInfo'>
       <div className='plots'>
+    <div className='userInfo'>
       <Flex justifyContent="center" alignItems="center">
       {display && <img src={user_data.image} style={{ width: '70px', height: '70px', marginBottom: '2%' }} />}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
-      {display && generateCard(user_data.name, "Name")}
-      {display && generateCard(user_data.name, "Number of followers")}
-      {display && generateCard(user_data.name, "Number of following artists")}
+      {display && generateTextCard(user_data.name, "Name")}
+      {display && generateTextCard(user_data.num_of_followers, "Number of followers")}
+      {display && generateTextCard(user_data.num_of_following_artists, "Number of following artists")}
       </Flex>
       </div>
 
