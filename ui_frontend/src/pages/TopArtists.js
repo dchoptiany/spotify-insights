@@ -27,15 +27,15 @@ const TopArtists = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <TopArtistsShort> 
+            <TopArtistsShort term="short_term"> 
             </TopArtistsShort> 
           </TabPanel>
           <TabPanel>
-          <TopArtistsShort> 
+          <TopArtistsShort term="medium_term"> 
             </TopArtistsShort>  
           </TabPanel>
           <TabPanel>
-          <TopArtistsShort> 
+          <TopArtistsShort term="long_term"> 
           </TopArtistsShort>  
           </TabPanel>
         </TabPanels>

@@ -27,15 +27,15 @@ const TopTracks = () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-          <TopTracksShort> 
+          <TopTracksShort term="short_term"> 
           </TopTracksShort>  
           </TabPanel>
           <TabPanel>
-          <TopTracksShort> 
+          <TopTracksShort term="medium_term"> 
           </TopTracksShort>   
           </TabPanel>
           <TabPanel>
-          <TopTracksShort> 
+          <TopTracksShort term="long_term"> 
           </TopTracksShort>  
           </TabPanel>
         </TabPanels>

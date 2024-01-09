@@ -4,7 +4,7 @@ import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
 import AudioPlayer from './AudioPlayer';
 
-const TopTracksShort = () => {
+const TopTracksShort = ({term}) => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
     tracks: [
@@ -16,7 +16,7 @@ const TopTracksShort = () => {
   const getData =  () => {
 
     try {
-        const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/top/tracks?time_range=short_term"
+        const parsedSpotifyURL = `http://aws_hostname:8080/spotify-api/user/top/tracks?time_range=${term}`
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
