@@ -20,6 +20,7 @@ func GetTrendTracks(c *gin.Context) {
 	var spotifyPlaylist *spotify.FullPlaylist = nil
 	var spotifyArtist *spotify.FullArtist = nil
 	var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
+	var listOfDataPlaylist []models.DataSketchesPlaylist = make([]models.DataSketchesPlaylist, 0)
 
 	// create client
 	// TODO: Change for token read from JSON #?
@@ -40,6 +41,7 @@ func GetTrendTracks(c *gin.Context) {
 		spotifyPlaylist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
 		}
 
 		totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
@@ -60,6 +62,7 @@ func GetTrendTracks(c *gin.Context) {
 			spotifyArtist, err = spotifyClient.GetArtist(context.Background(), spotifyTrack.Artists[0].ID)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				return
 			}
 
 			// genre
@@ -74,7 +77,9 @@ func GetTrendTracks(c *gin.Context) {
 			dataPlaylist.Tracks = append(dataPlaylist.Tracks, dataTrack)
 		}
 
-		// send dataPlaylist as JSON
-		c.JSON(http.StatusOK, dataPlaylist)
+		listOfDataPlaylist = append(listOfDataPlaylist, dataPlaylist)
 	}
+
+	// send dataPlaylist as JSON
+	c.JSON(http.StatusOK, dataPlaylist)
 }
