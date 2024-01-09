@@ -81,5 +81,5 @@ func GetTrendTracks(c *gin.Context) {
 	}
 
 	// send dataPlaylist as JSON
-	c.JSON(http.StatusOK, dataPlaylist)
+	c.JSON(http.StatusOK, listOfDataPlaylist)
 }
