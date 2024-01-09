@@ -176,6 +176,11 @@ body {
   
 }
 
+.userInfo{
+  margin-top: 10%;
+  margin-left: 2%;
+}
+
 .input-form-container{
   width: 100%;
   align-items: center;

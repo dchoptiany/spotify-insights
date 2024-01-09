@@ -5,6 +5,7 @@ import UrlAnalysis from "./pages/urlAnalysis"
 import Overview from './pages/Overview';
 import GlobalTrends from './pages/GlobalTrends';
 import { sendGetUserRequest } from './actions/authActions';
+import UserInfo from './pages/UserInfo';
 
 import {
   BrowserRouter,
@@ -51,6 +52,7 @@ function App() {
             <Route path='/' element={<Overview/>}/>
             <Route path='/urlAnalysis' element={<UrlAnalysis/>}/>
             <Route path='/globalTrends' element={<GlobalTrends/>}/>
+            <Route path='/user_info' element={<UserInfo/>}/>
           </Routes>
           </div>   
         </div>
