@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {DataCollectorRequest} from '../actions/authActions';
 import generateList from '../components/List';
 import { Flex } from "@tremor/react";
+import generateCard from '../components/Cart';
 
 
 
@@ -46,11 +47,15 @@ useEffect(() => {
 
   return (
     <div className="input-form-container">
+    <div className='userInfo'>
       <div className='plots'>
-        <div className='userInfo'>
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={user_data.image} style={{ width: '70px', height: '70px', marginRight: '2%' }} />}
-        {display && generateList({ data: user_data })}
+      {display && <img src={user_data.image} style={{ width: '70px', height: '70px', marginBottom: '2%' }} />}
+      </Flex>
+      <Flex justifyContent="center" alignItems="center">
+      {display && generateCard(user_data.name, "Name")}
+      {display && generateCard(user_data.name, "Number of followers")}
+      {display && generateCard(user_data.name, "Number of following artists")}
       </Flex>
       </div>
 

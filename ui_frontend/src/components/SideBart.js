@@ -52,7 +52,7 @@ function UserData({ user }) {
   }
   return (
     <div className="userData">
-      <div>{user.displayName}</div>
+        <Link className = "link" to="/user_info">{user.displayName}</Link>    
     </div>
   );
 }
