@@ -12,88 +12,13 @@ import { Flex } from "@tremor/react";
 
 
 const UserInfo = () => {
-  const [textInput, setTextInput] = useState('');
   const [display, setDisplay] = useState(false)
-  const [arrayData, setArrayData] = useState({});
-  const [playlistInfo, setPlaylistData] = useState({});
-  const [url_data, setData] = useState({});
+  const [user_data, setData] = useState({});
 
 
 let requestData=""
   
- let exampleData={
-  "artists_count": 2,
-  "description": "Sample playlist description",
-  "duration": "0:08:22",
-  "general_danceability": 61,
-  "general_energy": 81,
-  "genres_count": 2,
-  "image": "https://www.cabq.gov/artsculture/biopark/news/10-cool-facts-about-penguins/@@images/1a36b305-412d-405e-a38b-0947ce6709ba.jpeg",
-  "name": "My playlist",
-  "owner": "Damian",
-  "top_artists": [
-      [
-          "Artist 2",
-          2
-      ],
-      [
-          "Artist 1",
-          1
-      ]
-  ],
-  "top_decades": [
-      [
-          "2020'",
-          2
-      ],
-      [
-          "2000'",
-          1
-      ]
-  ],
-  "top_genres": [
-      [
-          "pop",
-          2
-      ],
-      [
-          "rap",
-          1
-      ]
-  ],
-  "tracks_count": 3,
-  "tracks_danceability": [
-      60,
-      91,
-      30
-  ],
-  "tracks_energy": [
-      57,
-      100,
-      87
-  ],
-  "uniqueness": 1
-}; 
-
-
-function splitData(data) {
-  let arrayData = {};
-  let playlistInfo = {};
-
-  for (const key in data) {
-    if (key === "name" || key === "owner" || key === "description") {
-      playlistInfo[key] = data[key];
-    }
-    if (key === "top_artists" || key === "top_genres") {
-      arrayData[key] = data[key];
-    }
-  }
- setArrayData(arrayData);
- setPlaylistData(playlistInfo)
-}
-  
-  
-  const handleButtonClick =  () => {
+  const getUserInfo =  () => {
 
 
  try {
@@ -109,7 +34,6 @@ function splitData(data) {
        console.log(requestData);
 
         setData(requestData);
-       splitData(requestData);
        setDisplay(true);
      })
      .catch(error => {
@@ -122,19 +46,17 @@ function splitData(data) {
  
 }
 
-
+useEffect(() => {
+    getUserInfo();
+  }, []);
 
   return (
     <div className="input-form-container">
-      <div className="input-container">
-        <Button onClick={handleButtonClick} text="Submit" />
-        
-      </div>
       <div className='plots'>
 
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={exampleData.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
-        {display && generateList({ data: playlistInfo })}
+      {display && <img src={user_data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+        {display && generateList({ data: user_data })}
       </Flex>
 
         </div>
