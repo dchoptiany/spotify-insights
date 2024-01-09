@@ -8,7 +8,9 @@ const sidebarItems = [
     { id: '0', title: 'Overview', url: "/" },
     { id: '1', title: 'Global trends', url: "/globalTrends" },
     { id: '2', title: 'Analyse URL', url: "/urlAnalysis" },
-    { id: '3', title: 'Analyze your music taste', url: "/userTrends" },
+    { id: '3', title: 'Top Artists', url: "/topArtists" },
+    { id: '4', title: 'Top Tracks', url: "/topTracks" },
+    { id: '5', title: 'Recommendations', url: "/recommendations" },
   ],
 
 ];

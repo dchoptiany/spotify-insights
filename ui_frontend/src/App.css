@@ -176,6 +176,32 @@ body {
   
 }
 
+.tab{
+  display: flex;
+  justify-content: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  height: 100%;
+  margin-left: 7%;
+
+}
+
+.recommendations{
+
+  margin-bottom: 5%;
+  margin-left: 20vh;
+}
+.topTracks{
+  margin-bottom: 25%;
+}
+
+.tabList{
+  margin-top: 2%;
+  align-items: center;
+  justify-content: center;
+
+}
+
 .textCart{
   width: 40vh;
   height: min-content;
@@ -183,6 +209,41 @@ body {
   align-items: center;
   position: center;
   margin-right: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  
+}
+
+.textCartTop{
+  width: 50vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  
+}
+
+.textCartRec{
+  width: 50vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 1%;
+  margin-top: 1%;
+  margin-bottom: 0.5%;
+  
+}
+
+.cart{
+  margin-bottom: 2%;
+}
+
+.cartRec{
+  margin-bottom: 1%;
 }
 
 .text{

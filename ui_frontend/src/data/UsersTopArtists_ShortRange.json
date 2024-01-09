@@ -1,0 +1,104 @@
+{
+	"artists": [
+		{
+			"name": "Sabrina Carpenter",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb00e540b760b56d02cc415c47"
+		},
+		{
+			"name": "Beyoncé",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb12e3f20d05a8d6cfde988715"
+		},
+		{
+			"name": "Selena Gomez",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb0c8eb928813cd06614c0710d"
+		},
+		{
+			"name": "Bruno Mars",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5ebc36dd9eb55fb0db4911f25dd"
+		},
+		{
+			"name": "Michael Jackson",
+			"genre": "r&b",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb0e08ea2c4d6789fbf5cbe0aa"
+		},
+		{
+			"name": "Jennifer Lopez",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5ebaa483617f45b0652c0dbc238"
+		},
+		{
+			"name": "Britney Spears",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb3a49b0a3954e460a8a76ed90"
+		},
+		{
+			"name": "Timbaland",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb2ec030557b0529c01639529b"
+		},
+		{
+			"name": "Ariana Grande",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5ebcdce7620dc940db079bf4952"
+		},
+		{
+			"name": "TAEMIN",
+			"genre": "k-pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb0e75f2e6bee76a3cea21cd51"
+		},
+		{
+			"name": "Miley Cyrus",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5ebb5af3b38f053486ab0784dee"
+		},
+		{
+			"name": "The Pussycat Dolls",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb292575f7d081016e04dff9ee"
+		},
+		{
+			"name": "Bratz",
+			"genre": "",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb4a8ace5f49e5f4b01167bd98"
+		},
+		{
+			"name": "Sean Paul",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb60c3e9abe7327c0097738f22"
+		},
+		{
+			"name": "Fujii Kaze",
+			"genre": "japanese teen pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb7e34f1a6ce455f3e8a7a61d3"
+		},
+		{
+			"name": "Madonna",
+			"genre": "dance pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb4b36d28b55620959821f4a5b"
+		},
+		{
+			"name": "Lil Nas X",
+			"genre": "lgbtq+ hip hop",
+			"image": "https://i.scdn.co/image/ab6761610000e5ebd66f1e0c883f319443d68c45"
+		},
+		{
+			"name": "50 Cent",
+			"genre": "east coast hip hop",
+			"image": "https://i.scdn.co/image/dd031b9c5d1b6eba4a691cd89c954255aae787f2"
+		},
+		{
+			"name": "ENHYPEN",
+			"genre": "anime",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb6a48a236a01fa62db8c7a6f6"
+		},
+		{
+			"name": "Taylor Swift",
+			"genre": "pop",
+			"image": "https://i.scdn.co/image/ab6761610000e5eb859e4c14fa59296c8649e0e4"
+		}
+	]
+}

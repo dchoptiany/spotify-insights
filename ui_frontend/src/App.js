@@ -6,6 +6,9 @@ import Overview from './pages/Overview';
 import GlobalTrends from './pages/GlobalTrends';
 import { sendGetUserRequest } from './actions/authActions';
 import UserInfo from './pages/UserInfo';
+import TopArtists from './pages/TopArtists';
+import TopTracks from './pages/TopTracks';
+import Recommendations from './pages/Recommendations';
 
 import {
   BrowserRouter,
@@ -16,6 +19,7 @@ import {
   Navigate
 } from "react-router-dom";
 import { useEffect, useState } from "react";
+
 
 
 function App() {
@@ -53,6 +57,9 @@ function App() {
             <Route path='/urlAnalysis' element={<UrlAnalysis/>}/>
             <Route path='/globalTrends' element={<GlobalTrends/>}/>
             <Route path='/user_info' element={<UserInfo/>}/>
+            <Route path='/topArtists' element={<TopArtists/>}/>
+            <Route path='/topTracks' element={<TopTracks/>}/>
+            <Route path='/recommendations' element={<Recommendations/>}/>
           </Routes>
           </div>   
         </div>
