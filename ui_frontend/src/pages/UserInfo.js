@@ -3,6 +3,7 @@ import {DataCollectorRequest} from '../actions/authActions';
 import generateList from '../components/List';
 import { Flex } from "@tremor/react";
 import generateCard from '../components/Cart';
+import generateTextCard from '../components/TextCart';
 
 
 
