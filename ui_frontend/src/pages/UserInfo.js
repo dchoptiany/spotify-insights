@@ -6,7 +6,6 @@ import { Flex } from "@tremor/react";
 
 
 const UserInfo = ({user}) => {
-if(user){
   const [display, setDisplay] = useState(false)
   const [user_data, setData] = useState({});
 
@@ -60,7 +59,7 @@ useEffect(() => {
     
     
   );
-    }
+
 
 };
 
