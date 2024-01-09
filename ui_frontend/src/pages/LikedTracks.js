@@ -23,7 +23,8 @@ const LikedTracks = () => {
               return response.text();
             }) 
             .then(data => {
-              requestData = JSON.parse(data);
+                const cleanedData = data.replace(/"/g, '');
+                requestData = JSON.parse(atob(cleanedData));
               console.log(requestData);
      
               setUserData(requestData);
