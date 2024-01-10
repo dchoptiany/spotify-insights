@@ -129,7 +129,7 @@ function splitDataInfo(data) {
           return response.text();
         }) 
         .then(data => {
-          requestData = JSON.parse(atob(data));
+          requestData = JSON.parse(data);
           console.log(requestData);
  
           setData(requestData);
