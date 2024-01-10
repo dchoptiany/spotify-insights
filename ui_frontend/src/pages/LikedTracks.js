@@ -47,7 +47,7 @@ useEffect(() => {
   return (
       <div className="input-form-container">
       <div className="plots">
-        <div style={{padding:"4%"}}></div>
+        <div style={{padding:"3%"}}></div>
 
       <Flex justifyContent="center" alignItems="center">
 
@@ -66,6 +66,10 @@ useEffect(() => {
 
         {display && generateDonut({data: userData.top_genres, text: "Genres"})}
         {display && generateDonut({data: userData.top_decades, text: "Decades"})}
+        </Flex>
+
+        <Flex justifyContent="center" alignItems="center">
+
         {display && generateDonut({data: userData.top_artists, text: "Artists"})}
         </Flex>
 
