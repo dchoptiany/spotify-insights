@@ -49,7 +49,6 @@ router.get("/dataCollector", (req,res) =>{
 
 
 router.get("/dataSketches", (req,res) =>{
-  if(req.user){
 
         const apiEndpoint = req.headers.endpoint;
         const startDate = req.headers.startDate;
@@ -71,7 +70,7 @@ router.get("/dataSketches", (req,res) =>{
           res.redirect('/error');
         });
 
-  }
+  
 
 })  
 
