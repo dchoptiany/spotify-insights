@@ -41,10 +41,30 @@ const LikedTracks = () => {
      useEffect(() => {
         getData();
       }, []);
+
+
   return (
-      <div className='tab'>
+      <div className="input-form-container">
+      <div className='plots'>
+
+      <Flex justifyContent="center" alignItems="center">
+
+        {display && generateCard({data: userData.tracks_count, text: "Tracks count"}) }
+        {display && generateCard({data: userData.artists_count, text: "Artists count"}) }
+        {display && generateCard({data: userData.genres_count, text: "Genres count"}) }
+        {display && generateCard({data: userData.uniqueness, text: "Uniquness"}) }
+      </Flex>
+      
+
+        <Flex justifyContent="center" alignItems="center">
+
+        {display && generateDonut({data: userData.top_genres, text: "Genres"})}
+        {display && generateDonut({data: userData.top_decades, text: "Decades"})}
+        {display && generateDonut({data: userData.top_artists, text: "Artists"})}
+        </Flex>
 
         </div>
+    </div>
     
     
   );
