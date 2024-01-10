@@ -47,7 +47,7 @@ useEffect(() => {
   return (
       <div className="input-form-container">
       <div className="plots">
-        <div style={{padding:"5%"}}></div>
+        <div style={{padding:"4%"}}></div>
 
       <Flex justifyContent="center" alignItems="center">
 
