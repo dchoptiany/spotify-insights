@@ -16,6 +16,7 @@ const UrlAnalysis = () => {
   const [arrayData, setArrayData] = useState({});
   const [playlistInfo, setPlaylistData] = useState({});
   const [url_data, setData] = useState({});
+  const [image, setImage ] = useState('');
 
 
   const handleInputChange = (event) => {
@@ -100,11 +101,49 @@ function splitData(data) {
     }
   }
  setArrayData(arrayData);
+}
+
+function splitDataInfo(data) {
+  let playlistInfo = {};
+
+  for (const key in data) {
+    if (key === "name" || key === "owner" || key === "description") {
+      playlistInfo[key] = data[key];
+    }
+  }
  setPlaylistData(playlistInfo)
+ setImage(data.image)
 }
   
   
   const handleButtonClick =  () => {
+
+    try {
+      const spotifyAdressData = parseSpotifyUrl(textInput);
+      if(spotifyAdressData!=null){
+        const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/"+spotifyAdressData[0]+"/info?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
+        console.log(parsedSpotifyURL)
+        DataCollectorRequest(parsedSpotifyURL)
+        .then(response => {
+          console.log(response)
+          return response.text();
+        }) 
+        .then(data => {
+          requestData = JSON.parse(atob(data));
+          console.log(requestData);
+ 
+          setData(requestData);
+          splitDataInfo(requestData);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }else{
+      setDisplay(false)
+    }
+    } catch (error) {
+      console.error('Błąd podczas zapytania:', error);
+    }
 
    try {
      const spotifyAdressData = parseSpotifyUrl(textInput);
@@ -152,7 +191,7 @@ function splitData(data) {
       <div className='plots'>
 
       <Flex justifyContent="center" alignItems="center">
-      {display && <img src={url_data.image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
+      {display && <img src={image} style={{ width: '150px', height: '150px', marginRight: '2%' }} />}
         {display && generateList({ data: playlistInfo })}
       </Flex>
       <Flex justifyContent="center" alignItems="center">
