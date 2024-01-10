@@ -20,7 +20,7 @@ func GetTrendTracks(c *gin.Context) {
 	var spotifyPlaylist *spotify.FullPlaylist = nil
 	var spotifyArtist *spotify.FullArtist = nil
 	var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
-	var listOfDataPlaylist []models.DataSketchesPlaylist = make([]models.DataSketchesPlaylist, 0)
+	var listOfDataPlaylist models.DataSketchesPlaylistList = models.DataSketchesPlaylistList{make([]models.DataSketchesPlaylist, 0)}
 
 	// create client
 	// TODO: Change for token read from JSON #?
@@ -77,7 +77,7 @@ func GetTrendTracks(c *gin.Context) {
 			dataPlaylist.Tracks = append(dataPlaylist.Tracks, dataTrack)
 		}
 
-		listOfDataPlaylist = append(listOfDataPlaylist, dataPlaylist)
+		listOfDataPlaylist.Playlists = append(listOfDataPlaylist.Playlists, dataPlaylist)
 	}
 
 	// send dataPlaylist as JSON
