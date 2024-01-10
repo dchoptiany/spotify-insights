@@ -5,7 +5,7 @@ const generateProgressCircle=({data, text}) => (
       <div className="space-y-3">
       <Card className="max-w-sm mx-auto">
         <Flex className="space-x-5" justifyContent="center">
-          <ProgressCircle value={75} size="lg">
+          <ProgressCircle value={data} size="lg">
             <span className="text-xs text-gray-300 font-medium">{data}%</span>
             
           </ProgressCircle>
