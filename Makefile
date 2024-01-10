@@ -54,4 +54,4 @@ build_ui_passport_spotify_docker:
 
 all_bin: build_datacollector build_dataanalyser build_dataanalyser_api
 all_docker: build_datacollector_docker build_dataanalyser_docker build_dataanalyser_api_docker build_ui_frontend_docker build_ui_passport_spotify_docker
-all: all_bin all_docker
+all: clean_dataanalyser all_bin all_docker
