@@ -22,6 +22,7 @@ public:
 private:
     const static size_t DEFAULT_SKETCH_SIZE = 512;
     const static size_t NUMBER_OF_GENRES = 17;
+    const static size_t NUMBER_OF_DECADES = 11;
     const std::array<std::string, NUMBER_OF_GENRES> GENRES = 
     {
         "blues",
@@ -61,6 +62,20 @@ private:
         {"rap", "Rap"},
         {"rock", "Rock"},
         {"techno", "Techno"}
+    };
+    const std::array<std::string, NUMBER_OF_DECADES> DECADES = 
+    {
+        "20'",
+        "30'",
+        "40'",
+        "50'",
+        "60'",
+        "70'",
+        "80'",
+        "90'",
+        "2000'",
+        "2010'",
+        "2020'"
     };
 
     std::vector<std::string> split(const std::string& str, const std::string& delimeter);

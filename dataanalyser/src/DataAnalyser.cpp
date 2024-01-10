@@ -245,29 +245,51 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
 {
     sketches = std::map<SketchKey, FastExpSketch*>();
     std::map<SketchKey, std::vector<std::pair<unsigned, float>>> dataPairs;
+    std::vector<std::string> tags;
+    tags.reserve(NUMBER_OF_GENRES + NUMBER_OF_DECADES);
     for(const auto& genre : GENRES)
     {
-        SketchKey key = SketchKey(genre); // Creating key with current date and keyword
+        tags.push_back(genre);
+    }
+    for(const auto& decade : DECADES)
+    {
+        tags.push_back(decade);
+    }
+    for(const auto& tag : tags)
+    {
+        SketchKey key = SketchKey(tag); // Creating key with current date and tag
         sketches[key] = new FastExpSketch(DEFAULT_SKETCH_SIZE);
         dataPairs[key] = std::vector<std::pair<unsigned, float>>();
     }
     
     json j = json::parse(jsonInput);
-    json tracks = j["tracks"];
-    for(const auto& track : tracks)
+    json playlists = j["playlists"];
+    for(const auto& playlist : playlists)
     {
-        std::string id = track["id"];
-        std::string genre = track["genre"];
-        std::vector<std::string> genreKeywords = split(genre, " ");
-        for(const auto& keyword : genreKeywords)
+        json tracks = playlist["tracks"];
+        for(const auto& track : tracks)
         {
-            if(std::find(GENRES.begin(), GENRES.end(), keyword) == GENRES.end()) // Genre not stored in data sketches
+            std::string id = track["id"];
+            std::string genre = track["genre"];
+            std::string releaseDate = track["release_date"];
+            std::string decade = getDecade(releaseDate);
+
+            std::vector<std::string> genreKeywords = split(genre, " ");
+            for(const auto& keyword : genreKeywords)
             {
-                continue;
+                if(std::find(GENRES.begin(), GENRES.end(), keyword) != GENRES.end()) // If genre is tracked in data sketches
+                {
+                    SketchKey key = SketchKey(genre); // Creating key with current date and genre tag
+                    dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
+                }
             }
-            SketchKey key = SketchKey(genre); // Creating key with current date and keyword
-            dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
-        }        
+
+            if(std::find(DECADES.begin(), DECADES.end(), decade) != DECADES.end()) // If decade is tracked in data sketches
+            {
+                SketchKey key = SketchKey(decade); // Creating key with current date and decade tag
+                dataPairs[decade].push_back(std::make_pair(hash(id), 1.0));
+            }  
+        }
     }
 
     for(const auto& pair : dataPairs)
