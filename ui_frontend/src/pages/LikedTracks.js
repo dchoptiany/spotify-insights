@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Flex } from "@tremor/react";
 import { DataCollectorRequest } from '../actions/authActions';
+import generateDonut from '../components/DonutChart';
+import generateCard from '../components/Cart';
 
 
 
