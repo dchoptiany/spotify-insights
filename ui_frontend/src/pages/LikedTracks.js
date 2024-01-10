@@ -40,19 +40,23 @@ const LikedTracks = () => {
         }
       
      }
-     useEffect(() => {
-        getData();
-      }, []);
-
+useEffect(() => {
+   getData();
+ }, []);
 
   return (
       <div className="input-form-container">
-      <div className='plots'>
+      <div className="plots">
+        <div style={{padding:"5%"}}></div>
 
       <Flex justifyContent="center" alignItems="center">
 
         {display && generateCard({data: userData.tracks_count, text: "Tracks count"}) }
         {display && generateCard({data: userData.artists_count, text: "Artists count"}) }
+        </Flex>
+
+        <Flex justifyContent="center" alignItems="center">
+
         {display && generateCard({data: userData.genres_count, text: "Genres count"}) }
         {display && generateCard({data: userData.uniqueness, text: "Uniquness"}) }
       </Flex>
