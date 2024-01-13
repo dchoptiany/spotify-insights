@@ -29,3 +29,4 @@ yarn-error.log*
 
 scripts/secrets.env
 *.o
+dataanalyser/sketches/
