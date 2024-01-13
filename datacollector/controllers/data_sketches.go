@@ -150,7 +150,8 @@ func GetTrendTracks(c *gin.Context) {
 			return
 		}
 
-		for idx, track := range dataPlaylist.Tracks {
+		for idx := 0; idx < totalNumOfSpotifyTracks; idx++ {
+			track := dataPlaylist.Tracks[idx]
 			if len(spotifyArtists[idx].Genres) > 0 {
 				track.Genre = spotifyArtists[idx].Genres[0]
 			}
