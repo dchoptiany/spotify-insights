@@ -47,7 +47,7 @@ func UpdateDataSketches() error {
 
 	// update lastUpdateDateMidnight
 	currTime := time.Now()
-	lastUpdateDateMidnight = time.Date(currTime.Year(), currTime.Month(), currTime.Day(), 0, 0, 0, 0, nil)
+	lastUpdateDateMidnight = time.Date(currTime.Year(), currTime.Month(), currTime.Day(), 0, 0, 0, 0, time.UTC)
 
 	return nil
 }
