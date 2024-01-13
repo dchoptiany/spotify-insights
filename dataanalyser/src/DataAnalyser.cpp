@@ -198,9 +198,6 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
     do
     {
         labels.push_back(formatDate(currentDate));
-        currentDate.tm_mday++;
-        std::mktime(&currentDate);
-
         for(const auto& genre : GENRES)
         {
             SketchKey key(genre, currentDate);
@@ -208,11 +205,9 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
             if(file.good())
             {
                 std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
-                float value;
                 for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
                 {
-                    file >> value;
-                    values[i] = value;
+                    file >> values[i];
                 }
                 FastExpSketch sketch = FastExpSketch(values);
                 float cardinality = sketch.estimateCardinality();
@@ -223,6 +218,9 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
                 pairs[DISPLAYABLE_GENRES.at(genre)].push_back(0);
             }
         }
+
+        currentDate.tm_mday++;
+        std::mktime(&currentDate);
     } while(currentDate.tm_year != endDate.tm_year || currentDate.tm_mon != endDate.tm_mon || currentDate.tm_mday != endDate.tm_mday);
 
     json result;
@@ -279,7 +277,7 @@ void DataAnalyser::updateDataSketches(const std::string& jsonInput)
             {
                 if(std::find(GENRES.begin(), GENRES.end(), keyword) != GENRES.end()) // If genre is tracked in data sketches
                 {
-                    SketchKey key = SketchKey(genre); // Creating key with current date and genre tag
+                    SketchKey key = SketchKey(keyword); // Creating key with current date and genre keyword tag
                     dataPairs[key].push_back(std::make_pair(hash(id), 1.0));
                 }
             }
