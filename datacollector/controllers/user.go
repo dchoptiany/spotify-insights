@@ -62,6 +62,9 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		} else {
+			var artistIDs []spotify.ID = make([]spotify.ID, 0)
+			var spotifyArtists []*spotify.FullArtist
+
 			// create playlistForAnalysis
 			for _, st := range savedTrackPage.Tracks {
 				// create trackForAnalysis
@@ -79,16 +82,8 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 					track.Artists = append(track.Artists, artist)
 				}
 
-				// get track's artist's full info
-				spotifyArtist, err := spotifyClient.GetArtist(context.Background(), spotify.ID(track.Artists[0].ID))
-				if err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				}
-
-				// genre
-				if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
-					track.Genre = spotifyArtist.Genres[0]
-				}
+				// add artist's ID to slice
+				artistIDs = append(artistIDs, st.Artists[0].ID)
 
 				// release date
 				track.Release_date = st.Album.ReleaseDate
@@ -116,6 +111,22 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 				playlistForAnalysis.Tracks = append(playlistForAnalysis.Tracks, track)
 			}
 
+			spotifyArtists, err = spotifyClient.GetArtists(context.Background(), artistIDs...)
+			if err != nil {
+				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			}
+
+			for i := 0; i < len(spotifyArtists); i++ {
+				// get track's artist's full info
+				spotifyArtist := spotifyArtists[i]
+
+				// genre
+				track := playlistForAnalysis.Tracks[i]
+				if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
+					track.Genre = spotifyArtist.Genres[0]
+				}
+			}
+
 			// send playlistForAnalysis as JSON
 			c.JSON(http.StatusOK, playlistForAnalysis)
 		}
@@ -139,9 +150,6 @@ func GetUsersTopArtists(c *gin.Context) {
 
 		if timeRange_ok {
 			// get user's top artists
-
-			//spotifyOptions := spotify.Options{Timerange: &timeRange}
-			//spotifyArtistArr, err := spotifyClient.CurrentUsersTopArtistsOpt(&spotifyOptions)
 
 			options := spotify.Timerange(spotify.Range(timeRange))
 			spotifyArtistArr, err := spotifyClient.CurrentUsersTopArtists(context.Background(), options)

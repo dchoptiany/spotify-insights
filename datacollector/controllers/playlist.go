@@ -85,7 +85,6 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 	var token oauth2.Token
 
 	var spotifyPlaylist *spotify.FullPlaylist = nil
-	var spotifyArtist *spotify.FullArtist = nil
 	var spotifyAudioFeaturesArr []*spotify.AudioFeatures = nil
 	var spotifyAudioFeatures *spotify.AudioFeatures = nil
 
@@ -107,6 +106,7 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			} else {
+				var artistIDs []spotify.ID = make([]spotify.ID, 0)
 				totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
 
 				// playlist's tracks
@@ -132,16 +132,8 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 						track.Artists = append(track.Artists, artist)
 					}
 
-					// get track's artist's full info
-					spotifyArtist, err = spotifyClient.GetArtist(context.Background(), spotify.ID(track.Artists[0].ID))
-					if err != nil {
-						c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-					}
-
-					// genre
-					if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
-						track.Genre = spotifyArtist.Genres[0]
-					}
+					// add artist's ID to slice
+					artistIDs = append(artistIDs, spotifyTrack.Artists[0].ID)
 
 					// release date
 					track.Release_date = spotifyTrack.Album.ReleaseDate
@@ -167,6 +159,23 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 
 					// add tracks to playlistForAnalysis
 					playlistForAnalysis.Tracks = append(playlistForAnalysis.Tracks, track)
+				}
+
+				var spotifyArtists []*spotify.FullArtist
+				spotifyArtists, err = spotifyClient.GetArtists(context.Background(), artistIDs...)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				}
+
+				for i := 0; i < len(spotifyArtists); i++ {
+					// get track's artist's full info
+					spotifyArtist := spotifyArtists[i]
+
+					// genre
+					track := playlistForAnalysis.Tracks[i]
+					if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
+						track.Genre = spotifyArtist.Genres[0]
+					}
 				}
 
 				// send playlistForAnalysis as JSON
