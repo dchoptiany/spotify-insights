@@ -14,14 +14,11 @@ import (
 
 const PlaylistsFilename = config.TopPlaylistsIDFile
 
-var maximalCapacity int = 50
-
 func GetTrendTracks(c *gin.Context) {
 	var err error
 	var client models.Client
 	var spotifyPlaylist *spotify.FullPlaylist = nil
 	var spotifyArtists []*spotify.FullArtist
-	var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
 	var listOfDataPlaylist models.DataSketchesPlaylistList = models.DataSketchesPlaylistList{make([]models.DataSketchesPlaylist, 0)}
 
 	// create client
@@ -46,10 +43,11 @@ func GetTrendTracks(c *gin.Context) {
 		}
 
 		var artistsIDs []spotify.ID = make([]spotify.ID, 0)
+		var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
 
 		totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
-		if totalNumOfSpotifyTracks > maximalCapacity {
-			totalNumOfSpotifyTracks = maximalCapacity
+		if totalNumOfSpotifyTracks > config.MaximalArtistsCapacity {
+			totalNumOfSpotifyTracks = config.MaximalArtistsCapacity
 		}
 
 		// playlist's tracks
@@ -61,11 +59,11 @@ func GetTrendTracks(c *gin.Context) {
 			// playlist's track
 			spotifyTrack := spotifyTrackArr[i].Track
 
-			// id
-			dataTrack.ID = string(spotifyTrack.ID)
-
 			// add artist's ID to slice
 			artistsIDs = append(artistsIDs, spotifyTrack.Artists[0].ID)
+
+			// id
+			dataTrack.ID = string(spotifyTrack.ID)
 
 			// release date
 			dataTrack.Release_date = spotifyTrack.Album.ReleaseDate
@@ -81,7 +79,7 @@ func GetTrendTracks(c *gin.Context) {
 		}
 
 		for idx := 0; idx < totalNumOfSpotifyTracks; idx++ {
-			track := dataPlaylist.Tracks[idx]
+			track := &dataPlaylist.Tracks[idx]
 			if len(spotifyArtists[idx].Genres) > 0 {
 				track.Genre = spotifyArtists[idx].Genres[0]
 			}

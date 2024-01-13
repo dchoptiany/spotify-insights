@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"net/http"
+	"spotify_insights/datacollector/config"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
@@ -63,7 +64,6 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		} else {
 			var artistIDs []spotify.ID = make([]spotify.ID, 0)
-			var spotifyArtists []*spotify.FullArtist
 
 			// create playlistForAnalysis
 			for _, st := range savedTrackPage.Tracks {
@@ -111,20 +111,36 @@ func GetUsersSavedTracksForAnalysis(c *gin.Context) {
 				playlistForAnalysis.Tracks = append(playlistForAnalysis.Tracks, track)
 			}
 
-			spotifyArtists, err = spotifyClient.GetArtists(context.Background(), artistIDs...)
-			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			}
-
-			for i := 0; i < len(spotifyArtists); i++ {
-				// get track's artist's full info
-				spotifyArtist := spotifyArtists[i]
-
-				// genre
-				track := playlistForAnalysis.Tracks[i]
-				if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
-					track.Genre = spotifyArtist.Genres[0]
+			var offset int = 0
+			for len(artistIDs) > 0 {
+				tmpArtistIDs := make([]spotify.ID, 0)
+				if len(artistIDs) > config.MaximalArtistsCapacity {
+					tmpArtistIDs = append(tmpArtistIDs, artistIDs[:50]...)
+					artistIDs = artistIDs[50:]
+				} else {
+					tmpArtistIDs = append(tmpArtistIDs, artistIDs...)
+					artistIDs = artistIDs[:0]
 				}
+
+				var spotifyArtists []*spotify.FullArtist
+				spotifyArtists, err = spotifyClient.GetArtists(context.Background(), tmpArtistIDs...)
+				if err != nil {
+					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+				}
+
+				for i := 0; i < len(spotifyArtists); i++ {
+					idx := config.MaximalArtistsCapacity*offset + i
+					// get track's artist's full info
+					spotifyArtist := spotifyArtists[i]
+
+					// genre
+					track := &playlistForAnalysis.Tracks[idx]
+					if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
+						track.Genre = spotifyArtist.Genres[0]
+					}
+				}
+
+				offset += 1
 			}
 
 			// send playlistForAnalysis as JSON
