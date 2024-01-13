@@ -12,7 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var lastUpdateDateMidnight time.Time
+var lastUpdateDateMidnight time.Time = time.Time{}
 
 func UpdateDataSketches() error {
 	client := &http.Client{}
