@@ -9,6 +9,12 @@ else
     RM = rm -rf
 endif
 
+ifeq ($(OS),Windows_NT)
+	MK_SKETCHES = if not exist $(SKETCHES_DIR) mkdir $(SKETCHES_DIR)
+else
+    MK_SKETCHES = mkdir -p $(SKETCHES_DIR)
+endif
+
 # Directories
 INCLUDE_DIR = include
 SRC_DIR = src
@@ -55,8 +61,8 @@ $(BUILD_DIR)/%.o: $(TEST_DIR)/%.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -c -I$(INCLUDE_DIR) $< -o $@
 
 sketches:
-	if not exist $(SKETCHES_DIR) mkdir $(SKETCHES_DIR)
-
+	$(MK_SKETCHES)
+	
 directories:
 	mkdir $(BUILD_DIR) $(BIN_DIR)
 
