@@ -6,14 +6,18 @@
 class SketchKey
 {
 public:
+    SketchKey(const std::string& tag, unsigned day, unsigned month, unsigned year);
+    SketchKey(const std::string& tag, std::tm tm);
+    SketchKey(const std::string& tag);
+    std::string toString() const;
+    bool operator <(const SketchKey& rhs) const;
+    bool operator ==(const SketchKey& rhs) const;
+
+private:
     std::string tag;
     unsigned day;
     unsigned month;
     unsigned year;
-    SketchKey(const std::string& tag);
-    SketchKey(const std::string& tag, unsigned day, unsigned month, unsigned year);
-    SketchKey(const std::string& tag, std::tm tm);
-    bool operator <(const SketchKey& rhs) const;
-    bool operator ==(const SketchKey& rhs) const;
-    std::string toString() const;
+
+    void setDate(std::tm tm);
 };
