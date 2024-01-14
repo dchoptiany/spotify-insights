@@ -9,6 +9,7 @@ import UserInfo from './pages/UserInfo';
 import TopArtists from './pages/TopArtists';
 import TopTracks from './pages/TopTracks';
 import Recommendations from './pages/Recommendations';
+import Error from './pages/Error';
 
 import {
   BrowserRouter,
