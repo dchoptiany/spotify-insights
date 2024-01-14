@@ -347,6 +347,19 @@ body {
   background-color: rgb(52, 52, 54);
 }
 
+.plots_liked{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 0.1%;
+  height: 100%;
+  margin-left: 7%;
+}
+
 .plots {
   text-align: center;
   display: flex;

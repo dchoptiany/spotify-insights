@@ -62,7 +62,7 @@ function App() {
             <Route path='/topTracks' element={user? <TopTracks/>:<Overview/>}/>
             <Route path='/recommendations' element={user? <Recommendations/>:<Overview/>}/>
             <Route path='/likedTracks' element={user? <LikedTracks/>:<Overview/>}/>
-            
+            <Route path='/error' element={<Error/>}/>
           </Routes>
           </div>   
         </div>

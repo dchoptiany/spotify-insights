@@ -18,7 +18,7 @@ const customTooltip = ({ payload, active, label }) => {
 const generateBarChart = ({ data, category, category_name }) => {
     const str = category_name.toString()
     const length = data.length
-    const transformedData = data.map(([label, value]) => ({ first: label ,second:  -1*(value-length-1)}));
+    const transformedData = data.map(([label, value]) => ({ first: label ,second: value}));
 
     const formattedCategory = category.replace(/_/g, ' ');
 
@@ -28,11 +28,9 @@ const generateBarChart = ({ data, category, category_name }) => {
         <Title style={{ padding: '7px' }}>{formattedCategory}</Title> 
        <BarChart
          data={transformedData}
-         className="h-72"
          colors={["green"]}
          categories={["second"]}
          index="first"  
-         showYAxis={false}
          showLegend={false}
          showAnimation={true}
          startEndOnly= {true}	
