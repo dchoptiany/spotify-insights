@@ -2,9 +2,8 @@ import { DonutChart, Card, Title } from "@tremor/react";
 import React from "@tremor/react";
 
 const generateDonut = ({ data, text }) => {
-  // Sprawdź, czy dane są dostępne
   if (!data || data.length === 0) {
-    return null; // Jeśli dane są puste, nie generuj DonutChart
+    return null; 
   }
 
   const transformedData = data.map(([label, value]) => ({
