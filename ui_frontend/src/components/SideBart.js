@@ -3,15 +3,20 @@ import { Link } from "react-router-dom";
 
 
 
+function logInAlert() {
+      alert("You need to log in");
+  
+}
+
 const sidebarItems = [
   [
-    { id: '0', title: 'Overview', url: "/" },
-    { id: '1', title: 'Global trends', url: "/globalTrends" },
-    { id: '2', title: 'Analyse URL', url: "/urlAnalysis" },
-    { id: '3', title: 'Top Artists', url: "/topArtists" },
-    { id: '4', title: 'Top Tracks', url: "/topTracks" },
-    { id: '5', title: 'Recommendations', url: "/recommendations" },
-    { id: '6', title: 'Liked tracks', url: "/likedTracks" },
+    { id: '0', title: 'Overview', url: "/" ,user_needed : false},
+    { id: '1', title: 'Global trends', url: "/globalTrends",user_needed : false },
+    { id: '2', title: 'Analyse URL', url: "/urlAnalysis" ,user_needed : true},
+    { id: '3', title: 'Top Artists', url: "/topArtists",user_needed : true },
+    { id: '4', title: 'Top Tracks', url: "/topTracks",user_needed : true },
+    { id: '5', title: 'Recommendations', url: "/recommendations",user_needed : true },
+    { id: '6', title: 'Liked tracks', url: "/likedTracks", user_needed : true },
   ],
 
 ];
@@ -34,6 +39,7 @@ function Sidebar({user}) {
             item={i}
             onClick={setSelected}
             selected={selected}
+            user = {user}
           />
         ))}
         <UserData user={user}/>
@@ -60,7 +66,8 @@ function UserData({ user }) {
   );
 }
 
-function MenuItem({ item: { id, title, url }, onClick, selected }) {
+function MenuItem({ item: { id, title, url, user_needed }, onClick, selected, user }) {
+  if(!user_needed){
     return (
       <Link  to={url}>
         <div>
@@ -68,6 +75,20 @@ function MenuItem({ item: { id, title, url }, onClick, selected }) {
         </div>
       </Link>
     );
+  }
+  else{
+    if(user){
+      <Link  to={url}>
+      <div>
+        <div className="sidebar-item">{title}</div>
+      </div>
+    </Link>
+    }
+    else{
+      <div className="sidebar-item" onClick={logInAlert}>{title}</div>
+    }
+  }
+    
   }
 
 export default Sidebar
