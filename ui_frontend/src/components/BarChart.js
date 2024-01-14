@@ -27,15 +27,19 @@ const generateBarChart = ({ data, category, category_name }) => {
         
         <Title style={{ padding: '7px' }}>{formattedCategory}</Title> 
        <BarChart
+          className="mt-6"
          data={transformedData}
          colors={["green"]}
          categories={["second"]}
          index="first"  
+         layout="horizontal"
          showLegend={false}
          showAnimation={true}
-         startEndOnly= {true}	
          customTooltip={customTooltip}
-
+         showXAxis = {true}
+         rotateLabelX={{
+          angle: 30
+        }}
         />
      </Card>
    );
