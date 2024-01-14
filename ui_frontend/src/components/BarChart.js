@@ -38,7 +38,7 @@ const generateBarChart = ({ data, category, category_name }) => {
          customTooltip={customTooltip}
          showXAxis = {true}
          rotateLabelX={{
-          angle: 8,
+          angle: 30,
           verticalShift: 15,
         }}
         />
