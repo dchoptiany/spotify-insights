@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
+import {logout} from "../actions/authActions"
+
 
 
 
@@ -61,7 +63,9 @@ function UserData({ user }) {
   }
   return (
     <div className="userData">
-        <Link className = "link" to="/user_info">{user.displayName}</Link>    
+        <Link className = "link" to="/user_info">{user.displayName}</Link>  
+        <div style={{paddingTop:"1%"}}></div> 
+        <li className="link" onClick={logout}>Logout</li>
     </div>
   );
 }
@@ -78,15 +82,17 @@ function MenuItem({ item: { id, title, url, user_needed }, onClick, selected, us
   }
   else{
     if(user){
+      return (
       <Link  to={url}>
       <div>
         <div className="sidebar-item">{title}</div>
       </div>
     </Link>
+      );
     }
-    else{
+    return (
       <div className="sidebar-item" onClick={logInAlert}>{title}</div>
-    }
+    );
   }
     
   }
