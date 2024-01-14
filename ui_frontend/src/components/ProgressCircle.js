@@ -1,7 +1,7 @@
 import { Card, Flex, Text, ProgressCircle } from "@tremor/react";
 
 const generateProgressCircle=({data, text}) => (
-    <div className="space-y-10" style={{margin:"1%"}}>
+    <div className="barList" style={{margin:"1%"}}>
       <div className="space-y-3">
       <Card className="max-w-sm mx-auto">
         <Flex className="space-x-5" justifyContent="center">

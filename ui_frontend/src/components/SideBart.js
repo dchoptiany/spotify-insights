@@ -65,7 +65,7 @@ function UserData({ user }) {
     <div className="userData">
         <Link className = "link" to="/user_info">{user.displayName}</Link>  
         <div style={{paddingTop:"1%"}}></div> 
-        <div className="link" onClick={logout}>Logout</div>
+        <div className="sidebar-item" onClick={logout}>Logout</div>
     </div>
   );
 }
