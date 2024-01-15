@@ -49,7 +49,6 @@ router.get("/dataCollector", (req,res) =>{
 
 
 router.get("/dataSketches", (req,res) =>{
-      console.log("data Sketches")
         const apiEndpoint = req.headers.endpoint;
         const startDate = req.headers.startDate;
         const endDate = req.headers.endDate;
@@ -60,8 +59,6 @@ router.get("/dataSketches", (req,res) =>{
             "end_date" : endDate
           
         })
-
-        console.log(jsonData)
         
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
           res.status(200)
