@@ -37,6 +37,7 @@ const formatDate = (dateString) => {
        if(startDate!="" && endDate!="" ){
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
        .then(response => {
+        console.log("response recieved")
          console.log(response)
          return response.text()
        }) 
