@@ -383,6 +383,9 @@ body {
   border-right: 2px solid transparent;
   font-size:20px;
   margin-bottom: 2%;
+  max-width: 100%; 
+  overflow: hidden;
+  white-space: nowrap;
 
 }
 .sidebar-item:hover {
