@@ -49,13 +49,13 @@ router.get("/dataCollector", (req,res) =>{
 
 
 router.get("/dataSketches", (req,res) =>{
-
+      console.log("data Sketches")
         const apiEndpoint = req.headers.endpoint;
         const startDate = req.headers.startDate;
         const endDate = req.headers.endDate;
 
 
-        jsonData= JSON.stringify({
+        const jsonData= JSON.stringify({
             "start_date" : startDate,
             "end_date" : endDate
           
