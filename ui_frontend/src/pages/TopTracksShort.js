@@ -7,9 +7,7 @@ import AudioPlayer from './AudioPlayer';
 const TopTracksShort = ({term}) => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
-    tracks: [
-      // Your array of artists here
-    ]
+    tracks: []
   });
   let requestData=""
 

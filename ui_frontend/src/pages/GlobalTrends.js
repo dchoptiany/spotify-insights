@@ -11,11 +11,8 @@ const GlobalTrends = () => {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [display, setDisplay] = useState(false);
-    const [url_data, setData] = useState({});
+    const [sketches_data, setData] = useState({});
     
-
-  
-let exampleData=[]
 
 const handleSubmit = ()=>{
 
@@ -33,7 +30,7 @@ const formatDate = (dateString) => {
  const handleButtonClick =  () => {
    try {
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
-       DataSketchesRequest(parsedSpotifyURL, formatDate(startDate), formatDate(endDate))
+       DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
        .then(response => {
          console.log(response)
          return response.text()
@@ -86,7 +83,7 @@ const formatDate = (dateString) => {
       
       <div className='plots'>
         <Flex justifyContent="center" alignItems="center" width="50%">
-          {display && generateLineChart({ data: exampleData, text: "Global trends" })}
+          {display && generateLineChart({ data: sketches_data, text: "Global trends" })}
         </Flex>
       </div>
     </div>

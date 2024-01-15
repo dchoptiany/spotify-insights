@@ -7,27 +7,13 @@ import AudioPlayer from './AudioPlayer';
 const Recommendations = () => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
-    tracks: [
-      // Your array of artists here
-    ]
+    tracks: []
   });
 
   let requestData=""
 
-  //const readFromFile = async () => {
-  //  try {
-//
-  //    setUserData(user_data);
-  //    setDisplay(true);
-  //  } catch (error) {
-  //    console.error('Błąd odczytu pliku:', error);
-  //  }
-  //};
-//
-  //useEffect(() => {
-  //  readFromFile();
-  //}, []);
-//
+
+
 const getData =  () => {
 
     try {
