@@ -23,6 +23,9 @@ const formatDate = (dateString) => {
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
+  if(date == NaN){
+    return "";
+  }
 
   return `${day}-${month}-${year}`;
 };
@@ -31,6 +34,7 @@ const formatDate = (dateString) => {
    try {
     console.log("done");
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
+       if(startDate!="" && endDate!="" ){
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
        .then(response => {
          console.log(response)
@@ -48,10 +52,12 @@ const formatDate = (dateString) => {
  
  
        })
+      
        .catch(error => {
          console.log(error);
          setDisplay(false);
        });
+      }
    } catch (error) {
      console.error('Błąd podczas zapytania:', error);
    }
