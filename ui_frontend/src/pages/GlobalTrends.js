@@ -23,7 +23,7 @@ const formatDate = (dateString) => {
   const day = date.getDate().toString().padStart(2, '0');
   const month = (date.getMonth() + 1).toString().padStart(2, '0');
   const year = date.getFullYear();
-  if(date == NaN){
+  if(day == NaN){
     return "";
   }
 
@@ -76,7 +76,6 @@ const formatDate = (dateString) => {
  return (
     <div className="input-form-container">
 
-      <form  className='form'>
       <Flex justifyContent="center" alignItems="center" width="50%">
       <DateRangePicker 
         className="datePicker" 
@@ -89,7 +88,6 @@ const formatDate = (dateString) => {
       <Flex justifyContent="center" alignItems="center" width="50%">
         <Button onClick={handleButtonClick} text="Submit" />
         </Flex>
-      </form>
       
       <div className='plots'>
         <Flex justifyContent="center" alignItems="center" width="50%">
