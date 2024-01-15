@@ -44,6 +44,7 @@ export const DataCollectorRequest = (endpoint) => {
 
 
 export const DataSketchesRequest = (endpoint,startDate, endDate) => {  
+  console.log(endpoint)
   return fetch("http://aws_hostname:8000/api/dataSketches", {
     method: 'GET',
     credentials: "include",
