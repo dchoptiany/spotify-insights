@@ -10,7 +10,8 @@ COPY _build/dataanalyser_api-${VERSION} dataanalyser_api-${VERSION}
 #COPY --from=spotify-insights-dataanalyser:latest /spotify-insights/dataanalyser/* .
 COPY --from=spotify-insights-dataanalyser:latest /spotify-insights/dataanalyser/bin bin
 COPY docker/entrypoint.sh entrypoint.sh
+COPY docker/sync_sketches.sh sync_sketches.sh
 RUN apt-get update
-RUN apt-get install -y ca-certificates iproute2
+RUN apt-get install -y ca-certificates iproute2 jq curl
 RUN ln -s dataanalyser_api-${VERSION} dataanalyser_api
 CMD [ "/spotify-insights/dataanalyser_api/entrypoint.sh" ]
