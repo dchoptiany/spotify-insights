@@ -29,6 +29,7 @@ const formatDate = (dateString) => {
 
  const handleButtonClick =  () => {
    try {
+    console.log("done");
        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
        DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
        .then(response => {
@@ -59,7 +60,9 @@ const formatDate = (dateString) => {
 
   const updateDates = ({start,end})=>{
     setStartDate(start)
+    console.log(start)
     setEndDate(end)
+    console.log(end)
   }
 
   
