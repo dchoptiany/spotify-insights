@@ -26,20 +26,20 @@ build_datacollector_docker: build_datacollector
 	docker build --build-arg VERSION=$(VERSION) -t spotify-insights-datacollector:$(VERSION) -f $(datacollector_dir)/docker/Dockerfile $(datacollector_dir)
 	docker tag spotify-insights-datacollector:$(VERSION) spotify-insights-datacollector:latest
 
-build_dataanalyser:
+build_dataanalyser: clean_dataanalyser
 	cd dataanalyser && make all
 
 clean_dataanalyser:
 	cd dataanalyser && make clean
 
-build_dataanalyser_docker: build_dataanalyser
+build_dataanalyser_docker: clean_dataanalyser build_dataanalyser
 	docker build --build-arg VERSION=$(VERSION) -t spotify-insights-dataanalyser:$(VERSION) -f $(dataanalyser_dir)/docker/Dockerfile $(dataanalyser_dir)
 	docker tag spotify-insights-dataanalyser:$(VERSION) spotify-insights-dataanalyser:latest
 
 build_dataanalyser_api:
 	GOARCH=amd64 GOOS=linux go build -o $(dataanalyser_api_build)/$(dataanalyser_api_bin)-$(VERSION) $(dataanalyser_api_dir)/main.go
 
-build_dataanalyser_api_docker: build_dataanalyser_api build_dataanalyser_docker
+build_dataanalyser_api_docker: clean_dataanalyser build_dataanalyser_api build_dataanalyser_docker
 	docker build --build-arg VERSION=$(VERSION) -t spotify-insights-dataanalyser_api:$(VERSION) -f $(dataanalyser_api_dir)/docker/Dockerfile $(dataanalyser_api_dir)
 	docker tag spotify-insights-dataanalyser_api:$(VERSION) spotify-insights-dataanalyser_api:latest
 
@@ -54,4 +54,4 @@ build_ui_passport_spotify_docker:
 
 all_bin: build_datacollector build_dataanalyser build_dataanalyser_api
 all_docker: build_datacollector_docker build_dataanalyser_docker build_dataanalyser_api_docker build_ui_frontend_docker build_ui_passport_spotify_docker
-all: clean_dataanalyser all_bin all_docker
+all: all_bin all_docker

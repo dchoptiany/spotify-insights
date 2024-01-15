@@ -6,6 +6,7 @@
 #include <bitset>
 #include <numeric>
 #include <fstream>
+#include <cstdlib>
 
 FastExpSketch::FastExpSketch(size_t size)
 {
@@ -18,24 +19,6 @@ FastExpSketch::FastExpSketch(const std::vector<float>& values)
     this->size = values.size();
     this->M = values;
     this->maxValue = *std::max_element(values.begin(), values.end());
-}
-
-// Data sketch initialization
-void FastExpSketch::initialize()
-{
-    permInit = std::vector<unsigned>(size);
-    for (unsigned i = 0; i < size; i++)
-    {
-        permInit[i] = i + 1;
-    }
-
-    M = std::vector<float>(size);
-    for(size_t i = 0; i < size; i++)
-    {
-        M[i] = std::numeric_limits<float>::infinity();
-    }
-
-    maxValue = std::numeric_limits<float>::infinity();
 }
 
 template <typename T>
@@ -55,6 +38,23 @@ float FastExpSketch::hash(unsigned i, unsigned k, unsigned seed = 17)
     std::string concatHash = bitsetI.to_string() + bitsetK.to_string() + bitsetSeed.to_string();
     std::hash<std::string> hash{};
     return static_cast<float>((hash(concatHash)) / pow(2, 8 * sizeof(size_t)));
+}
+
+
+// Function calculating estimation of the sketch cardinality
+float FastExpSketch::estimateCardinality()
+{
+    float sum = 0.0;
+    for(const auto& value : M)
+    {
+        sum += value;
+    }
+
+    if(sum == 0.0)
+    {
+        return 0.0;
+    }
+    return (float)(size - 1) / sum;
 }
 
 // Function updating data sketch on arrival of pair (i, lambda)
@@ -102,28 +102,38 @@ void FastExpSketch::update(unsigned i, float lambda)
     }
 }
 
-// Function calculating estimation of the sketch cardinality
-float FastExpSketch::estimateCardinality()
-{
-    float sum = 0.0;
-    for(const auto& value : M)
-    {
-        sum += value;
-    }
-
-    if(sum == 0.0)
-    {
-        return 0.0;
-    }
-    return (float)(size - 1) / sum;
-}
-
 // Saves data sketch to text file with every value from M vector in separate line
 void FastExpSketch::saveToFile(const std::string& filename)
 {
-    std::fstream file("../sketches/" + filename, std::ios::out);
+    const char* sketches_path = std::getenv("SKETCHES");
+    std::string _sketches;
+    if (sketches_path != NULL) {
+        _sketches = sketches_path;
+    } else {
+        _sketches = "../sketches/";
+    }
+
+    std::fstream file(_sketches + filename, std::ios::out);
     for(const auto& value : M)
     {
         file << value << "\n";
     }
+}
+
+// Data sketch initialization
+void FastExpSketch::initialize()
+{
+    permInit = std::vector<unsigned>(size);
+    for (unsigned i = 0; i < size; i++)
+    {
+        permInit[i] = i + 1;
+    }
+
+    M = std::vector<float>(size);
+    for(size_t i = 0; i < size; i++)
+    {
+        M[i] = std::numeric_limits<float>::infinity();
+    }
+
+    maxValue = std::numeric_limits<float>::infinity();
 }

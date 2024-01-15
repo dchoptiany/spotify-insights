@@ -3,11 +3,11 @@ package config
 const (
 	SpotifyInsightsRootDir = "/spotify-insights"
 
-	AnalyseGlobalTrendsBinary = SpotifyInsightsRootDir + "/dataanalyser_api/AnalyseGlobalTrends"
-	AnalysePlaylistBinary     = SpotifyInsightsRootDir + "/dataanalyser_api/AnalysePlaylist"
-	AnalyseProfileBinary      = SpotifyInsightsRootDir + "/dataanalyser_api/AnalyseProfile"
-	UpdateDataSketchesBinary  = SpotifyInsightsRootDir + "/dataanalyser_api/UpdateDataSketches"
-	DataAnalyserTestsBinary   = SpotifyInsightsRootDir + "/dataanalyser_api/DataAnalyserTests"
+	AnalyseGlobalTrendsBinary = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalyseGlobalTrends"
+	AnalysePlaylistBinary     = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalysePlaylist"
+	AnalyseProfileBinary      = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalyseProfile"
+	UpdateDataSketchesBinary  = SpotifyInsightsRootDir + "/dataanalyser_api/bin/UpdateDataSketches"
+	DataAnalyserTestsBinary   = SpotifyInsightsRootDir + "/dataanalyser_api/bin/DataAnalyserTests"
 
 	DataAnalyserTmpFiles = SpotifyInsightsRootDir + "/dataanalyser_api/tmp"
 

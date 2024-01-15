@@ -9,12 +9,19 @@ else
     RM = rm -rf
 endif
 
+ifeq ($(OS),Windows_NT)
+	MK_SKETCHES = if not exist $(SKETCHES_DIR) mkdir $(SKETCHES_DIR)
+else
+    MK_SKETCHES = mkdir -p $(SKETCHES_DIR)
+endif
+
 # Directories
 INCLUDE_DIR = include
 SRC_DIR = src
 TEST_DIR = test
 BUILD_DIR = build
 BIN_DIR = bin
+SKETCHES_DIR = sketches
 
 # Files
 HEADERS = $(wildcard $(INCLUDE_DIR)/*.hpp)
@@ -30,7 +37,7 @@ ANALYSE_GLOBAL_EXECUTABLE = $(BIN_DIR)/AnalyseGlobalTrends
 UPDATE_DATA_SKETCHES_EXECUTABLE = $(BIN_DIR)/UpdateDataSketches
 
 # Targets
-all: directories $(ANALYSE_PLAYLIST_EXECUTABLE) $(ANALYSE_PROFILE_EXECUTABLE) $(ANALYSE_GLOBAL_EXECUTABLE) $(UPDATE_DATA_SKETCHES_EXECUTABLE) $(TEST_EXECUTABLE) 
+all: sketches directories $(ANALYSE_PLAYLIST_EXECUTABLE) $(ANALYSE_PROFILE_EXECUTABLE) $(ANALYSE_GLOBAL_EXECUTABLE) $(UPDATE_DATA_SKETCHES_EXECUTABLE) $(TEST_EXECUTABLE) 
 
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -c -I$(INCLUDE_DIR) $< -o $@
@@ -53,6 +60,9 @@ $(TEST_EXECUTABLE): $(TEST_OBJECTS) $(COMMON_OBJECTS)
 $(BUILD_DIR)/%.o: $(TEST_DIR)/%.cpp $(HEADERS)
 	$(CC) $(CFLAGS) -c -I$(INCLUDE_DIR) $< -o $@
 
+sketches:
+	$(MK_SKETCHES)
+	
 directories:
 	mkdir $(BUILD_DIR) $(BIN_DIR)
 

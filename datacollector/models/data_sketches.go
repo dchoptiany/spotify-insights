@@ -9,3 +9,7 @@ type DataSketchesTrack struct {
 type DataSketchesPlaylist struct {
 	Tracks []DataSketchesTrack `json:"tracks"`
 }
+
+type DataSketchesPlaylistList struct {
+	Playlists []DataSketchesPlaylist `json:"playlists"`
+}

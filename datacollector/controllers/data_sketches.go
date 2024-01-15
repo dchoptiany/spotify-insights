@@ -18,12 +18,10 @@ func GetTrendTracks(c *gin.Context) {
 	var err error
 	var client models.Client
 	var spotifyPlaylist *spotify.FullPlaylist = nil
-	var spotifyArtist *spotify.FullArtist = nil
-	var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
-	var listOfDataPlaylist []models.DataSketchesPlaylist = make([]models.DataSketchesPlaylist, 0)
+	var spotifyArtists []*spotify.FullArtist
+	var listOfDataPlaylist models.DataSketchesPlaylistList = models.DataSketchesPlaylistList{make([]models.DataSketchesPlaylist, 0)}
 
 	// create client
-	// TODO: Change for token read from JSON #?
 	client = models.CreateClient()
 	spotifyClient := client.SpotifyClient
 
@@ -44,7 +42,13 @@ func GetTrendTracks(c *gin.Context) {
 			return
 		}
 
+		var artistsIDs []spotify.ID = make([]spotify.ID, 0)
+		var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
+
 		totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
+		if totalNumOfSpotifyTracks > config.MaximalArtistsCapacity {
+			totalNumOfSpotifyTracks = config.MaximalArtistsCapacity
+		}
 
 		// playlist's tracks
 		spotifyTrackArr := spotifyPlaylist.Tracks.Tracks
@@ -55,20 +59,11 @@ func GetTrendTracks(c *gin.Context) {
 			// playlist's track
 			spotifyTrack := spotifyTrackArr[i].Track
 
+			// add artist's ID to slice
+			artistsIDs = append(artistsIDs, spotifyTrack.Artists[0].ID)
+
 			// id
 			dataTrack.ID = string(spotifyTrack.ID)
-
-			// get track's artist's full info
-			spotifyArtist, err = spotifyClient.GetArtist(context.Background(), spotifyTrack.Artists[0].ID)
-			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				return
-			}
-
-			// genre
-			if spotifyArtist.Genres != nil && len(spotifyArtist.Genres) > 0 {
-				dataTrack.Genre = spotifyArtist.Genres[0]
-			}
 
 			// release date
 			dataTrack.Release_date = spotifyTrack.Album.ReleaseDate
@@ -77,7 +72,20 @@ func GetTrendTracks(c *gin.Context) {
 			dataPlaylist.Tracks = append(dataPlaylist.Tracks, dataTrack)
 		}
 
-		listOfDataPlaylist = append(listOfDataPlaylist, dataPlaylist)
+		spotifyArtists, err = spotifyClient.GetArtists(context.Background(), artistsIDs...)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		for idx := 0; idx < totalNumOfSpotifyTracks; idx++ {
+			track := &dataPlaylist.Tracks[idx]
+			if len(spotifyArtists[idx].Genres) > 0 {
+				track.Genre = spotifyArtists[idx].Genres[0]
+			}
+		}
+
+		listOfDataPlaylist.Playlists = append(listOfDataPlaylist.Playlists, dataPlaylist)
 	}
 
 	// send dataPlaylist as JSON

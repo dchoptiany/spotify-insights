@@ -36,7 +36,7 @@ func UpdateDataSketches() error {
 	}
 
 	// update sketches
-	_, err = RunAnalysePlaylist(resp_data)
+	_, err = RunUpdateDataSketches(resp_data)
 
 	if err != nil {
 		return err
@@ -52,12 +52,6 @@ func GetGlobalTrends(c *gin.Context) {
 	if err = c.BindJSON(&dataRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
-		// TODO: Add condition / cyclic refreshment
-		// update data sketches
-		err = UpdateDataSketches()
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		}
 
 		// marshal request
 		data, err := json.Marshal(dataRequest)
