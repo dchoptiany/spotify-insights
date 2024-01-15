@@ -60,6 +60,8 @@ router.get("/dataSketches", (req,res) =>{
             "end_date" : endDate
           
         })
+
+        console.log(jsonData)
         
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
           res.status(200)
