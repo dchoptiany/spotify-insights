@@ -7,12 +7,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 )
-
-var lastUpdateDateMidnight time.Time = time.Time{}
 
 func UpdateDataSketches() error {
 	client := &http.Client{}
@@ -45,10 +42,6 @@ func UpdateDataSketches() error {
 		return err
 	}
 
-	// update lastUpdateDateMidnight
-	currTime := time.Now()
-	lastUpdateDateMidnight = time.Date(currTime.Year(), currTime.Month(), currTime.Day(), 0, 0, 0, 0, time.UTC)
-
 	return nil
 }
 
@@ -59,29 +52,6 @@ func GetGlobalTrends(c *gin.Context) {
 	if err = c.BindJSON(&dataRequest); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	} else {
-		// TODO: Add condition / cyclic refreshment
-
-		// update data sketches
-		if lastUpdateDateMidnight.IsZero() {
-			err = UpdateDataSketches()
-			if err != nil {
-				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			}
-		} else {
-			// get current time
-			currTime := time.Now()
-
-			// get diff in days
-			diff := currTime.Sub(lastUpdateDateMidnight)
-			diffInDays := int64(diff.Hours() / 24)
-
-			if diffInDays > 0 {
-				err = UpdateDataSketches()
-				if err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				}
-			}
-		}
 
 		// marshal request
 		data, err := json.Marshal(dataRequest)
