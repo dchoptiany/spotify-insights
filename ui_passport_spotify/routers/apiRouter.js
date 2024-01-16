@@ -64,8 +64,9 @@ router.get("/dataSketches", (req,res) =>{
           res.json(data)
         })
         .catch((error) => {
-          res.send("Błąd tutaj")
-          res.send(apiEndpoint)
+          console.log(startDate)
+          console.log(endDate)
+          console.log(apiEndpoint)
           res.status(404)
           res.redirect('/error');
         });
