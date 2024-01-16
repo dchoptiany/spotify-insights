@@ -15,36 +15,36 @@ const customTooltip = ({ payload, active, label }) => {
     );
   };
 
-const generateBarChart = ({ data, category, category_name }) => {
-    const transformedData = data.map(([label, value]) => ({ first: label ,second: value}));
-
+  const generateBarChart = ({ data, category, category_name }) => {
+    const filteredData = data.filter(([label, value]) => label.trim() !== '');  
+    const transformedData = filteredData.map(([label, value]) => ({ first: label, second: value }));
     const formattedCategory = category.replace(/_/g, ' ');
-
-   return (
-     <Card className="barList">
-        
-        <Title style={{ padding: '7px' }}>{formattedCategory}</Title> 
-       <BarChart
+  
+    return (
+      <Card className="barList">
+  
+        <Title style={{ padding: '7px' }}>{formattedCategory}</Title>
+        <BarChart
           className="mt-6"
-         data={transformedData}
-         colors={["green"]}
-         categories={["second"]}
-         index="first"  
-         layout="horizontal"
-         showLegend={false}
-         showAnimation={true}
-         customTooltip={customTooltip}
-         showXAxis = {true}
-         rotateLabelX={{
-          angle: 40,
-          verticalShift:37,
-          xAxisHeight:90
-        }}	
+          data={transformedData}
+          colors={["green"]}
+          categories={["second"]}
+          index="first"
+          layout="horizontal"
+          showLegend={false}
+          showAnimation={true}
+          customTooltip={customTooltip}
+          showXAxis={true}
+          rotateLabelX={{
+            angle: 40,
+            verticalShift: 37,
+            xAxisHeight: 90
+          }}
         />
-     </Card>
-   );
-
+      </Card>
+    );
   }
+  
   
   export default generateBarChart;
   
