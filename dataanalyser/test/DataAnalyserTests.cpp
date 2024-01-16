@@ -108,13 +108,23 @@ int main(int argc, char** argv)
             std::cerr << "Could not open file trackList.json" << std::endl;
             return 1;
         }
-
         std::stringstream bufferTracklist;
         bufferTracklist << file.rdbuf();
-        std::string sampleData = bufferTracklist.str();
-        testPlaylistAnalysis(sampleData);
-        testLikedTracksAnalysis(sampleData);
-        testDataSketches(sampleData);
+        std::string sampleTracklistData = bufferTracklist.str();
+        testPlaylistAnalysis(sampleTracklistData);
+        testLikedTracksAnalysis(sampleTracklistData);
+        file.close();
+
+        file.open("../playlists.json", std::ios::in);
+        if(!file.good())
+        {
+            std::cerr << "Could not open file playlists.json" << std::endl;
+            return 1;
+        }
+        std::stringstream bufferPlaylists;
+        bufferPlaylists << file.rdbuf();
+        std::string samplePlaylistsData = bufferPlaylists.str();
+        testDataSketches(samplePlaylistsData);
         file.close();
 
         file.open("../datespan.json", std::ios::in);
