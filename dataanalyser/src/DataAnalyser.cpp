@@ -234,17 +234,8 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
         
         for(const auto& genre : GENRES)
         {
-            SketchKey key(genre, currentDate);
-
-            const char* sketches_path = std::getenv("SKETCHES");
-            std::string _sketches;
-            if (sketches_path != NULL) {
-                _sketches = sketches_path;
-            } else {
-                _sketches = "../sketches/";
-            }
-            
-            std::fstream file(_sketches + key.toString(), std::ios::in);
+            SketchKey key(genre, currentDate);            
+            std::fstream file(FastExpSketch::getSketchesDir() + key.toString(), std::ios::in);
             if(file.good())
             {
                 std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
@@ -265,7 +256,7 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
         for(const auto& decade : DECADES)
         {
             SketchKey key(decade, currentDate);
-            std::fstream file("../sketches/" + key.toString(), std::ios::in);
+            std::fstream file(FastExpSketch::getSketchesDir() + key.toString(), std::ios::in);
             if(file.good())
             {
                 std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);

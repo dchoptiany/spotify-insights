@@ -8,6 +8,12 @@
 #include <fstream>
 #include <cstdlib>
 
+std::string FastExpSketch::getSketchesDir()
+{
+    const char* path = std::getenv("SKETCHES");
+    return path == NULL ? "../sketches/" : path; 
+}
+
 FastExpSketch::FastExpSketch(size_t size)
 {
     this->size = size;
@@ -105,15 +111,7 @@ void FastExpSketch::update(unsigned i, float lambda)
 // Saves data sketch to text file with every value from M vector in separate line
 void FastExpSketch::saveToFile(const std::string& filename)
 {
-    const char* sketches_path = std::getenv("SKETCHES");
-    std::string _sketches;
-    if (sketches_path != NULL) {
-        _sketches = sketches_path;
-    } else {
-        _sketches = "../sketches/";
-    }
-
-    std::fstream file(_sketches + filename, std::ios::out);
+    std::fstream file(FastExpSketch::getSketchesDir() + filename, std::ios::out);
     for(const auto& value : M)
     {
         file << value << "\n";
