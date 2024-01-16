@@ -16,6 +16,7 @@ const UrlAnalysis = () => {
   const [arrayData, setArrayData] = useState({});
   const [playlistInfo, setPlaylistData] = useState({});
   const [url_data, setData] = useState({});
+  const [url_data_user, setDataUser] = useState({});
   const [image, setImage ] = useState('');
 
 
@@ -37,12 +38,8 @@ const UrlAnalysis = () => {
 
 function splitData(data) {
   let arrayData = {};
-  let playlistInfo = {};
 
   for (const key in data) {
-    if (key === "name" || key === "owner" || key === "description") {
-      playlistInfo[key] = data[key];
-    }
     if (key === "top_artists" || key === "top_genres") {
       arrayData[key] = data[key];
     }
@@ -54,7 +51,7 @@ function splitDataInfo(data) {
   let playlistInfo = {};
 
   for (const key in data) {
-    if (key === "name" || key === "owner" || key === "description") {
+    if (key === "name" || key === "owner_name" || key === "desc") {
       playlistInfo[key] = data[key];
     }
   }
@@ -79,7 +76,7 @@ function splitDataInfo(data) {
           requestData = JSON.parse(data);
           console.log(requestData);
  
-          setData(requestData);
+          setDataUser(requestData);
           splitDataInfo(requestData);
         })
         .catch(error => {
