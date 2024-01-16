@@ -37,7 +37,7 @@ const generateBarChart = ({ data, category, category_name }) => {
          showXAxis = {true}
          rotateLabelX={{
           angle: 50,
-          verticalShift:17,
+          verticalShift:27,
           xAxisHeight:90
         }}	
         />
