@@ -16,8 +16,6 @@ const customTooltip = ({ payload, active, label }) => {
   };
 
 const generateBarChart = ({ data, category, category_name }) => {
-    const str = category_name.toString()
-    const length = data.length
     const transformedData = data.map(([label, value]) => ({ first: label ,second: value}));
 
     const formattedCategory = category.replace(/_/g, ' ');
@@ -38,9 +36,10 @@ const generateBarChart = ({ data, category, category_name }) => {
          customTooltip={customTooltip}
          showXAxis = {true}
          rotateLabelX={{
-         angle: 25,
-         verticalShift: 10,
-        }}
+          angle: 40,
+          verticalShift:17,
+          xAxisHeight:60
+        }}	
         />
      </Card>
    );
