@@ -33,59 +33,6 @@ const UrlAnalysis = () => {
     return match ? [match[1].replace(/\//g, ''), match[2], match[0]] : null;
   };
   
- let exampleData={
-  "artists_count": 2,
-  "description": "Sample playlist description",
-  "duration": "0:08:22",
-  "general_danceability": 61,
-  "general_energy": 81,
-  "genres_count": 2,
-  "image": "https://www.cabq.gov/artsculture/biopark/news/10-cool-facts-about-penguins/@@images/1a36b305-412d-405e-a38b-0947ce6709ba.jpeg",
-  "name": "My playlist",
-  "owner": "Damian",
-  "top_artists": [
-      [
-          "Artist 2",
-          2
-      ],
-      [
-          "Artist 1",
-          1
-      ]
-  ],
-  "top_decades": [
-      [
-          "2020'",
-          2
-      ],
-      [
-          "2000'",
-          1
-      ]
-  ],
-  "top_genres": [
-      [
-          "pop",
-          2
-      ],
-      [
-          "rap",
-          1
-      ]
-  ],
-  "tracks_count": 3,
-  "tracks_danceability": [
-      60,
-      91,
-      30
-  ],
-  "tracks_energy": [
-      57,
-      100,
-      87
-  ],
-  "uniqueness": 1
-}; 
 
 
 function splitData(data) {

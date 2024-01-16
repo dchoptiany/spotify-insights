@@ -24,16 +24,14 @@ function convertDataFormat(exampleData) {
 
 
   const generateLineChart = ({ data, text }) => {
-    console.log(data)
     const musicTypes = Object.keys(data.genre_scores);
     const newData = convertDataFormat(data);
-
   
     return (
       <Card className="lineChart">
         <Title>{text}</Title>
         <LineChart
-          className="mt-6"
+          className="h-72 mt-4"
           data={newData}
           index="date_labels"
           categories={musicTypes}

@@ -430,3 +430,26 @@ cursor: pointer
   padding: 3vh;
   
 }
+
+.overview-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.spotify-insights {
+  margin-top: 2%;
+  font-size: 66px; 
+  font-weight: bold;
+  color: #1DB954;
+}
+
+.music-experience {
+  font-size: 34px; 
+  color: #d8d5d5; 
+  margin-bottom: 2%;
+}
+
+.description {
+  font-size: 21px; 
+  color: #a09d9d; 
+}
