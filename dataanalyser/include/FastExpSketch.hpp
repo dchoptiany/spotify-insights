@@ -12,6 +12,7 @@ public:
     float estimateCardinality();
     void update(unsigned i, float lambda);
     void saveToFile(const std::string&);
+    static std::string getSketchesDir();
 
 private:
     std::vector<unsigned> permInit;
