@@ -51,15 +51,12 @@ export const DataSketchesRequest = (endpoint,startDate, endDate) => {
   };
   const jsonData = JSON.stringify(requestData);
 
-  lonsole.log(jsonData);
-  lonsole.log(endpoint);
+  console.log(jsonData);
+  console.log(endpoint);
   return fetch(endpoint, {
     method: 'GET',
     headers: {
       Accept: "application/json",
-      endpoint : endpoint,
-      startDate: startDate,
-      endDate: endDate,
       'Content-Type': 'application/json',
     },
     body: jsonData,
