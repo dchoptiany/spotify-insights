@@ -3,29 +3,29 @@ import { Card, LineChart, Title } from "@tremor/react";
 
 
 function convertDataFormat(exampleData) {
-    const result = [];
-  
-    for (let i = 0; i < exampleData.date_labels.length; i++) {
-      const dateLabel = exampleData.date_labels[i];
-      const dataObj = { date_labels: dateLabel };
-  
-      for (let j = 0; j < exampleData.genre_scores.length; j++) {
-        const genre = exampleData.genre_scores[j][0];
-        const score = exampleData.genre_scores[j][1][i];
-  
+  const result = [];
+
+  for (let i = 0; i < exampleData.date_labels.length; i++) {
+    const dateLabel = exampleData.date_labels[i];
+    const dataObj = { date_labels: dateLabel };
+
+    for (const genre in exampleData.genre_scores) {
+      if (exampleData.genre_scores.hasOwnProperty(genre)) {
+        const score = exampleData.genre_scores[genre][i];
         dataObj[genre] = score;
       }
-  
-      result.push(dataObj);
     }
-  
-    return result;
+
+    result.push(dataObj);
   }
+
+  return result;
+}
 
 
   const generateLineChart = ({ data, text }) => {
     console.log(data)
-    const musicTypes = data.genre_scores.map(([genre]) => genre);
+    const musicTypes = Object.keys(data.genre_scores);
     const newData = convertDataFormat(data);
 
   
