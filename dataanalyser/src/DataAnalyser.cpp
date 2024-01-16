@@ -18,6 +18,31 @@ DataAnalyser::~DataAnalyser()
     }
 }
 
+// Function determining whether vector contains any positive values
+bool DataAnalyser::anyNonZero(const std::vector<unsigned>& values)
+{
+    for(const auto& value : values)
+    {
+        if(value != 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Filters out pairs with vector of values consisting exclusively of zeroes
+void DataAnalyser::filterOutEmpty(std::map<std::string, std::vector<unsigned>>& pairs)
+{
+    for(const auto& pair : pairs)
+    {
+        if(!anyNonZero(pair.second))
+        {
+            pairs.erase(pair.first);
+        }
+    }
+}
+
 /*
 Processes data containing information about tracks on playlist and returns JSON string containing:
 - top artists
@@ -190,15 +215,23 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
     std::mktime(&endDate);
     std::tm currentDate = stringToDate(startDateString);
     std::vector<std::string> labels;
-    std::map<std::string, std::vector<unsigned>> pairs;
+    std::map<std::string, std::vector<unsigned>> genrePairs;
+    std::map<std::string, std::vector<unsigned>> decadePairs;
+
     for(const auto& genre : GENRES)
     {
-        pairs[DISPLAYABLE_GENRES.at(genre)] = std::vector<unsigned>();
+        genrePairs[DISPLAYABLE_GENRES.at(genre)] = std::vector<unsigned>();
+    }
+
+    for(const auto& decade : DECADES)
+    {
+        decadePairs[decade] = std::vector<unsigned>();
     }
     
     do
     {
         labels.push_back(formatDate(currentDate));
+        
         for(const auto& genre : GENRES)
         {
             SketchKey key(genre, currentDate);
@@ -221,11 +254,32 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
                 }
                 FastExpSketch sketch = FastExpSketch(values);
                 float cardinality = sketch.estimateCardinality();
-                pairs[DISPLAYABLE_GENRES.at(genre)].push_back(static_cast<unsigned>(std::round(cardinality)));
+                genrePairs[DISPLAYABLE_GENRES.at(genre)].push_back(static_cast<unsigned>(std::round(cardinality)));
             }
             else
             {
-                pairs[DISPLAYABLE_GENRES.at(genre)].push_back(0);
+                genrePairs[DISPLAYABLE_GENRES.at(genre)].push_back(0);
+            }
+        }
+
+        for(const auto& decade : DECADES)
+        {
+            SketchKey key(decade, currentDate);
+            std::fstream file("../sketches/" + key.toString(), std::ios::in);
+            if(file.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    file >> values[i];
+                }
+                FastExpSketch sketch = FastExpSketch(values);
+                float cardinality = sketch.estimateCardinality();
+                decadePairs[decade].push_back(static_cast<unsigned>(std::round(cardinality)));
+            }
+            else
+            {
+                decadePairs[decade].push_back(0);
             }
         }
 
@@ -233,9 +287,14 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
         std::mktime(&currentDate);
     } while(currentDate.tm_year != endDate.tm_year || currentDate.tm_mon != endDate.tm_mon || currentDate.tm_mday != endDate.tm_mday);
 
+    // Filtering out pairs with no occurences in datespan
+    filterOutEmpty(genrePairs);
+    filterOutEmpty(decadePairs);
+
     json result;
     result["date_labels"] = labels;
-    result["genre_scores"] = pairs;
+    result["genre_scores"] = genrePairs;
+    result["decade_scores"] = decadePairs;
     return result.dump(4); // return indented json as string
 }
 
