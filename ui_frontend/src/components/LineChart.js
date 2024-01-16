@@ -37,7 +37,9 @@ function convertDataFormat(exampleData) {
           data={newData}
           index="date_labels"
           categories={musicTypes}
-          colors={["emerald", "gray","pink","red"]}
+          colors={["emerald", "gray","pink","red","orange",
+          "indigo","amber","blue","cyan","emerald","fuchsia","green","indigo",
+        "lime","zinc","orange","sky","rose","purple","yellow"]}
           yAxisWidth={40}
         />
       </Card>
