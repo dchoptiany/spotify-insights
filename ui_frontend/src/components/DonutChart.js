@@ -3,10 +3,10 @@ import React from "@tremor/react";
 
 const generateDonut = ({ data, text }) => {
   if (!data || data.length === 0) {
-    return null; 
+    return null;
   }
-
-  const transformedData = data.map(([label, value]) => ({
+  const filteredData = data.filter(([label, value]) => label.trim() !== '');
+  const transformedData = filteredData.map(([label, value]) => ({
     first: label,
     second: value,
   }));
