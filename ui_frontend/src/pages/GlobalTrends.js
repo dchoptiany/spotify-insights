@@ -4,6 +4,8 @@ import { Flex } from "@tremor/react";
 import Button from '../components/Button';
 import { DateRangePicker } from "@tremor/react";
 import  {DataSketchesRequest} from './../actions/authActions'
+import generateScatterChart from '../components/ScatterChart';
+
 
 
 const GlobalTrends = () => {

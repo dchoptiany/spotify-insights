@@ -476,3 +476,7 @@ cursor: pointer
   text-align: center;
   color: #9c9999; 
 }
+
+.scatter{
+  width: 50%;
+}

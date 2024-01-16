@@ -171,7 +171,6 @@ function splitDataInfo(data) {
 
         <Flex justifyContent="center" alignItems="center">
 
-        {display && generateDonut({data: url_data.top_genres, text: "Genres"})}
         {display && generateDonut({data: url_data.top_decades, text: "Decades"})}
         </Flex>
 

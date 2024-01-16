@@ -45,15 +45,6 @@ const TopArtistsShort = ({term}) => {
     getData();
   }, []);
 
-  //  const readFromFile = async () => {
-//    try {
-//
-//      setUserData(user_data);
-//      setDisplay(true);
-//    } catch (error) {
-//      console.error('Błąd odczytu pliku:', error);
-//    }
-//  };
 
   return (
     <div className="input-form-container">
