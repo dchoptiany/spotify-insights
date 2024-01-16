@@ -54,7 +54,7 @@ export const DataSketchesRequest = (endpoint,startDate, endDate) => {
   console.log(jsonData);
   console.log(endpoint);
   return fetch(endpoint, {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Accept: "application/json",
       'Content-Type': 'application/json',
