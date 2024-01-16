@@ -124,6 +124,14 @@ function splitDataInfo(data) {
 
   return (
     <div className="input-form-container">
+      <Flex justifyContent="center" alignItems="center" width="50%">
+      <div>
+        <div className='url_desc'> Analyze any Spotify playlist!</div>
+        <div className='url_desc2'>See analysis of its top genres, artists,</div>
+        <div className='url_desc2'> decades and more interesting statistics and facts.</div>
+        <div className='url_desc3'>Enter link to your playlist, click Submit and enjoy!</div>
+      </div>
+      </Flex>
       <div className="input-container">
         <label>
           Link:

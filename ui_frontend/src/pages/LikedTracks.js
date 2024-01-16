@@ -70,7 +70,7 @@ useEffect(() => {
 
         <Flex justifyContent="center" alignItems="center">
 
-        {display && generateDonut({data: userData.top_artists, text: "Artists"})}
+        {display && generateDonut({data: userData.top_artists, text: "Number of songs made by top 5 artist"})}
         </Flex>
 
         </div>

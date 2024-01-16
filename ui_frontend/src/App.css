@@ -396,6 +396,7 @@ cursor: pointer
 .sidebar-Title{
   font-size: 35px;
   margin-bottom: 20%;
+  font-weight: bold;
 }
 
 .sidebar-Title:hover{
@@ -452,4 +453,26 @@ cursor: pointer
 .description {
   font-size: 21px; 
   color: #a09d9d; 
+}
+
+.url_desc{
+  margin-top: 1%;
+  font-size: 34px;
+  color: #1DB954; 
+  text-align: center;
+
+
+}
+
+.url_desc2{
+  font-size: 21px;
+  color: #d8d5d5; 
+  text-align: center;
+
+}
+
+.url_desc3{
+  font-size: 18px;
+  text-align: center;
+  color: #9c9999; 
 }

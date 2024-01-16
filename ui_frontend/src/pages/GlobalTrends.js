@@ -75,6 +75,14 @@ const formatDate = (dateString) => {
   
  return (
     <div className="input-form-container">
+      <Flex justifyContent="center" alignItems="center" width="50%">
+
+      <div>
+        <div className='url_desc'> Check current trending music genres and decades!</div>
+        <div className='url_desc2'>Select a period of time you are interested in</div>
+        <div className='url_desc2'> and let the analysis begin!</div>
+      </div>
+      </Flex>
 
       <Flex justifyContent="center" alignItems="center" width="50%">
       <DateRangePicker 
