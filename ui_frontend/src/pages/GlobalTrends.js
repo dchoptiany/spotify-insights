@@ -28,38 +28,32 @@ const formatDate = (dateString) => {
 
 
 
-
-
-
  const handleButtonClick =  () => {
-  try {
-   console.log("done");
-      const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
-      if(startDate!="" && endDate!="" ){
-      DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
-      .then(response => {
-        console.log(response)
-        return response.text()
-      }) 
-      .then(data => {
-        setDisplay(true);
-        const cleanedData = data.replace(/"/g, '');
-        console.log(data)
-        let requestData = JSON.parse(atob(cleanedData));
-        console.log(requestData)
+ try {
+  console.log("done");
+     const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
+     if(startDate!="" && endDate!="" ){
+     DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
+     .then(response => {
+       return response.text()
+     }) 
+     .then(data => {
+       setDisplay(true);
+       const cleanedData = data.replace(/"/g, '');
+       let requestData = JSON.parse(atob(cleanedData));
  
-        setData(requestData);
-        setDisplay(true);
-      })
-     
-      .catch(error => {
-        console.log(error);
-        setDisplay(false);
-      });
-     }
-  } catch (error) {
-    console.error('Błąd podczas zapytania:', error);
-  }
+       setData(requestData);
+       setDisplay(true);
+     })
+    
+     .catch(error => {
+       console.log(error);
+       setDisplay(false);
+     });
+    }
+ } catch (error) {
+   console.error('Błąd podczas zapytania:', error);
+ }
   };
 
 

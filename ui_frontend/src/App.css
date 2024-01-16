@@ -453,3 +453,8 @@ cursor: pointer
   font-size: 21px; 
   color: #a09d9d; 
 }
+
+.dataSketch{
+  width: 100%;
+  position: center;
+}
