@@ -44,22 +44,18 @@ export const DataCollectorRequest = (endpoint) => {
 
 
 export const DataSketchesRequest = (endpoint,startDate, endDate) => {  
-
-  const requestData = {
-    "start_date": startDate,
-    "end_date": endDate
-  };
-  const jsonData = JSON.stringify(requestData);
-
-  console.log(jsonData);
-  console.log(endpoint);
-  return fetch(endpoint, {
-    method: 'POST',
+  
+  return fetch("http://aws_hostname:8000/api/dataSketches", {
+    method: 'GET',
+    credentials: "include",
     headers: {
       Accept: "application/json",
+      endpoint : endpoint,
+      startDate: startDate,
+      endDate: endDate,
       'Content-Type': 'application/json',
+      "Access-Control-Allow-Credentials": true,
     },
-    body: jsonData,
   })
 
 };

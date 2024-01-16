@@ -55,8 +55,8 @@ router.get("/dataSketches", (req,res) =>{
 
 
         const jsonData = JSON.stringify({
-          "start_date": `"${startDate}"`,
-          "end_date": `"${endDate}"`
+          "start_date": startDate,
+          "end_date": endDate
         });
         
         dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
@@ -64,9 +64,7 @@ router.get("/dataSketches", (req,res) =>{
           res.json(data)
         })
         .catch((error) => {
-          console.log(startDate)
-          console.log(endDate)
-          console.log(apiEndpoint)
+          res.send(jsonData)
           res.status(404)
           res.redirect('/error');
         });
