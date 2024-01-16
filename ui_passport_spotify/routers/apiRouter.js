@@ -47,31 +47,25 @@ router.get("/dataCollector", (req,res) =>{
 
 })    
 
+router.get("/dataSketches", (req, res) => {
+  const apiEndpoint = req.query.endpoint;
+  const startDate = req.query.startdate;
+  const endDate = req.query.enddate;
 
-router.get("/dataSketches", (req,res) =>{
-        const apiEndpoint = req.headers.endpoint;
-        const startDate = req.headers.startDate;
-        const endDate = req.headers.endDate;
+  const jsonQuery = JSON.stringify({
+    "start_date": startDate,
+    "end_date": endDate
+  });
 
-
-        const jsonData = JSON.stringify({
-          "start_date": startDate,
-          "end_date": endDate
-        });
-        
-        dataCollectorAction(apiEndpoint,jsonData).then((data)=>{
-          res.status(200)
-          res.json(data)
-        })
-        .catch((error) => {
-          res.send(jsonData)
-          res.status(404)
-          res.redirect('/error');
-        });
-
-  
-
-})  
+  dataCollectorAction(apiEndpoint, jsonQuery)
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((error) => {
+      res.status(404).send(json);
+    });
+});
+ 
 
 module.exports = router
     
