@@ -87,4 +87,6 @@ private:
     std::vector<std::pair<std::string, unsigned>> getTop(const std::unordered_map<std::string, unsigned>& values, size_t n, const std::unordered_map<std::string, std::string>& labels = std::unordered_map<std::string, std::string>());
     void increment(std::unordered_map<std::string, unsigned>& values, const std::string& key);
     void increment(std::unordered_map<std::string, unsigned>& values, std::unordered_map<std::string, std::string>& labels, const std::string& key, const std::string& label);
+    bool anyNonZero(const std::vector<unsigned>& values);
+    void filterOutEmpty(std::map<std::string, std::vector<unsigned>>& pairs);
 };
