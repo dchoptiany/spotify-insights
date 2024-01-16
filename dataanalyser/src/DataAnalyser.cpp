@@ -34,11 +34,15 @@ bool DataAnalyser::anyNonZero(const std::vector<unsigned>& values)
 // Filters out pairs with vector of values consisting exclusively of zeroes
 void DataAnalyser::filterOutEmpty(std::map<std::string, std::vector<unsigned>>& pairs)
 {
-    for(const auto& pair : pairs)
+    for(auto it = pairs.cbegin(); it != pairs.cend(); )
     {
-        if(!anyNonZero(pair.second))
+        if(!anyNonZero(it->second))
         {
-            pairs.erase(pair.first);
+            pairs.erase(it++);
+        }
+        else
+        {
+            ++it;
         }
     }
 }
