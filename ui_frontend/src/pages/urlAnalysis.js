@@ -151,12 +151,11 @@ function splitDataInfo(data) {
         {display && generateCard({data: url_data.tracks_count, text: "Tracks count"}) }
         {display && generateCard({data: url_data.artists_count, text: "Artists count"}) }
         {display && generateCard({data: url_data.duration, text: "Duration"}) }
-        {display && generateCard({data: url_data.uniqueness, text: "Uniquness"}) }
       </Flex>
       <Flex justifyContent="center" alignItems="center">
         {display && generateProgressCircle({data: url_data.general_energy, text:"Average energy"})}
         {display && generateProgressCircle({data: url_data.general_danceability, text:"Average danceability"})}
-        {display && generateProgressCircle({data: url_data.uniqueness, text:"Uniquness"})}
+        {display && generateProgressCircle({data: url_data.uniqueness, text:"Uniqueness"})}
         </Flex>
         <Flex justifyContent="center" alignItems="center">
 

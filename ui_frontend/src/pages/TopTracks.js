@@ -23,7 +23,7 @@ const TopTracks = () => {
         <TabList className="tabList">
           <Tab >Short Term</Tab>
           <Tab >Medium Term</Tab>
-          <Tab >LongTerm</Tab>
+          <Tab >Long Term</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
