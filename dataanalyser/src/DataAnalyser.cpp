@@ -68,7 +68,7 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     unsigned totalDuration = 0;
     double totalEnergy = 0;
     double totalDanceability = 0;
-    double uniquenessInversionsSum = 0.0;
+    double popularityInversionsSum = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
@@ -102,7 +102,7 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
         }
 
         totalDuration += duration_ms / 1000;
-        uniquenessInversionsSum += 1.0 / std::max(0.5, 100.0 - popularity);
+        popularityInversionsSum += 1.0 / popularity;
         totalEnergy += energy;
         totalDanceability += danceability;
 
@@ -116,7 +116,8 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
-    double uniqueness = tracksCount == 0 ? 0.0 : (double)tracksCount / uniquenessInversionsSum;
+    double popularity = tracksCount == 0 ? 100.0 : (double)tracksCount / popularityInversionsSum;
+    double uniqueness = 100.0 - popularity;
     totalEnergy /= (double)tracksCount;
     totalDanceability /= (double)tracksCount;
 
@@ -152,7 +153,7 @@ Processes data containing information about user's favourite tracks on and retur
 */
 std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 {
-    double uniquenessInversionsSum = 0.0;
+    double popularityInversionsSum = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
@@ -176,7 +177,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
             increment(artists, artistsNames, artistId, artistName);
         }
 
-        uniquenessInversionsSum += 1.0 / std::max(0.5, 100.0 - popularity);
+        popularityInversionsSum += 1.0 / popularity;
 
         increment(genres, genre);
         increment(decades, decade);
@@ -186,7 +187,8 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
-    double uniqueness = tracksCount == 0 ? 0.0 : (double)tracksCount / uniquenessInversionsSum;
+    double popularity = tracksCount == 0 ? 100.0 : (double)tracksCount / popularityInversionsSum;
+    double uniqueness = 100.0 - popularity;
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
