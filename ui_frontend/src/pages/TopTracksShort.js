@@ -64,7 +64,7 @@ const TopTracksShort = ({term}) => {
               <div className='topTracks' key={index}>
                 <Flex justifyContent="center" alignItems="center" className='cart' >
                 <img src={artist.album_image} alt={artist.name} style={{ width: '70px', height: '70px', marginRight: '5%' }} />
-                {display && generateTextCard(artist.name, artist.artists_name,artist.album_name)}
+                {display && generateTextCard(artist.name, artist.artist_name,artist.album_name)}
 
                 </Flex>
                 <Flex justifyContent="center" alignItems="center" className='cart' >
