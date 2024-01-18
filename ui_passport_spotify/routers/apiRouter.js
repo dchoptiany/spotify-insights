@@ -81,10 +81,10 @@ router.get("/dataSketchesCombo", (req, res) => {
 
   dataCollectorAction(apiEndpoint, jsonQuery)
     .then((data) => {
-      res.status(200).send(arrayJson);
+      res.status(200).send(jsonQuery);
     })
     .catch((error) => {
-      res.status(404).send(arrayJson);
+      res.status(404).send(jsonQuery);
     });
 });
  
