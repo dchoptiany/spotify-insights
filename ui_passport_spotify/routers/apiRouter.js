@@ -80,7 +80,7 @@ router.get("/dataSketchesCombo", (req, res) => {
 
   dataCollectorAction(apiEndpoint, jsonQuery)
     .then((data) => {
-      res.status(200).json(data);
+      res.status(200).json(jsonQuery);
     })
     .catch((error) => {
       res.status(404).send(jsonData);
