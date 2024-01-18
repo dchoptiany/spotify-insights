@@ -61,13 +61,14 @@ export const DataSketchesRequest = (endpoint, startDate, endDate) => {
 };
 
 export const DataSketchesRequestCombo = (endpoint, startDate, endDate, array) => {  
-
+  console.log("JSON Data:", array);
+  const a = JSON.stringify(array);
 
   const queryParams = new URLSearchParams({
     endpoint: endpoint,
     startdate: startDate,
     enddate: endDate,
-    array: array, 
+    array: a, 
 
   });
 

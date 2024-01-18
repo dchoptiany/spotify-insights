@@ -10,6 +10,8 @@ const DynamicSelect = ({startDate, endDate}) => {
   const [selectedDecades, setSelectedDecades] = useState({});
   const [sketchesData, setData] = useState({})
   const [display, setDisplay] = useState(false);
+  const [requestData, setRequest] = useState({});
+
 
     if (startDate === "" || endDate === "") {
         return (
@@ -95,7 +97,7 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   };
 
-  const request =  ({requestData}) => {
+  const request =  () => {
     try {
         const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
         if(startDate!="" && endDate!="" ){
@@ -140,8 +142,9 @@ const DynamicSelect = ({startDate, endDate}) => {
       jsonData.push(data);
     }
 
+    setRequest(jsonData)
 
-    request(jsonData)
+    request()
   };
 
   return (
