@@ -97,6 +97,7 @@ const DynamicSelect = ({startDate, endDate}) => {
   const handleSubmit =  () => {
     generateJsonData();
     request();
+    request();
   };
 
   const request =  () => {
@@ -104,7 +105,6 @@ const DynamicSelect = ({startDate, endDate}) => {
         const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
         if(startDate!="" && endDate!="" ){
             console.log(requestData)
-          generateJsonData();
         DataSketchesRequestCombo(parsedSpotifyURL, startDate, endDate,requestData)
         .then(response => {
           console.log(response)
