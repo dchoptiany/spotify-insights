@@ -110,11 +110,7 @@ const formatDate = (dateString) => {
         </Flex>
       </div>
       
-      <div className='plots'>
-        <Flex justifyContent="center" alignItems="center" width="50%">
-        <DynamicSelect startDate={startDate} endDate={endDate} />;          
-        </Flex>
-      </div>
+    
     </div>
   );
 };

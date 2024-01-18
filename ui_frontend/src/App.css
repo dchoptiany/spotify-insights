@@ -484,3 +484,23 @@ cursor: pointer
 .select{
   width: fit-content;
 }
+
+.selectItems{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 3%;
+  height: 100%;
+}
+
+.add{
+  font-size: 25px;
+  color: #1DB954;
+  font-weight: bold;
+  margin-left: 0.7%;
+  margin-right: 0.7%;
+}

@@ -21,6 +21,7 @@ import {
 } from "react-router-dom";
 import { useEffect, useState } from "react";
 import LikedTracks from './pages/LikedTracks';
+import GlobalTrendsCombo from './pages/GlobalTrendsCombo';
 
 
 
@@ -64,6 +65,7 @@ function App() {
             <Route path='/recommendations' element={user? <Recommendations/>:<Overview/>}/>
             <Route path='/likedTracks' element={user? <LikedTracks/>:<Overview/>}/>
             <Route path='/error' element={<Error/>}/>
+            <Route path='/globalTrendsCombo' element={<GlobalTrendsCombo/>}/>
           </Routes>
           </div>   
         </div>

@@ -1,25 +1,10 @@
 import React, { useState } from "react";
 import { Button, Flex, Select, SelectItem } from "@tremor/react";
 import generateLineChart from "./LineChartCombo";
-import { DataSketchesRequest, DataSketchesRequestCombo } from "../actions/authActions";
+import {  DataSketchesRequestCombo } from "../actions/authActions";
 
 const DynamicSelect = ({startDate, endDate}) => {
-    
-  const [selectItems, setSelectItems] = useState([]);
-  const [selectedValues, setSelectedValues] = useState({});
-  const [selectedDecades, setSelectedDecades] = useState({});
-  const [sketchesData, setData] = useState({})
-  const [display, setDisplay] = useState(false);
-  const [requestData, setRequest] = useState({});
 
-
-    if (startDate === "" || endDate === "") {
-        return (
-          <div>
-            Enter date
-          </div>
-        );
-      }
   const initialOptions = [
     { label: "Pop", value: "Pop" },
     { label: "Rock", value: "Rock" },
@@ -51,30 +36,24 @@ const DynamicSelect = ({startDate, endDate}) => {
     { label: "2020'", value: "2020" },
   ];
 
-  let data_cross = {
-    "combo_scores": {
-        "2000' Pop": [
-            555,
-            486,
-            1223
-        ],
-        "2020' Dance": [
-            680,
-            713,
-            5
-        ],
-        "90' Rap": [
-            122,
-            102,
-            189
-        ]
-    },
-    "date_labels": [
-        "16-01-2024",
-        "17-01-2024",
-        "18-01-2024"
-    ]
-}
+    
+  const [selectItems, setSelectItems] = useState([{ genres: initialOptions, decades: initialDecades }]);
+  const [selectedValues, setSelectedValues] = useState({});
+  const [selectedDecades, setSelectedDecades] = useState({});
+  const [sketchesData, setData] = useState({})
+  const [display, setDisplay] = useState(false);
+  const [requestData, setRequest] = useState({});
+
+
+    if (startDate === "" || endDate === "") {
+        return (
+          <div>
+            Enter date
+          </div>
+        );
+      }
+  
+
   const handleButtonClick = () => {
     setSelectItems([...selectItems, { genres: initialOptions, decades: initialDecades }]);
   };
@@ -97,7 +76,7 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   };
 
-  const handleSubmit =  () => {
+  const generateJsonData = ()=>{
     console.log("Wybrane wartości:", selectedValues);
     console.log("Wybrane wartości:", selectedDecades);
   
@@ -113,8 +92,11 @@ const DynamicSelect = ({startDate, endDate}) => {
     }
 
     setRequest(jsonData);
+  }
 
-    request()
+  const handleSubmit =  () => {
+    generateJsonData();
+    request();
   };
 
   const request =  () => {
@@ -122,6 +104,7 @@ const DynamicSelect = ({startDate, endDate}) => {
         const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
         if(startDate!="" && endDate!="" ){
             console.log(requestData)
+          generateJsonData();
         DataSketchesRequestCombo(parsedSpotifyURL, startDate, endDate,requestData)
         .then(response => {
           console.log(response)
@@ -152,6 +135,12 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   return (
     <div clessName="scatter" style={{width:"100%"}}>
+      <Flex justifyContent="center" alignItems="center" width="100%">
+      <div className='url_desc2'>Click </div>
+        <div className='add'> ADD </div>
+        <div className='url_desc2'> to insert values</div>
+      </Flex>
+      <div style={{marginBottom:"2%"}}></div>
       {selectItems.map((selectSet, selectIndex) => (
         <Flex justifyContent="center" alignItems="center" key={selectIndex}>
           <Select
@@ -183,10 +172,10 @@ const DynamicSelect = ({startDate, endDate}) => {
           </Select>
         </Flex>
       ))}
-      <div style={{ margin: "4%" }}></div>
+      <div style={{ margin: "2%" }}></div>
       <Button onClick={handleButtonClick}>ADD +</Button>
       <div style={{ margin: "2%" }}></div>
-      <Button onClick={handleSubmit}>SUBMIT</Button>
+      <Button onClick={handleSubmit}>GENERATE</Button>
       <div style={{width:"100%"}}>
 
       <Flex justifyContent="center" alignItems="center" width="100%">
