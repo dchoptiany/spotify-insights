@@ -71,7 +71,7 @@ export const DataSketchesRequestCombo = (endpoint, startDate, endDate, array) =>
 
   });
 
-  console.log(queryParams)
+  console.log(queryParams.toString())
 
   return fetch(`http://aws_hostname:8000/api/dataSketchesCombo?${queryParams}`, {
     method: 'GET',
