@@ -140,9 +140,8 @@ const DynamicSelect = ({startDate, endDate}) => {
       jsonData.push(data);
     }
 
-    const requestData = JSON.stringify(jsonData);
-    console.log("JSON Data:", requestData);
-    request(requestData)
+
+    request(jsonData)
   };
 
   return (

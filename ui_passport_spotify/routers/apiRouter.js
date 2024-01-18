@@ -70,12 +70,15 @@ router.get("/dataSketchesCombo", (req, res) => {
   const apiEndpoint = req.query.endpoint;
   const startDate = req.query.startdate;
   const endDate = req.query.enddate;
-  const jsonData = req.query.jsonData;
+  const arrayJson = req.query.array;
+
+  const array = JSON.parse(arrayJson);
+
 
   const jsonQuery = JSON.stringify({
     "start_date": startDate,
     "end_date": endDate,
-    "data" : jsonData
+    "data" : array
   });
 
   dataCollectorAction(apiEndpoint, jsonQuery)
@@ -83,7 +86,7 @@ router.get("/dataSketchesCombo", (req, res) => {
       res.status(200).json(jsonQuery);
     })
     .catch((error) => {
-      res.status(404).send(jsonData);
+      res.status(404).send(JSON.parse(jsonQuery));
     });
 });
  
