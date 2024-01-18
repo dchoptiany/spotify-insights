@@ -70,7 +70,7 @@ router.get("/dataSketchesCombo", (req, res) => {
   const apiEndpoint = req.query.endpoint;
   const startDate = req.query.startdate;
   const endDate = req.query.enddate;
-  const jsonData = JSON.parse(req.query.jsonData);
+  const jsonData = req.query.jsonData;
 
   const jsonQuery = JSON.stringify({
     "start_date": startDate,
@@ -83,7 +83,7 @@ router.get("/dataSketchesCombo", (req, res) => {
       res.status(200).json(data);
     })
     .catch((error) => {
-      res.status(404).send(jsonQuery);
+      res.status(404).send(jsonData);
     });
 });
  
