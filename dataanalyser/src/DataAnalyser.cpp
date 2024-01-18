@@ -59,8 +59,6 @@ Processes data containing information about tracks on playlist and returns JSON 
 - general playlist energy
 - general playlist danceability
 - general playlist uniqueness
-- list of tracks' energy
-- list of tracks' danceability
 - music taste uniqueness
 */
 std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
@@ -73,14 +71,10 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
     std::unordered_map<std::string, unsigned> decades;
-    std::vector<int> tracksDanceability;
-    std::vector<int> tracksEnergy;
     json j = json::parse(jsonInput);
 
     json tracks = j["tracks"];
     size_t tracksCount = tracks.size();
-    tracksDanceability.reserve(tracksCount);
-    tracksEnergy.reserve(tracksCount);
 
     for (const auto &track : tracks)
     {
@@ -108,9 +102,6 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
 
         increment(genres, genre);
         increment(decades, decade);
-
-        tracksDanceability.push_back(danceability * 100);
-        tracksEnergy.push_back(energy * 100);
     }
 
     size_t artistsCount = artists.size();
@@ -135,8 +126,6 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     result["duration"] = formatDuration(totalDuration);
     result["general_energy"] = (int)std::round(totalEnergy * 100.0);
     result["general_danceability"] = (int)std::round(totalDanceability * 100.0);
-    result["tracks_danceability"] = tracksDanceability;
-    result["tracks_energy"] = tracksEnergy;
     result["uniqueness"] = (int)std::round(uniqueness);
     return result.dump(4); // return indented json as string
 }
