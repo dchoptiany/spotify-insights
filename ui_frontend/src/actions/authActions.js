@@ -67,7 +67,7 @@ export const DataSketchesRequestCombo = (endpoint, startDate, endDate, array) =>
     endpoint: endpoint,
     startdate: startDate,
     enddate: endDate,
-    array: arrayJson, 
+    array: array, 
 
   });
 
