@@ -209,6 +209,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 Returns JSON string based on gathered Data Sketches containing:
 - list of date labels in format DD-MM-YYYY
 - list of pairs (string genre, list of ints)
+- list of pairs (string decade, list of ints)
 */
 std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
 {
@@ -292,6 +293,90 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
     result["date_labels"] = labels;
     result["genre_scores"] = genrePairs;
     result["decade_scores"] = decadePairs;
+    return result.dump(4); // return indented json as string
+}
+
+/*
+Returns JSON string based on gathered Data Sketches containing:
+- list of date labels in format DD-MM-YYYY
+- list of pairs (string decadeAndGenre, list of ints)
+*/
+std::string DataAnalyser::analyseGlobalTrendsCustom(const std::string& jsonInput)
+{
+    json j = json::parse(jsonInput);
+    std::string startDateString = j["start_date"];
+    std::string endDateString = j["end_date"];
+    json data = j["data"];
+
+    std::tm endDate = stringToDate(endDateString);
+    endDate.tm_mday++;
+    std::mktime(&endDate);
+    std::tm currentDate = stringToDate(startDateString);
+    std::vector<std::string> labels;
+    std::map<std::string, std::vector<unsigned>> comboPairs;
+
+    for(const auto& pair : data)
+    {
+        std::string displayableGenre = pair["genre"];
+        std::string decade = pair["decade"];
+        std::string combo = decade + " " + displayableGenre;
+        comboPairs[combo] = std::vector<unsigned>();
+    }
+
+    do
+    {
+        labels.push_back(formatDate(currentDate));
+        for(const auto& pair : data)
+        {
+            std::string displayableGenre = pair["genre"];
+            std::string genre = FROM_DISPLAYABLE_GENRES.at(displayableGenre);
+            std::string decade = pair["decade"];
+            std::string combo = decade + " " + displayableGenre;
+
+            FastExpSketch* genreSketch = nullptr, *decadeSketch = nullptr;
+            SketchKey genreKey(genre, currentDate);
+            SketchKey decadeKey(decade, currentDate);
+            
+            std::fstream genreFile(FastExpSketch::getSketchesDir() + genreKey.toString(), std::ios::in);
+            if(genreFile.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    genreFile >> values[i];
+                }
+                genreSketch = new FastExpSketch(values);
+            }
+
+            std::fstream decadeFile(FastExpSketch::getSketchesDir() + decadeKey.toString(), std::ios::in);
+            if(decadeFile.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    decadeFile >> values[i];
+                }
+                decadeSketch = new FastExpSketch(values);
+            }
+
+            if(genreSketch != nullptr && decadeSketch != nullptr)
+            {
+                float dnfCardinality = genreSketch->estimateIntersection(decadeSketch);
+                comboPairs[combo].push_back(static_cast<unsigned>(std::round(dnfCardinality)));
+            }
+            else
+            {
+                comboPairs[combo].push_back(0);
+            }
+        }
+        
+        currentDate.tm_mday++;
+        std::mktime(&currentDate);
+    } while(currentDate.tm_year != endDate.tm_year || currentDate.tm_mon != endDate.tm_mon || currentDate.tm_mday != endDate.tm_mday);
+
+    json result;
+    result["date_labels"] = labels;
+    result["combo_scores"] = comboPairs;
     return result.dump(4); // return indented json as string
 }
 
