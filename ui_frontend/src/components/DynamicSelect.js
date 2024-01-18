@@ -97,10 +97,31 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   };
 
+  const handleSubmit =  () => {
+    console.log("Wybrane wartości:", selectedValues);
+    console.log("Wybrane wartości:", selectedDecades);
+  
+    let jsonData = [];
+  
+    for (let i of Object.keys(selectedValues)) {
+      let data = {
+        genre: selectedValues[i].genre,
+        decade: selectedDecades[i].decade,
+      };
+  
+      jsonData.push(data);
+    }
+
+    setRequest(jsonData);
+
+    request()
+  };
+
   const request =  () => {
     try {
         const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
         if(startDate!="" && endDate!="" ){
+            console.log(requestData)
         DataSketchesRequestCombo(parsedSpotifyURL, startDate, endDate,requestData)
         .then(response => {
           console.log(response)
@@ -127,25 +148,7 @@ const DynamicSelect = ({startDate, endDate}) => {
     }
     };
 
-  const handleSubmit = () => {
-    console.log("Wybrane wartości:", selectedValues);
-    console.log("Wybrane wartości:", selectedDecades);
-  
-    let jsonData = [];
-  
-    for (let i of Object.keys(selectedValues)) {
-      let data = {
-        genre: selectedValues[i].genre,
-        decade: selectedDecades[i].decade,
-      };
-  
-      jsonData.push(data);
-    }
 
-    setRequest(jsonData)
-
-    request()
-  };
 
   return (
     <div clessName="scatter" style={{width:"100%"}}>
