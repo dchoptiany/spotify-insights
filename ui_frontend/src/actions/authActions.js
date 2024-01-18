@@ -60,5 +60,24 @@ export const DataSketchesRequest = (endpoint, startDate, endDate) => {
   });
 };
 
+export const DataSketchesRequestCombo = (endpoint, startDate, endDate, jsonData) => {  
+  const queryParams = new URLSearchParams({
+    endpoint: endpoint,
+    startdate: startDate,
+    enddate: endDate,
+    jsonData: JSON.stringify(jsonData), 
+
+  });
+
+  return fetch(`http://aws_hostname:8000/api/dataSketchesCombo?${queryParams}`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  });
+};
+
 
 

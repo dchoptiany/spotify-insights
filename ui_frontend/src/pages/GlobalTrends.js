@@ -5,6 +5,9 @@ import Button from '../components/Button';
 import { DateRangePicker } from "@tremor/react";
 import  {DataSketchesRequest} from './../actions/authActions'
 import generateScatterChart from '../components/ScatterChart';
+import { Select, SelectItem } from "@tremor/react";
+import DynamicSelect from '../components/DynamicSelect';
+
 
 
 
@@ -39,7 +42,6 @@ const formatDate = (dateString) => {
 
  const handleButtonClick =  () => {
   try {
-   console.log("done");
       const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
       if(startDate!="" && endDate!="" ){
       DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
@@ -74,6 +76,9 @@ const formatDate = (dateString) => {
     setEndDate(end)
   }
 
+
+
+
   
  return (
     <div className="input-form-container">
@@ -98,10 +103,16 @@ const formatDate = (dateString) => {
       <Flex justifyContent="center" alignItems="center" width="50%">
         <Button onClick={handleButtonClick} text="Submit" />
         </Flex>
+
+        <div className='plots'>
+        <Flex justifyContent="center" alignItems="center" width="50%">
+          {display && generateLineChart({ data: sketches_data, text: "Global trends" })}
+        </Flex>
+      </div>
       
       <div className='plots'>
         <Flex justifyContent="center" alignItems="center" width="50%">
-          {display && generateLineChart({ data: sketches_data, text: "Global trends" })}
+        <DynamicSelect startDate={startDate} endDate={endDate} />;          
         </Flex>
       </div>
     </div>

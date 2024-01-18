@@ -5,11 +5,13 @@ import {Card, LineChart, Title, Flex } from "@tremor/react";
 function convertDataFormat(exampleData) {
   const resultGenres = [];
   const resultDecades = [];
+  const resultCombo = [];
 
   for (let i = 0; i < exampleData.date_labels.length; i++) {
     const dateLabel = exampleData.date_labels[i];
     const dataObj = { date_label: dateLabel };
     const dataObjDecades = { date_label: dateLabel };
+    const dataObjCombo = { date_label: dateLabel };
 
     for (const genre in exampleData.genre_scores) {
       if (exampleData.genre_scores.hasOwnProperty(genre)) {
@@ -25,11 +27,19 @@ function convertDataFormat(exampleData) {
       }
     }
 
+    for(const combo in exampleData.combo_scores){
+      if (exampleData.combo_scores.hasOwnProperty(combo)) {
+        const score = exampleData.combo_scores[combo][i];
+        dataObjCombo[combo] = score;
+      }
+    }
+
     resultGenres.push(dataObj);
     resultDecades.push(dataObjDecades);
+    resultCombo.push(dataObjCombo);
   }
 
-  return {resultGenres, resultDecades};
+  return {resultGenres, resultDecades, resultCombo};
 }
 
 

@@ -480,3 +480,7 @@ cursor: pointer
 .scatter{
   width: 50%;
 }
+
+.select{
+  width: fit-content;
+}
