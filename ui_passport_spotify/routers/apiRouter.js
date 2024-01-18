@@ -72,14 +72,13 @@ router.get("/dataSketchesCombo", (req, res) => {
   const endDate = req.query.enddate;
   const arrayJson = req.query.array;
 
-  const array = JSON.parse(arrayJson);
-  const arrayString  = JSON.stringify(array);
+
 
 
   const jsonQuery = JSON.stringify({
     "start_date": startDate,
     "end_date": endDate,
-    "data" : arrayString
+    "data" : arrayJson
   });
 
   dataCollectorAction(apiEndpoint, jsonQuery)
