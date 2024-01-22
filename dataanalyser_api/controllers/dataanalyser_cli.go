@@ -103,3 +103,27 @@ func RunUpdateDataSketches(jsonData []byte) ([]byte, error) {
 
 	return out, nil
 }
+
+func RunAnalyseGlobalTrendsCustom(jsonData []byte) ([]byte, error) {
+	var err error
+
+	// create temporary sample.json
+	f, err := os.CreateTemp(config.DataAnalyserTmpFiles, "operation-data-*.json")
+	if err != nil {
+		return nil, err
+	}
+	defer f.Close()
+
+	if _, err := f.Write(jsonData); err != nil {
+		return nil, err
+	}
+
+	// run dataanalyser
+	out, err := exec.Command(fmt.Sprint(config.AnalyseGlobalTrendsCustom), f.Name()).Output()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
+}

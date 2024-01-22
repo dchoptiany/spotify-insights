@@ -4,6 +4,7 @@ const (
 	SpotifyInsightsRootDir = "/spotify-insights"
 
 	AnalyseGlobalTrendsBinary = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalyseGlobalTrends"
+	AnalyseGlobalTrendsCustom = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalyseGlobalTrendsCustom"
 	AnalysePlaylistBinary     = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalysePlaylist"
 	AnalyseProfileBinary      = SpotifyInsightsRootDir + "/dataanalyser_api/bin/AnalyseProfile"
 	UpdateDataSketchesBinary  = SpotifyInsightsRootDir + "/dataanalyser_api/bin/UpdateDataSketches"

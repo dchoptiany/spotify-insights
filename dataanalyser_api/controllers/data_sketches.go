@@ -69,3 +69,27 @@ func GetGlobalTrends(c *gin.Context) {
 		c.JSON(http.StatusOK, analysisOutput)
 	}
 }
+
+func GetGlobalTrendsOperation(c *gin.Context) {
+	var err error
+	var operationRequest models.DataSketchOperationRequest
+
+	if err = c.BindJSON(&operationRequest); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	} else {
+		// marshal operation request
+		data, err := json.Marshal(operationRequest)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		// run dataanalyser
+		analysisOutput, err := RunAnalyseGlobalTrendsCustom(data)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		}
+
+		// send response back to UI
+		c.JSON(http.StatusOK, analysisOutput)
+	}
+}
