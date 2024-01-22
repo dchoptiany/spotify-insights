@@ -11,6 +11,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Gets data about selected Spotify's playlist
 func GetSpotifyPlaylist(c *gin.Context) {
 	var err error
 	var token oauth2.Token
@@ -41,6 +42,7 @@ func GetSpotifyPlaylist(c *gin.Context) {
 	}
 }
 
+// Lists artists from sleected Spotify's playlist
 func GetSpotifyPlaylistsArtists(c *gin.Context) {
 	var err error
 	var token oauth2.Token
@@ -81,6 +83,7 @@ func GetSpotifyPlaylistsArtists(c *gin.Context) {
 	}
 }
 
+// Gets data about selected Spotify's playlist and pick most important information. Used for AnalysePlaylist segment in Data Analyser API
 func GetPlaylistForAnalysis(c *gin.Context) {
 	var err error
 	var token oauth2.Token
@@ -203,6 +206,7 @@ func GetPlaylistForAnalysis(c *gin.Context) {
 	}
 }
 
+// Gets basic about selected Spotify's playlist. Used for AnalysePlaylist segment in app
 func GetPlaylistInfo(c *gin.Context) {
 	var err error
 	var token oauth2.Token

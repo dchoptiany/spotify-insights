@@ -8,9 +8,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Create new spotify.Client based on verified token
 func NewSpotifyClient(token *oauth2.Token) spotify.Client {
-	//SpotifyClient := spotify.Authenticator{}.NewClient(token)
-
 	httpClient := spotifyauth.New().Client(context.Background(), token)
 	SpotifyClient := *spotify.New(httpClient)
 

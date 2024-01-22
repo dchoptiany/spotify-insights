@@ -8,6 +8,7 @@ import (
 	"dataanalyser_api/config"
 )
 
+// Runs Data Analyser's algorithm for playlist's analysis
 func RunAnalysePlaylist(jsonData []byte) ([]byte, error) {
 	var err error
 
@@ -32,6 +33,7 @@ func RunAnalysePlaylist(jsonData []byte) ([]byte, error) {
 	return out, nil
 }
 
+// Runs Data Analyser's algorithm for user's profile
 func RunAnalyseProfile(jsonData []byte) ([]byte, error) {
 	var err error
 
@@ -56,6 +58,7 @@ func RunAnalyseProfile(jsonData []byte) ([]byte, error) {
 	return out, nil
 }
 
+// Runs Data Analyser's algorithm for global trends analysis
 func RunAnalyseGlobalTrends(jsonData []byte) ([]byte, error) {
 	var err error
 
@@ -80,6 +83,7 @@ func RunAnalyseGlobalTrends(jsonData []byte) ([]byte, error) {
 	return out, nil
 }
 
+// Runs Data Analyser's algorithm in order to update data sketches
 func RunUpdateDataSketches(jsonData []byte) ([]byte, error) {
 	var err error
 
@@ -104,6 +108,7 @@ func RunUpdateDataSketches(jsonData []byte) ([]byte, error) {
 	return out, nil
 }
 
+// Runs Data Analyser's algorithm for global trends custom operation
 func RunAnalyseGlobalTrendsCustom(jsonData []byte) ([]byte, error) {
 	var err error
 

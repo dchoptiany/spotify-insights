@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Define endpoints and their handlers
 func SetUpRoutes() (*gin.Engine, error) {
 	r := gin.Default()
 

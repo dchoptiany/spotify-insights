@@ -33,7 +33,7 @@ func CreateClient() Client {
 	c.ClientID = spotifyClientID
 	c.ClientSecret = spotifyClientSecret
 	c.Authenticate()
-	//c.SpotifyClient = spotify.Authenticator{}.NewClient(c.Token)
+
 	httpClient := spotifyauth.New().Client(context.Background(), c.Token)
 	c.SpotifyClient = *spotify.New(httpClient)
 	c.GenUUID()

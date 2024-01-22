@@ -14,6 +14,7 @@ import (
 
 const PlaylistsFilename = config.TopPlaylistsIDFile
 
+// Gets data about Spotify's global tracks / global playlists and pick most important information
 func GetTrendTracks(c *gin.Context) {
 	var err error
 	var client models.Client

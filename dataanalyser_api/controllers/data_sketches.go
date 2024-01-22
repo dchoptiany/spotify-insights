@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Gets global data from Data Collector and then runs Data Analyser to update data sketches
 func UpdateDataSketches() error {
 	client := &http.Client{}
 
@@ -45,6 +46,7 @@ func UpdateDataSketches() error {
 	return nil
 }
 
+// Based on request's payload, runs Data Analyser to get global trends in selected period of time
 func GetGlobalTrends(c *gin.Context) {
 	var err error
 	var dataRequest models.DataSketchRequest
@@ -70,6 +72,7 @@ func GetGlobalTrends(c *gin.Context) {
 	}
 }
 
+// Runs Data Analyser to perfom global trend custom operation based on user's selected period of time / genre / decade
 func GetGlobalTrendsOperation(c *gin.Context) {
 	var err error
 	var operationRequest models.DataSketchOperationRequest
