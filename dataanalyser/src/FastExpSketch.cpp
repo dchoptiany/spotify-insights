@@ -63,6 +63,42 @@ float FastExpSketch::estimateCardinality()
     return (float)(size - 1) / sum;
 }
 
+// Function calculating Jaccard Similarity of this sketch and the other
+float FastExpSketch::jaccardSimilarity(const FastExpSketch* other)
+{
+    size_t equalCounter = 0;
+    for(size_t k = 0; k < size; k++)
+    {
+        if(M.at(k) == other->M.at(k))
+        {
+            equalCounter++;
+        }
+    }
+    return static_cast<float>(equalCounter) / static_cast<float>(size);
+}
+
+// Function calculating cardinality of estimated sum of this sketch and the other
+float FastExpSketch::estimateSum(const FastExpSketch* other)
+{
+    float sum = 0.0;
+    for(size_t k = 0; k < size; k++)
+    {
+        sum += std::min(M.at(k), other->M.at(k));
+    }
+
+    if(sum == 0.0)
+    {
+        return 0.0;
+    }
+    return static_cast<float>(size - 1) / sum;
+}
+
+// Function calculating estimated cardinality of intersection of the sketch and the other
+float FastExpSketch::estimateIntersection(const FastExpSketch* other)
+{
+    return jaccardSimilarity(other) * estimateSum(other);
+}
+
 // Function updating data sketch on arrival of pair (i, lambda)
 void FastExpSketch::update(unsigned i, float lambda)
 {

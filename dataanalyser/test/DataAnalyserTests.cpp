@@ -85,10 +85,17 @@ void testDataSketches(size_t samples)
     delete dataAnalyser;
 }
 
-void testGlobalTrendsAnalysis(const std::string datespan)
+void testGlobalTrendsAnalysis(const std::string& datespan)
 {
     DataAnalyser *dataAnalyser = new DataAnalyser();
     std::cout << dataAnalyser->analyseGlobalTrends(datespan) << std::endl;
+    delete dataAnalyser;
+}
+
+void testGlobalTrendsAnalysisCustom(const std::string& combo)
+{
+    DataAnalyser *dataAnalyser = new DataAnalyser();
+    std::cout << dataAnalyser->analyseGlobalTrendsCustom(combo) << std::endl;
     delete dataAnalyser;
 }
 
@@ -137,6 +144,18 @@ int main(int argc, char** argv)
         bufferDatespan << file.rdbuf();
         std::string datespan = bufferDatespan.str();
         testGlobalTrendsAnalysis(datespan);
+        file.close();
+
+        file.open("../combo.json", std::ios::in);
+        if(!file.good())
+        {
+            std::cerr << "Could not open file combo.json" << std::endl;
+            return 1;
+        }
+        std::stringstream bufferCombo;
+        bufferCombo << file.rdbuf();
+        std::string combo = bufferCombo.str();
+        testGlobalTrendsAnalysisCustom(combo);
     }
     
     return 0;
