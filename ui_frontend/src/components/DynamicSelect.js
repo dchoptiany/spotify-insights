@@ -23,7 +23,7 @@ const DynamicSelect = ({startDate, endDate}) => {
   ];
 
   const initialDecades = [
-    { label: "2020'", value: "2020" },
+    { label: "2020'", value: "2020'" },
     { label: "2010'", value: "2010'" },
     { label: "2000'", value: "2000'" },
     { label: "90'", value: "90'" },
