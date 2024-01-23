@@ -38,7 +38,7 @@ function convertDataFormat(exampleData) {
 <Flex justifyContent="center" alignItems="center">
 
       <Card className="lineChart">
-      <Title>Combo</Title>
+      <Title>Trends</Title>
       <LineChart
         className="h-72 mt-4"
         data={result.resultCombo}
