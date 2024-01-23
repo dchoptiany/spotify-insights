@@ -92,14 +92,15 @@ const DynamicSelect = ({startDate, endDate}) => {
       jsonData.push(data);
     }
   }
-    if(jsonData.length>0){
-        setRequest(jsonData);
-    }
+    setRequest(jsonData);
+    
   }
 
   const handleSubmit =  () => {
     generateJsonData();
-    request();
+    if(requestData.length>0){
+      request();
+    }
   };
 
   const request =  () => {
