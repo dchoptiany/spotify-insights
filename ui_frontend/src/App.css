@@ -68,6 +68,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 
 }
 
@@ -80,7 +81,7 @@ body {
   align-items: center;
   justify-content: center;
   margin-top: 30vh;
-  margin-left: 25vh;
+  cursor: pointer;
 }
 
 

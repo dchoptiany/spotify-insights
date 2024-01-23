@@ -1,4 +1,5 @@
 import Spotify from "../images/spotify.png"
+import { Flex } from "@tremor/react";
 
 
 const spotify = ()=>{
@@ -9,17 +10,20 @@ const spotify = ()=>{
 
 const Login = () =>{
     return (
+        <Flex justifyContent="center" alignItems="center">
         <div className="wrapper">
-                <div className="center">
+
+                <div className="center" onClick={spotify}>
                 <div className="loginButton" onClick={spotify}>
                     <img src={Spotify} alt="" className="icon"></img>
                 </div>
-                <div className="loginDesc">
-                <h1 >Log in with your Spotify account</h1>
+                <div className="loginDesc" onClick={spotify}>
+                <div>Log in with your Spotify account</div>
 
                 </div>
                 </div>
         </div>
+        </Flex>
     )
 }
 
