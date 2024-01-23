@@ -16,7 +16,7 @@ const sidebarItems = [
   [
     { id: '0', title: 'Overview', url: "/" ,user_needed : false},
     { id: '1', title: 'Global trends', url: "/globalTrends",user_needed : false },
-    { id: '2', title: 'Calculate trends', url: "/globalTrendsCombo",user_needed : false },
+    { id: '2', title: 'Advanced trends analysis', url: "/globalTrendsCombo",user_needed : false },
     { id: '3', title: 'Analyse URL', url: "/urlAnalysis" ,user_needed : true},
     { id: '4', title: 'Top Artists', url: "/topArtists",user_needed : true },
     { id: '5', title: 'Top Tracks', url: "/topTracks",user_needed : true },
