@@ -504,3 +504,15 @@ cursor: pointer
   margin-left: 0.7%;
   margin-right: 0.7%;
 }
+
+.reactButton{
+  background-color: #1DB954;
+  color: #ffffff;
+  border-color: #1DB954;
+}
+
+.reactButton:hover{
+   background-color: #3ca862;
+  color: #ffffff;
+  border-color: #309e57;
+}

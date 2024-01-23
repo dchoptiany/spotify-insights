@@ -198,12 +198,12 @@ const DynamicSelect = ({startDate, endDate}) => {
       ))}
       <div style={{ margin: "2%" }}></div>
       <Flex justifyContent="center" alignItems="center" width="100%">
-      <Button onClick={handleButtonClick}>ADD +</Button>
+      <Button onClick={handleButtonClick} className="reactButton">ADD +</Button>
       <div style={{ marginLeft: "1%" }}></div>
-      {minusVisible && <Button onClick={handleMinusClick}>MINUS -</Button>}
+      {minusVisible && <Button onClick={handleMinusClick} className="reactButton">MINUS -</Button>}
       </Flex>
       <div style={{ margin: "2%" }}></div>
-      <Button onClick={handleSubmit}>GENERATE</Button>
+      <Button onClick={handleSubmit} className="reactButton" >GENERATE</Button>
       <div style={{width:"100%"}}>
       <Flex justifyContent="center" alignItems="center" width="100%">
           {display && generateLineChart({ data: sketchesData, text: "Trends" })}
