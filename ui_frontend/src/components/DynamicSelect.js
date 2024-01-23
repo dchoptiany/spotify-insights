@@ -83,6 +83,7 @@ const DynamicSelect = ({startDate, endDate}) => {
     let jsonData = [];
   
     for (let i of Object.keys(selectedValues)) {
+      if(!(selectedValues[i].genre==="" || selectedDecades[i].decade==="")){
       let data = {
         genre: selectedValues[i].genre,
         decade: selectedDecades[i].decade,
@@ -90,8 +91,10 @@ const DynamicSelect = ({startDate, endDate}) => {
   
       jsonData.push(data);
     }
-
-    setRequest(jsonData);
+  }
+    if(jsonData.length>0){
+        setRequest(jsonData);
+    }
   }
 
   const handleSubmit =  () => {
@@ -101,7 +104,7 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   const request =  () => {
     try {
-        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
+        const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends/operation";
         if(startDate!="" && endDate!="" ){
         DataSketchesRequestCombo(parsedSpotifyURL, startDate, endDate,requestData)
         .then(response => {
