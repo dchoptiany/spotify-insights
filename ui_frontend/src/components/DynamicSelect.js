@@ -23,17 +23,17 @@ const DynamicSelect = ({startDate, endDate}) => {
   ];
 
   const initialDecades = [
-    { label: "20'", value: "20'" },
-    { label: "30'", value: "30'" },
-    { label: "40'", value: "40'" },
-    { label: "50'", value: "50'" },
-    { label: "60'", value: "60'" },
-    { label: "70'", value: "70'" },
-    { label: "80'", value: "80'" },
-    { label: "90'", value: "90'" },
-    { label: "2000'", value: "2000'" },
-    { label: "2010'", value: "2010'" },
     { label: "2020'", value: "2020" },
+    { label: "2010'", value: "2010'" },
+    { label: "2000'", value: "2000'" },
+    { label: "90'", value: "90'" },
+    { label: "80'", value: "80'" },
+    { label: "70'", value: "70'" },
+    { label: "60'", value: "60'" },
+    { label: "50'", value: "50'" },
+    { label: "40'", value: "40'" },
+    { label: "30'", value: "30'" },
+    { label: "20'", value: "20'" },
   ];
 
     
@@ -76,10 +76,7 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   };
 
-  const generateJsonData = ()=>{
-    console.log("Wybrane wartości:", selectedValues);
-    console.log("Wybrane wartości:", selectedDecades);
-  
+  const generateJsonData = ()=>{  
     let jsonData = [];
   
     for (let i of Object.keys(selectedValues)) {
@@ -92,12 +89,14 @@ const DynamicSelect = ({startDate, endDate}) => {
       jsonData.push(data);
     }
   }
-    setRequest(jsonData);
+  setRequest(jsonData);
     
   }
 
-  const handleSubmit =  () => {
+  const handleSubmit = async () => {
     generateJsonData();
+    await new Promise(resolve => setTimeout(resolve, 500));
+
     if(requestData.length>0){
       request();
     }
@@ -181,7 +180,7 @@ const DynamicSelect = ({startDate, endDate}) => {
       <div style={{width:"100%"}}>
 
       <Flex justifyContent="center" alignItems="center" width="100%">
-          {display && generateLineChart({ data: sketchesData, text: "Combo" })}
+          {display && generateLineChart({ data: sketchesData, text: "Trends" })}
         </Flex>
         </div>
     </div>
