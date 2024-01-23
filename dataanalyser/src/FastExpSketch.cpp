@@ -69,7 +69,7 @@ float FastExpSketch::jaccardSimilarity(const FastExpSketch* other)
     size_t equalCounter = 0;
     for(size_t k = 0; k < size; k++)
     {
-        if(M.at(k) == other->M.at(k))
+        if(fabs(M.at(k) - other->M.at(k)) < 10 * std::numeric_limits<float>::epsilon())
         {
             equalCounter++;
         }
