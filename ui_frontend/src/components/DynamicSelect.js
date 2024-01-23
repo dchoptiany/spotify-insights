@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Flex, Select, SelectItem } from "@tremor/react";
 import generateLineChart from "./LineChartCombo";
 import {  DataSketchesRequestCombo } from "../actions/authActions";
@@ -43,6 +43,13 @@ const DynamicSelect = ({startDate, endDate}) => {
   const [sketchesData, setData] = useState({})
   const [display, setDisplay] = useState(false);
   const [requestData, setRequest] = useState({});
+  const [minusVisible, setMinusVisible] = useState(false);
+
+  useEffect(() => {
+    if(requestData.length>0){
+      request();
+    }
+  }, [requestData]);
 
 
     if (startDate === "" || endDate === "") {
@@ -56,6 +63,8 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   const handleButtonClick = () => {
     setSelectItems([...selectItems, { genres: initialOptions, decades: initialDecades }]);
+    setMinusVisible(true);
+
   };
 
   const handleSelectChange = (selectIndex, value, isDecade) => {
@@ -73,7 +82,26 @@ const DynamicSelect = ({startDate, endDate}) => {
       setSelectedValues(selectedValuesCopy);
 
     }
+  };
 
+  const handleMinusClick = () => {
+    if (selectItems.length > 1) {
+      const updatedSelectItems = [...selectItems];
+      updatedSelectItems.pop(); 
+  
+      const updateselectedValues = { ...selectedValues };
+      const updateSelectedDecades = { ...selectedDecades };
+  
+      delete updateselectedValues[selectItems.length - 1];
+      delete updateSelectedDecades[selectItems.length - 1];
+  
+      setSelectItems(updatedSelectItems);
+      setSelectedDecades(updateSelectedDecades);
+      setSelectedValues(updateselectedValues);
+    }
+    if(selectItems.length===2){
+      setMinusVisible(false)
+    }
   };
 
   const generateJsonData = ()=>{  
@@ -89,17 +117,12 @@ const DynamicSelect = ({startDate, endDate}) => {
       jsonData.push(data);
     }
   }
-  setRequest(jsonData);
-    
+  setRequest(jsonData);    
   }
 
-  const handleSubmit = async () => {
-    generateJsonData();
-    await new Promise(resolve => setTimeout(resolve, 500));
 
-    if(requestData.length>0){
-      request();
-    }
+  const handleSubmit = () => {
+    generateJsonData();
   };
 
   const request =  () => {
@@ -174,11 +197,14 @@ const DynamicSelect = ({startDate, endDate}) => {
         </Flex>
       ))}
       <div style={{ margin: "2%" }}></div>
+      <Flex justifyContent="center" alignItems="center" width="100%">
       <Button onClick={handleButtonClick}>ADD +</Button>
+      <div style={{ marginLeft: "1%" }}></div>
+      {minusVisible && <Button onClick={handleMinusClick}>MINUS -</Button>}
+      </Flex>
       <div style={{ margin: "2%" }}></div>
       <Button onClick={handleSubmit}>GENERATE</Button>
       <div style={{width:"100%"}}>
-
       <Flex justifyContent="center" alignItems="center" width="100%">
           {display && generateLineChart({ data: sketchesData, text: "Trends" })}
         </Flex>
