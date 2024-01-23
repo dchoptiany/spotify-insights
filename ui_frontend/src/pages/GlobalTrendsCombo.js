@@ -45,7 +45,7 @@ const formatDate = (dateString) => {
       <Flex justifyContent="center" alignItems="center" width="50%">
 
       <div>
-        <div className='url_desc'>Calculate trends in music genres and decades!</div>
+        <div className='url_desc'>Advanced trends analysis</div>
         <div className='url_desc2'>Select a period of time, genres and decades you are interested in</div>
         <div className='url_desc2'> and let the calculates begin!</div>
       </div>

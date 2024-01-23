@@ -53,8 +53,8 @@ useEffect(() => {
       <Flex justifyContent="center" alignItems="center">
       
       {display && generateTextCard(user_data.name, "Name")}
-      {display && generateTextCard(user_data.num_of_followers, "Number of followers")}
-      {display && generateTextCard(user_data.num_of_following_artists, "Following artists")}
+      {display && generateTextCard(user_data.num_of_followers, "Followers")}
+      {display && generateTextCard(user_data.num_of_following_artists, "Followed artists")}
       </Flex>
       </div>
 

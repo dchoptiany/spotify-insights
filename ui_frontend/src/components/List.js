@@ -10,7 +10,7 @@ const generateList = ({ data }) => {
 
   return (
     <Card className="List">
-      <Title>Basic informations</Title>
+      <Title>Basic information</Title>
       <List>
         {Object.entries(filteredData).map(([key, value]) => (
           <ListItem key={key}>

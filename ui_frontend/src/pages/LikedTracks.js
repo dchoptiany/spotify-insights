@@ -55,7 +55,7 @@ useEffect(() => {
         <Flex justifyContent="center" alignItems="center">
 
         {display && generateCard({data: userData.genres_count, text: "Genres count"}) }
-        {display && generateCard({data: userData.uniqueness, text: "Uniquness"}) }
+        {display && generateCard({data: userData.uniqueness, text: "Uniqueness"}) }
       </Flex>
       
 
