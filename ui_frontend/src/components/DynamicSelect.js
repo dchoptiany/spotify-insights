@@ -13,7 +13,7 @@ const DynamicSelect = ({startDate, endDate}) => {
     { label: "Classical", value: "Classical" },
     { label: "Dance", value: "Dance" },
     { label: "Disco", value: "Disco" },
-    { label: "Hip-Hop", value: "Hip-Hop" },
+    { label: "Hip Hop", value: "Hip Hop" },
     { label: "Jazz", value: "Jazz" },
     { label: "Latin", value: "Latin" },
     { label: "Metal", value: "Metal" },
