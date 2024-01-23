@@ -59,8 +59,6 @@ Processes data containing information about tracks on playlist and returns JSON 
 - general playlist energy
 - general playlist danceability
 - general playlist uniqueness
-- list of tracks' energy
-- list of tracks' danceability
 - music taste uniqueness
 */
 std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
@@ -68,19 +66,15 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     unsigned totalDuration = 0;
     double totalEnergy = 0;
     double totalDanceability = 0;
-    double uniquenessInversionsSum = 0.0;
+    double popularityInversionsSum = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
     std::unordered_map<std::string, unsigned> decades;
-    std::vector<int> tracksDanceability;
-    std::vector<int> tracksEnergy;
     json j = json::parse(jsonInput);
 
     json tracks = j["tracks"];
     size_t tracksCount = tracks.size();
-    tracksDanceability.reserve(tracksCount);
-    tracksEnergy.reserve(tracksCount);
 
     for (const auto &track : tracks)
     {
@@ -102,21 +96,19 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
         }
 
         totalDuration += duration_ms / 1000;
-        uniquenessInversionsSum += 1.0 / std::max(0.5, 100.0 - popularity);
+        popularityInversionsSum += 1.0 / popularity;
         totalEnergy += energy;
         totalDanceability += danceability;
 
         increment(genres, genre);
         increment(decades, decade);
-
-        tracksDanceability.push_back(danceability * 100);
-        tracksEnergy.push_back(energy * 100);
     }
 
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
-    double uniqueness = (double)tracksCount / uniquenessInversionsSum;
+    double popularity = tracksCount == 0 ? 100.0 : (double)tracksCount / popularityInversionsSum;
+    double uniqueness = 100.0 - popularity;
     totalEnergy /= (double)tracksCount;
     totalDanceability /= (double)tracksCount;
 
@@ -134,8 +126,6 @@ std::string DataAnalyser::analysePlaylist(const std::string &jsonInput)
     result["duration"] = formatDuration(totalDuration);
     result["general_energy"] = (int)std::round(totalEnergy * 100.0);
     result["general_danceability"] = (int)std::round(totalDanceability * 100.0);
-    result["tracks_danceability"] = tracksDanceability;
-    result["tracks_energy"] = tracksEnergy;
     result["uniqueness"] = (int)std::round(uniqueness);
     return result.dump(4); // return indented json as string
 }
@@ -152,7 +142,7 @@ Processes data containing information about user's favourite tracks on and retur
 */
 std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 {
-    double uniqueness = 0.0;
+    double popularityInversionsSum = 0.0;
     std::unordered_map<std::string, std::string> artistsNames;
     std::unordered_map<std::string, unsigned> artists;
     std::unordered_map<std::string, unsigned> genres;
@@ -176,7 +166,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
             increment(artists, artistsNames, artistId, artistName);
         }
 
-        uniqueness += 100.0 - popularity;
+        popularityInversionsSum += 1.0 / popularity;
 
         increment(genres, genre);
         increment(decades, decade);
@@ -186,7 +176,8 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
     size_t artistsCount = artists.size();
     size_t genresCount = genres.size();
 
-    uniqueness /= (double)tracksCount;
+    double popularity = tracksCount == 0 ? 100.0 : (double)tracksCount / popularityInversionsSum;
+    double uniqueness = 100.0 - popularity;
 
     std::vector<std::pair<std::string, unsigned>> topArtists = getTop(artists, 5, artistsNames);
     std::vector<std::pair<std::string, unsigned>> topGenres = getTop(genres, 5);
@@ -207,6 +198,7 @@ std::string DataAnalyser::analyseLikedTracks(const std::string &jsonInput)
 Returns JSON string based on gathered Data Sketches containing:
 - list of date labels in format DD-MM-YYYY
 - list of pairs (string genre, list of ints)
+- list of pairs (string decade, list of ints)
 */
 std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
 {
@@ -290,6 +282,90 @@ std::string DataAnalyser::analyseGlobalTrends(const std::string &jsonInput)
     result["date_labels"] = labels;
     result["genre_scores"] = genrePairs;
     result["decade_scores"] = decadePairs;
+    return result.dump(4); // return indented json as string
+}
+
+/*
+Returns JSON string based on gathered Data Sketches containing:
+- list of date labels in format DD-MM-YYYY
+- list of pairs (string decadeAndGenre, list of ints)
+*/
+std::string DataAnalyser::analyseGlobalTrendsCustom(const std::string& jsonInput)
+{
+    json j = json::parse(jsonInput);
+    std::string startDateString = j["start_date"];
+    std::string endDateString = j["end_date"];
+    json data = j["data"];
+
+    std::tm endDate = stringToDate(endDateString);
+    endDate.tm_mday++;
+    std::mktime(&endDate);
+    std::tm currentDate = stringToDate(startDateString);
+    std::vector<std::string> labels;
+    std::map<std::string, std::vector<unsigned>> comboPairs;
+
+    for(const auto& pair : data)
+    {
+        std::string displayableGenre = pair["genre"];
+        std::string decade = pair["decade"];
+        std::string combo = decade + " " + displayableGenre;
+        comboPairs[combo] = std::vector<unsigned>();
+    }
+
+    do
+    {
+        labels.push_back(formatDate(currentDate));
+        for(const auto& pair : data)
+        {
+            std::string displayableGenre = pair["genre"];
+            std::string genre = FROM_DISPLAYABLE_GENRES.at(displayableGenre);
+            std::string decade = pair["decade"];
+            std::string combo = decade + " " + displayableGenre;
+
+            FastExpSketch* genreSketch = nullptr, *decadeSketch = nullptr;
+            SketchKey genreKey(genre, currentDate);
+            SketchKey decadeKey(decade, currentDate);
+            
+            std::fstream genreFile(FastExpSketch::getSketchesDir() + genreKey.toString(), std::ios::in);
+            if(genreFile.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    genreFile >> values[i];
+                }
+                genreSketch = new FastExpSketch(values);
+            }
+
+            std::fstream decadeFile(FastExpSketch::getSketchesDir() + decadeKey.toString(), std::ios::in);
+            if(decadeFile.good())
+            {
+                std::vector<float> values(DEFAULT_SKETCH_SIZE, 0.0);
+                for(size_t i = 0; i < DEFAULT_SKETCH_SIZE; i++)
+                {
+                    decadeFile >> values[i];
+                }
+                decadeSketch = new FastExpSketch(values);
+            }
+
+            if(genreSketch != nullptr && decadeSketch != nullptr)
+            {
+                float dnfCardinality = genreSketch->estimateIntersection(decadeSketch);
+                comboPairs[combo].push_back(static_cast<unsigned>(std::round(dnfCardinality)));
+            }
+            else
+            {
+                comboPairs[combo].push_back(0);
+            }
+        }
+        
+        currentDate.tm_mday++;
+        std::mktime(&currentDate);
+    } while(currentDate.tm_year != endDate.tm_year || currentDate.tm_mon != endDate.tm_mon || currentDate.tm_mday != endDate.tm_mday);
+
+    json result;
+    result["date_labels"] = labels;
+    result["combo_scores"] = comboPairs;
     return result.dump(4); // return indented json as string
 }
 

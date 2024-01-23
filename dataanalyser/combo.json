@@ -1,0 +1,30 @@
+{
+    "start_date": "16-01-2024",
+    "end_date": "18-01-2024",
+    "data": [
+        {
+            "genre": "Rap",
+            "decade":"90'"
+        },
+        {
+            "genre": "Rap",
+            "decade":"2000'"
+        },
+        {
+            "genre": "Dance",
+            "decade":"2010'"
+        },
+        {
+            "genre": "Dance",
+            "decade":"2020'"
+        },
+        {
+            "genre": "Pop",
+            "decade":"2010'"
+        },
+        {
+            "genre": "Pop",
+            "decade":"2020'"
+        }
+    ]
+}

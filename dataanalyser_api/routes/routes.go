@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Define endpoints and their handlers
 func SetUpRoutes() (*gin.Engine, error) {
 	r := gin.Default()
 
@@ -22,6 +23,9 @@ func SetUpRoutes() (*gin.Engine, error) {
 
 	// global trends
 	dataSketch.GET("/trends", controllers.GetGlobalTrends)
+
+	// global trends custom operation
+	dataSketch.GET("/trends/operation", controllers.GetGlobalTrendsOperation)
 
 	return r, nil
 }

@@ -12,6 +12,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Collects data about user's saved tracks from Data Collector and runs Data Analyser to get tracks' analysis
 func GetUsersTracksAnalysis(c *gin.Context) {
 	var err error
 	var token oauth2.Token

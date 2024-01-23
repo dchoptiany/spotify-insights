@@ -16,6 +16,7 @@ public:
     std::string analysePlaylist(const std::string& jsonInput);
     std::string analyseLikedTracks(const std::string& jsonInput);
     std::string analyseGlobalTrends(const std::string& jsonInput);
+    std::string analyseGlobalTrendsCustom(const std::string& jsonInput);
     void updateDataSketch(FastExpSketch* sketch, const std::vector<std::pair<unsigned, float>>& stream);
     void updateDataSketches(const std::string& jsonInput);
 
@@ -62,6 +63,26 @@ private:
         {"rap", "Rap"},
         {"rock", "Rock"},
         {"techno", "Techno"}
+    };
+    const std::map<std::string, std::string> FROM_DISPLAYABLE_GENRES = 
+    {
+        {"Blues", "blues"},
+        {"Classical", "classical"},
+        {"Dance", "dance"},
+        {"Disco", "disco"},
+        {"Hip Hop", "hip"},
+        {"Indie", "indie"},
+        {"J-Pop", "j-pop"},
+        {"Jazz", "jazz"},
+        {"K-Pop", "k-pop"},
+        {"Latin", "latin"},
+        {"Lo-Fi", "lo-fi"},
+        {"Metal", "metal"},
+        {"Pop", "pop"},
+        {"R&B", "r&b"},
+        {"Rap", "rap"},
+        {"Rock", "rock"},
+        {"Techno", "techno"}
     };
     const std::array<std::string, NUMBER_OF_DECADES> DECADES = 
     {
