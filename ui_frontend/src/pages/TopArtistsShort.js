@@ -3,6 +3,7 @@ import generateTextCard from '../components/TextCart';
 import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
 
+//Top artists page
 const TopArtistsShort = ({term}) => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
@@ -12,21 +13,16 @@ const TopArtistsShort = ({term}) => {
 
   let requestData=""
 
-
+//Sending requests and collecting data
   const getData =  () => {
-
     try {
         const parsedSpotifyURL = `http://aws_hostname:8080/spotify-api/user/top/artists?time_range=${term}`
-        console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response)
           return response.text();
         }) 
         .then(data => {
-          requestData = JSON.parse(data);
-          console.log(requestData);
- 
+          requestData = JSON.parse(data); 
           setUserData(requestData);
           setDisplay(true);
         })
@@ -40,7 +36,7 @@ const TopArtistsShort = ({term}) => {
  }
 
 
-
+ //Fetches data when the component "mounts"
   useEffect(() => {
     getData();
   }, []);

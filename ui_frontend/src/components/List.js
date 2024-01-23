@@ -1,6 +1,8 @@
 import { Card, List, ListItem, Title } from "@tremor/react";
 import './styleComponents.css';
 
+
+//Generating List of basics informations about playlist
 const generateList = ({ data }) => {
   const filteredData = Object.entries(data)
     .filter(([key]) => key !== 'image')

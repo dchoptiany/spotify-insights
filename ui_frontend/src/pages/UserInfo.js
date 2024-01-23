@@ -2,21 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {DataCollectorRequest} from '../actions/authActions';
 import generateList from '../components/List';
 import { Flex } from "@tremor/react";
-import generateCard from '../components/Cart';
 import generateTextCard from '../components/TextCart';
 
 
-
+//User info page
 const UserInfo = ({user}) => {
   const [display, setDisplay] = useState(false)
   const [user_data, setData] = useState({});
 
 
 let requestData=""
-  
+  //Getting user data
   const getUserInfo =  () => {
-
-
  try {
      const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/info";
      console.log(parsedSpotifyURL)
@@ -41,7 +38,7 @@ let requestData=""
  }
  
 }
-
+//Fetches data when the component "mounts"
 useEffect(() => {
     getUserInfo();
   }, []);

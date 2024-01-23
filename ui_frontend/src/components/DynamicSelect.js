@@ -3,6 +3,8 @@ import { Button, Flex, Select, SelectItem } from "@tremor/react";
 import generateLineChart from "./LineChartCombo";
 import {  DataSketchesRequestCombo } from "../actions/authActions";
 
+
+//This function is used for design page named "calculate trends"
 const DynamicSelect = ({startDate, endDate}) => {
 
   const initialOptions = [
@@ -38,8 +40,8 @@ const DynamicSelect = ({startDate, endDate}) => {
 
     
   const [selectItems, setSelectItems] = useState([{ genres: initialOptions, decades: initialDecades }]);
-  const [selectedValues, setSelectedValues] = useState({});
-  const [selectedDecades, setSelectedDecades] = useState({});
+  const [selectedValues, setSelectedValues] = useState({ 0: { genre: "", decade: "" } });
+  const [selectedDecades, setSelectedDecades] = useState({ 0: { decade: "" } });
   const [sketchesData, setData] = useState({})
   const [display, setDisplay] = useState(false);
   const [requestData, setRequest] = useState({});
@@ -67,23 +69,23 @@ const DynamicSelect = ({startDate, endDate}) => {
 
   };
 
+  //Thsi function adds new row of selectItems
   const handleSelectChange = (selectIndex, value, isDecade) => {
-
-    console.log(value)
     const selectedValuesCopy = { ...selectedValues };
     const selectedDecadesCopy = { ...selectedDecades };
 
     if (isDecade) {
-        selectedDecadesCopy[selectIndex] = { ...selectedDecadesCopy[selectIndex], decade: value };
+        selectedDecadesCopy[selectIndex] = { ...selectedDecadesCopy[selectIndex], decade: value } || {};
       setSelectedDecades(selectedDecadesCopy);
 
     } else {
-      selectedValuesCopy[selectIndex] = { ...selectedValuesCopy[selectIndex], genre: value };
+      selectedValuesCopy[selectIndex] = { ...selectedValuesCopy[selectIndex], genre: value } || {};
       setSelectedValues(selectedValuesCopy);
 
     }
   };
 
+//This function delete last row of selectItems
   const handleMinusClick = () => {
     if (selectItems.length > 1) {
       const updatedSelectItems = [...selectItems];
@@ -104,11 +106,12 @@ const DynamicSelect = ({startDate, endDate}) => {
     }
   };
 
-  const generateJsonData = ()=>{  
+  //It fillter collected data 
+  const fillterData = ()=>{  
     let jsonData = [];
   
     for (let i of Object.keys(selectedValues)) {
-      if(!(selectedValues[i].genre==="" || selectedDecades[i].decade==="")){
+      if(!(selectedValues[i]?.genre==="" || selectedDecades[i]?.decade==="")){
       let data = {
         genre: selectedValues[i].genre,
         decade: selectedDecades[i].decade,
@@ -122,13 +125,14 @@ const DynamicSelect = ({startDate, endDate}) => {
 
 
   const handleSubmit = () => {
-    generateJsonData();
+    fillterData();
   };
 
+  //Sending request
   const request =  () => {
     try {
         const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends/operation";
-        if(startDate!="" && endDate!="" ){
+        if(startDate!="" && endDate!=""){
         DataSketchesRequestCombo(parsedSpotifyURL, startDate, endDate,requestData)
         .then(response => {
           console.log(response)

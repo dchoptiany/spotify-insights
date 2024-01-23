@@ -12,7 +12,8 @@ import {
   } from "@tremor/react";
 
 
-
+//Top artists page
+//It shows data in short trem, medium term and long term
 const TopTracks = () => {
 
   return (

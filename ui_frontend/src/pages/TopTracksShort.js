@@ -4,6 +4,8 @@ import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
 import AudioPlayer from './AudioPlayer';
 
+
+//Top Track subpage
 const TopTracksShort = ({term}) => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
@@ -11,6 +13,7 @@ const TopTracksShort = ({term}) => {
   });
   let requestData=""
 
+  //Sending requests and collection data
   const getData =  () => {
 
     try {
@@ -18,13 +21,10 @@ const TopTracksShort = ({term}) => {
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response)
           return response.text();
         }) 
         .then(data => {
-          requestData = JSON.parse(data);
-          console.log(requestData);
- 
+          requestData = JSON.parse(data); 
           setUserData(requestData);
           setDisplay(true);
         })
@@ -38,7 +38,7 @@ const TopTracksShort = ({term}) => {
  }
 
 
-
+ //Fetches data when the component "mounts"
   useEffect(() => {
     getData();
   }, []);

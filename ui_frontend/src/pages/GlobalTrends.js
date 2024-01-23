@@ -4,13 +4,11 @@ import { Flex } from "@tremor/react";
 import Button from '../components/Button';
 import { DateRangePicker } from "@tremor/react";
 import  {DataSketchesRequest} from './../actions/authActions'
-import generateScatterChart from '../components/ScatterChart';
-import { Select, SelectItem } from "@tremor/react";
-import DynamicSelect from '../components/DynamicSelect';
 
 
 
 
+//Glogal Trends page
 const GlobalTrends = () => {
 
     const [startDate, setStartDate] = useState("");
@@ -19,6 +17,7 @@ const GlobalTrends = () => {
     const [sketches_data, setData] = useState({});
     
 
+    //Formatting date
 const formatDate = (dateString) => {
   if (isNaN(Date.parse(dateString))) {
     return "";
@@ -39,29 +38,24 @@ const formatDate = (dateString) => {
 
 
 
-
+//Handling button click and sending request
  const handleButtonClick =  () => {
   try {
       const parsedSpotifyURL = "http://aws_hostname:6060/data_sketch/trends";
       if(startDate!="" && endDate!="" ){
       DataSketchesRequest(parsedSpotifyURL, startDate, endDate)
       .then(response => {
-        console.log(response)
         return response.text()
       }) 
       .then(data => {
         setDisplay(true);
         const cleanedData = data.replace(/"/g, '');
-        console.log(data)
-        let requestData = JSON.parse(atob(cleanedData));
-        console.log(requestData)
- 
+        let requestData = JSON.parse(atob(cleanedData)); 
         setData(requestData);
         setDisplay(true);
       })
      
       .catch(error => {
-        console.log(error);
         setDisplay(false);
       });
      }
@@ -70,15 +64,11 @@ const formatDate = (dateString) => {
   }
   };
 
-
+//Updating dates
   const updateDates = ({start,end})=>{
     setStartDate(start)
     setEndDate(end)
   }
-
-
-
-
   
  return (
     <div className="input-form-container">

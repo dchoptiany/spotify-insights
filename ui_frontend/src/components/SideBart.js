@@ -4,12 +4,14 @@ import {logout} from "../actions/authActions"
 
 
 
-
+//Sending alert to user
 function logInAlert() {
       alert("You need to log in");
   
 }
 
+
+//All items on sidebar
 const sidebarItems = [
   [
     { id: '0', title: 'Overview', url: "/" ,user_needed : false},
@@ -24,7 +26,7 @@ const sidebarItems = [
 
 ];
 
-
+//Generating Side Bar
 function Sidebar({user}) {
   const [selected, setSelected] = useState('0');
   
@@ -51,10 +53,8 @@ function Sidebar({user}) {
   );
 }
 
-function UserData({ user }) {
-  
-
-  
+//Displaying user's data
+function UserData({ user }) {  
   if (!user) {
     return (
       <div className="userDataLogin">
@@ -71,6 +71,7 @@ function UserData({ user }) {
   );
 }
 
+//Setting up the sidebar items according to preferences
 function MenuItem({ item: { id, title, url, user_needed }, onClick, selected, user }) {
   if(!user_needed){
     return (

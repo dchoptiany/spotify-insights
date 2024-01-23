@@ -19,7 +19,7 @@ router.get("/api_data", (req, res) => {
 
     })
 
-
+//Route handling  user's data collector request
 router.get("/dataCollector", (req,res) =>{
   if(req.user){
         const accessToken = req.user.accessToken;
@@ -47,6 +47,7 @@ router.get("/dataCollector", (req,res) =>{
 
 })    
 
+//Route handling user's data sketches request 
 router.get("/dataSketches", (req, res) => {
   const apiEndpoint = req.query.endpoint;
   const startDate = req.query.startdate;

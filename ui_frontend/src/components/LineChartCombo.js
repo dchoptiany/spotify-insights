@@ -1,11 +1,9 @@
 import {Card, LineChart, Title, Flex } from "@tremor/react";
 
 
-
+//Converting recieved data
 function convertDataFormat(exampleData) {
-
   const resultCombo = [];
-
   for (let i = 0; i < exampleData.date_labels.length; i++) {
     const dateLabel = exampleData.date_labels[i];
     const dataObjCombo = { date_label: dateLabel };
@@ -24,7 +22,7 @@ function convertDataFormat(exampleData) {
   return {resultCombo};
 }
 
-
+//Generating Line Chart
   const generateLineChart = ({ data, text }) => {
     const result = convertDataFormat(data);
     console.log(result)
@@ -35,7 +33,7 @@ function convertDataFormat(exampleData) {
 
       
 
-<Flex justifyContent="center" alignItems="center">
+    <Flex justifyContent="center" alignItems="center">
 
       <Card className="lineChart">
       <Title>Trends</Title>

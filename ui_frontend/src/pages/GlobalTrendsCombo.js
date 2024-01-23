@@ -5,14 +5,14 @@ import DynamicSelect from '../components/DynamicSelect';
 
 
 
-
+//Global Trends combo page
 const GlobalTrendsCombo = () => {
 
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
 
     
-
+//Formating date
 const formatDate = (dateString) => {
   if (isNaN(Date.parse(dateString))) {
     return "";
@@ -30,7 +30,7 @@ const formatDate = (dateString) => {
 };
 
 
-
+//update date
   const updateDates = ({start,end})=>{
     setStartDate(start)
     setEndDate(end)

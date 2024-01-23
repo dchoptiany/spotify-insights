@@ -1,12 +1,9 @@
 import React from 'react';
 import { Card, ScatterChart, Text, Title } from "@tremor/react";
 
-
+//Generating Scatter Chart
 const generateScatterChart = ({ data, category }) => {
   const formattedData =data.map((value, index) => ({ x: index, y: value, category:"" }));
-  console.log(formattedData)
-
-
   return (
     <Card className='scatter'>
     <Title>{category}</Title>

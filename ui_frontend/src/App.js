@@ -13,9 +13,7 @@ import Error from './pages/Error';
 
 import {
   BrowserRouter,
-  RouterProvider,
   Route,
-  Link,
   Routes,
   Navigate
 } from "react-router-dom";
@@ -23,8 +21,7 @@ import { useEffect, useState } from "react";
 import LikedTracks from './pages/LikedTracks';
 import GlobalTrendsCombo from './pages/GlobalTrendsCombo';
 
-
-
+//Initializes user state by fetching user data on component "mount"
 function App() {
   const [user, setUser] = useState(null);
 
@@ -46,7 +43,7 @@ function App() {
   }, []);
 
 
-
+//Handling routing
   return <BrowserRouter>
         <div>
           <div>

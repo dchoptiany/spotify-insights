@@ -30,5 +30,5 @@ app.use(cors({
 app.use("/auth",auth)
 app.use("/api",api)
 
-
+// Exports the Express application for external use.
 module.exports = app

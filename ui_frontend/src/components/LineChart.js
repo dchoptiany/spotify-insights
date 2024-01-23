@@ -2,6 +2,7 @@ import {Card, LineChart, Title, Flex } from "@tremor/react";
 
 
 
+//Converting recieved data
 function convertDataFormat(exampleData) {
   const resultGenres = [];
   const resultDecades = [];
@@ -42,7 +43,7 @@ function convertDataFormat(exampleData) {
   return {resultGenres, resultDecades, resultCombo};
 }
 
-
+//Generating line chart
   const generateLineChart = ({ data, text }) => {
     const musicTypes = Object.keys(data.genre_scores);
     const result = convertDataFormat(data);

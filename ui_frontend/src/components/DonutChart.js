@@ -1,6 +1,8 @@
 import { DonutChart, Card, Title } from "@tremor/react";
 import React from "@tremor/react";
 
+
+//generateDonut generated donut Chart with given data
 const generateDonut = ({ data, text }) => {
   if (!data || data.length === 0) {
     return null;

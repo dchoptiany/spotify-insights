@@ -1,5 +1,6 @@
 import { Card, Flex, Text, ProgressCircle } from "@tremor/react";
 
+//Generating Progress Circle
 const generateProgressCircle=({data, text}) => (
     <div className="progressCircle">
       <div className="space-y-3">

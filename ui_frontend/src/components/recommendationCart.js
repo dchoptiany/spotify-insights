@@ -1,6 +1,7 @@
 import React from "react";
-import { Card, Metric, Text } from "@tremor/react";
+import { Card, Text } from "@tremor/react";
 
+//Generating text Cart
 const generateTextCard = (data, text,t) => (
   <Card className="textCartRec"  decoration="top" decorationColor="non">
     <Text className="text">{text}</Text>

@@ -4,6 +4,8 @@ import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
 import AudioPlayer from './AudioPlayer';
 
+
+//Recommendation page
 const Recommendations = () => {
   const [display, setDisplay] = useState(false);
   const [userData, setUserData] = useState({
@@ -13,21 +15,17 @@ const Recommendations = () => {
   let requestData=""
 
 
-
+//Sending request and collecting recieved data
 const getData =  () => {
-
     try {
         const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/recommendations"
         console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response)
           return response.text();
         }) 
         .then(data => {
-          requestData = JSON.parse(data);
-          console.log(requestData);
- 
+          requestData = JSON.parse(data); 
           setUserData(requestData);
           setDisplay(true);
         })
@@ -40,7 +38,7 @@ const getData =  () => {
   
  }
 
-
+ //Fetches data when the component "mounts"
   useEffect(() => {
     getData();
   }, []);
@@ -49,8 +47,6 @@ const getData =  () => {
   return (
     <div className="input-form-container">
         <div style={{paddingTop:"4%"}}>
-        
-
             {userData.tracks.map((artist, index) => (
               <div className='recommendations' key={index}>
                 <Flex justifyContent="center" alignItems="center" className='cartRec' >

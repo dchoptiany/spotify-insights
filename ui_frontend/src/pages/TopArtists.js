@@ -12,9 +12,8 @@ import {
   } from "@tremor/react";
 
 
-
+//Top artists page
 const TopArtists = () => {
-
   return (
       <div className='tab'>
     <div className='tab'>
@@ -40,13 +39,9 @@ const TopArtists = () => {
           </TabPanel>
         </TabPanels>
       </TabGroup>
-      
       </Flex>
       </div>
-
-        </div>
-    
-    
+      </div>
   );
 
 

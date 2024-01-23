@@ -9,7 +9,7 @@ import generateProgressCircle from '../components/ProgressCircle';
 import { Flex } from "@tremor/react";
 
 
-
+//Url analysis page
 const UrlAnalysis = () => {
   const [textInput, setTextInput] = useState('');
   const [display, setDisplay] = useState(false)
@@ -26,7 +26,7 @@ const UrlAnalysis = () => {
 
   let requestData = ""
 
-
+//Parsing given URL
   const parseSpotifyUrl = (url) => {
     const regex = /(\/track\/|\/playlist\/|\/artist\/)([a-zA-Z0-9]+)/;
     const match = url.match(regex);
@@ -35,7 +35,7 @@ const UrlAnalysis = () => {
   };
   
 
-
+//Spliting playlist analyse data
 function splitData(data) {
   let arrayData = {};
 
@@ -47,6 +47,7 @@ function splitData(data) {
  setArrayData(arrayData);
 }
 
+//Spliting basic information data 
 function splitDataInfo(data) {
   let playlistInfo = {};
 
@@ -59,23 +60,19 @@ function splitDataInfo(data) {
  setImage(data.image)
 }
   
-  
+  //Sending two requests and collecting data
   const handleButtonClick =  () => {
 
     try {
       const spotifyAdressData = parseSpotifyUrl(textInput);
       if(spotifyAdressData!=null){
         const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/"+spotifyAdressData[0]+"/info?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-        console.log(parsedSpotifyURL)
         DataCollectorRequest(parsedSpotifyURL)
         .then(response => {
-          console.log(response)
           return response.text();
         }) 
         .then(data => {
-          requestData = JSON.parse(data);
-          console.log(requestData);
- 
+          requestData = JSON.parse(data); 
           setDataUser(requestData);
           splitDataInfo(requestData);
         })
@@ -93,17 +90,13 @@ function splitDataInfo(data) {
      const spotifyAdressData = parseSpotifyUrl(textInput);
      if(spotifyAdressData!=null){
        const parsedSpotifyURL = "http://aws_hostname:6060/"+spotifyAdressData[0]+"/analyse?"+spotifyAdressData[0]+"_id="+spotifyAdressData[1];
-       console.log(parsedSpotifyURL)
        DataCollectorRequest(parsedSpotifyURL)
        .then(response => {
-         console.log(response)
          return response.text();
        }) 
        .then(data => {
          const cleanedData = data.replace(/"/g, '');
          requestData = JSON.parse(atob(cleanedData));
-         console.log(requestData);
-
          setData(requestData);
          splitData(requestData);
          setDisplay(true);

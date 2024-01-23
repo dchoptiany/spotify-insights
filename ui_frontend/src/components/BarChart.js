@@ -1,6 +1,8 @@
 import { BarChart, Card, Title } from "@tremor/react";
 import './styleComponents.css';
 
+
+//customToltip is used for customing tooltip
 const customTooltip = ({ payload, active, label }) => {
     if (!active || !payload) return null;
   
@@ -15,6 +17,8 @@ const customTooltip = ({ payload, active, label }) => {
     );
   };
 
+  
+  //generateBarChart is used for generating a Bar Chart
   const generateBarChart = ({ data, category, category_name }) => {
     const filteredData = data.filter(([label, value]) => label.trim() !== '');  
     const transformedData = filteredData.map(([label, value]) => ({ first: label, second: value }));

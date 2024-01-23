@@ -1,5 +1,4 @@
-
-
+//Error page
 const Error = () =>{
     return (
         <div className="wrapper">
