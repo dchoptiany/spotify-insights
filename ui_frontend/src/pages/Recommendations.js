@@ -41,7 +41,7 @@ const getData =  () => {
  //Fetches data when the component "mounts"
   useEffect(() => {
     getData();
-  }, []);
+  }, [userData]);
 
 
   return (
