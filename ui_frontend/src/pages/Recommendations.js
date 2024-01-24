@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import generateTextCard from '../components/recommendationCart';
 import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
