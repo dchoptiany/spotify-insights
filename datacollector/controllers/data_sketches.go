@@ -1,152 +1,94 @@
 package controllers
 
 import (
+	"bufio"
+	"context"
 	"net/http"
+	"os"
+	"spotify_insights/datacollector/config"
 	"spotify_insights/datacollector/models"
 
 	"github.com/gin-gonic/gin"
-	"github.com/zmb3/spotify"
-	"golang.org/x/oauth2"
+	"github.com/zmb3/spotify/v2"
 )
 
-const TopGlobalPlaylistID = "37i9dQZEVXbMDoHDwVN2tF?si=57659a09337c4067"
-const TopPolandPlaylistID = "37i9dQZEVXbN6itCcaL3Tt?si=52c6f869697741ca"
+const PlaylistsFilename = config.TopPlaylistsIDFile
 
-func GetTopTracksGlobal(c *gin.Context) {
+// Gets data about Spotify's global tracks / global playlists and pick most important information
+func GetTrendTracks(c *gin.Context) {
 	var err error
-	var token oauth2.Token
-	var playlist *spotify.FullPlaylist = nil
-	var dataSketchesPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{Tracks: make([]models.DataSketchesTrack, 0)}
-	var spotifyArtist *spotify.FullArtist
+	var client models.Client
+	var spotifyPlaylist *spotify.FullPlaylist = nil
+	var spotifyArtists []*spotify.FullArtist
+	var listOfDataPlaylist models.DataSketchesPlaylistList = models.DataSketchesPlaylistList{make([]models.DataSketchesPlaylist, 0)}
 
-	// payload -> oauth2 token
-	if err = c.BindJSON(&token); err != nil {
+	// create client
+	client = models.CreateClient()
+	spotifyClient := client.SpotifyClient
+
+	// open playlistsFile
+	file, err := os.Open(PlaylistsFilename)
+	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	} else {
-		// create spotify client
-		spotifyClient := NewSpotifyClient(&token)
+	}
+	defer file.Close()
 
-		// get Top Global playlist
-		playlist, err = spotifyClient.GetPlaylist(TopGlobalPlaylistID)
+	scanner := bufio.NewScanner(file)
 
+	for scanner.Scan() {
+		playlistID := scanner.Text()
+		spotifyPlaylist, err = spotifyClient.GetPlaylist(context.Background(), spotify.ID(playlistID))
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		} else {
-			numOfTotalSpotifyTracks := playlist.Tracks.Total
-
-			// array of playlist's tracks
-			spotifyTrackArr := playlist.Tracks.Tracks
-
-			for i := 0; i < numOfTotalSpotifyTracks; i++ {
-				// data sketch track
-				track := models.DataSketchesTrack{Artists: make([]models.SpotifyArtist, 0)}
-
-				// playlist's track
-				spotifyTrack := spotifyTrackArr[i]
-				// tracks's artists
-				spotifyArtistsArr := spotifyTrack.Track.Artists
-
-				for a := 0; a < len(spotifyArtistsArr); a++ {
-					// data sketch artist
-					artist := models.SpotifyArtist{}
-
-					// track's artist's info
-					spotifySimpleArtist := spotifyArtistsArr[a]
-
-					// fill the data sketch artist's info
-					artist.ID = string(spotifySimpleArtist.ID)
-					artist.Name = spotifySimpleArtist.Name
-
-					// add artist to track's slice of artists
-					track.Artists = append(track.Artists, artist)
-				}
-
-				// get artist's full info
-				spotifyArtist, err = spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
-				if err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				}
-
-				// genre
-				if len(spotifyArtist.Genres) > 0 {
-					track.Genre = spotifyArtist.Genres[0]
-				}
-
-				// add track to the dataSketchesPlaylist
-				dataSketchesPlaylist.Tracks = append(dataSketchesPlaylist.Tracks, track)
-			}
-
-			// send playlistForAnalysis as JSON
-			c.JSON(http.StatusOK, dataSketchesPlaylist)
+			return
 		}
-	}
-}
 
-func GetTopTracksPoland(c *gin.Context) {
-	var err error
-	var token oauth2.Token
-	var playlist *spotify.FullPlaylist = nil
-	var dataSketchesPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{Tracks: make([]models.DataSketchesTrack, 0)}
-	var spotifyArtist *spotify.FullArtist
+		var artistsIDs []spotify.ID = make([]spotify.ID, 0)
+		var dataPlaylist models.DataSketchesPlaylist = models.DataSketchesPlaylist{make([]models.DataSketchesTrack, 0)}
 
-	// payload -> oauth2 token
-	if err = c.BindJSON(&token); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-	} else {
-		// create spotify client
-		spotifyClient := NewSpotifyClient(&token)
+		totalNumOfSpotifyTracks := spotifyPlaylist.Tracks.Total
+		if totalNumOfSpotifyTracks > config.MaximalArtistsCapacity {
+			totalNumOfSpotifyTracks = config.MaximalArtistsCapacity
+		}
 
-		playlist, err = spotifyClient.GetPlaylist(TopPolandPlaylistID)
+		// playlist's tracks
+		spotifyTrackArr := spotifyPlaylist.Tracks.Tracks
 
+		for i := 0; i < totalNumOfSpotifyTracks; i++ {
+			dataTrack := models.DataSketchesTrack{}
+
+			// playlist's track
+			spotifyTrack := spotifyTrackArr[i].Track
+
+			// add artist's ID to slice
+			artistsIDs = append(artistsIDs, spotifyTrack.Artists[0].ID)
+
+			// id
+			dataTrack.ID = string(spotifyTrack.ID)
+
+			// release date
+			dataTrack.Release_date = spotifyTrack.Album.ReleaseDate
+
+			// add tracks to playlistForAnalysis
+			dataPlaylist.Tracks = append(dataPlaylist.Tracks, dataTrack)
+		}
+
+		spotifyArtists, err = spotifyClient.GetArtists(context.Background(), artistsIDs...)
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		} else {
-			numOfTotalSpotifyTracks := playlist.Tracks.Total
-
-			// array of playlist's tracks
-			spotifyTrackArr := playlist.Tracks.Tracks
-
-			for i := 0; i < numOfTotalSpotifyTracks; i++ {
-				// data sketch track
-				track := models.DataSketchesTrack{Artists: make([]models.SpotifyArtist, 0)}
-
-				// playlist's track
-				spotifyTrack := spotifyTrackArr[i]
-				// track's artists
-				spotifyArtistsArr := spotifyTrack.Track.Artists
-				for a := 0; a < len(spotifyArtistsArr); a++ {
-					// data sketch artist
-					artist := models.SpotifyArtist{}
-
-					// track's artist's info
-					spotifySimpleArtist := spotifyArtistsArr[a]
-
-					// fill the data sketch artist's info
-					artist.ID = string(spotifySimpleArtist.ID)
-					artist.Name = spotifySimpleArtist.Name
-
-					// add artist to track's slice of artists
-					track.Artists = append(track.Artists, artist)
-				}
-
-				// get artist's full info
-				spotifyArtist, err = spotifyClient.GetArtist(spotify.ID(track.Artists[0].ID))
-
-				if err != nil {
-					c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-				}
-
-				// genre
-				if len(spotifyArtist.Genres) > 0 {
-					track.Genre = spotifyArtist.Genres[0]
-				}
-
-				// add track to the dataSketchesPlaylist
-				dataSketchesPlaylist.Tracks = append(dataSketchesPlaylist.Tracks, track)
-			}
-
-			// send playlistForAnalysis as JSON
-			c.JSON(http.StatusOK, dataSketchesPlaylist)
+			return
 		}
+
+		for idx := 0; idx < totalNumOfSpotifyTracks; idx++ {
+			track := &dataPlaylist.Tracks[idx]
+			if len(spotifyArtists[idx].Genres) > 0 {
+				track.Genre = spotifyArtists[idx].Genres[0]
+			}
+		}
+
+		listOfDataPlaylist.Playlists = append(listOfDataPlaylist.Playlists, dataPlaylist)
 	}
+
+	// send dataPlaylist as JSON
+	c.JSON(http.StatusOK, listOfDataPlaylist)
 }

@@ -13,6 +13,7 @@ import (
 	"golang.org/x/oauth2"
 )
 
+// Collects playlist's data from Data Collector and runs Data Analyser to get playlist's analysis
 func GetPlaylistAnalysis(c *gin.Context) {
 	var err error
 	var token oauth2.Token
@@ -55,7 +56,7 @@ func GetPlaylistAnalysis(c *gin.Context) {
 			}
 
 			// analysis
-			analysisOutput, err := RunDataAnalyserCli(resp_data)
+			analysisOutput, err := RunAnalysePlaylist(resp_data)
 			if err != nil {
 				c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			}

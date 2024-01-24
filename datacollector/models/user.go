@@ -2,9 +2,11 @@ package models
 
 import (
 	"context"
+	"os"
 
 	"github.com/google/uuid"
-	"github.com/zmb3/spotify"
+	"github.com/zmb3/spotify/v2"
+	spotifyauth "github.com/zmb3/spotify/v2/auth"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/clientcredentials"
 )
@@ -22,6 +24,23 @@ type Client struct {
 	Uuid          uuid.UUID `json:"Uuid"`
 }
 
+func CreateClient() Client {
+	// read credentials from env variables
+	spotifyClientID := os.Getenv("SPOTIFY_CLIENT_ID")
+	spotifyClientSecret := os.Getenv("SPOTIFY_CLIENT_SECRET")
+
+	c := Client{}
+	c.ClientID = spotifyClientID
+	c.ClientSecret = spotifyClientSecret
+	c.Authenticate()
+
+	httpClient := spotifyauth.New().Client(context.Background(), c.Token)
+	c.SpotifyClient = *spotify.New(httpClient)
+	c.GenUUID()
+
+	return c
+}
+
 func (c *Client) GenUUID() {
 	c.Uuid = uuid.New()
 }
@@ -36,7 +55,7 @@ func (c *Client) Authenticate() error {
 	c.AuthConfig = &clientcredentials.Config{
 		ClientID:     c.ClientID,
 		ClientSecret: c.ClientSecret,
-		TokenURL:     spotify.TokenURL,
+		TokenURL:     spotifyauth.TokenURL,
 	}
 
 	c.Token, err = c.AuthConfig.Token(context.Background())

@@ -19,7 +19,7 @@ router.get("/api_data", (req, res) => {
 
     })
 
-
+//Route handling  user's data collector request
 router.get("/dataCollector", (req,res) =>{
   if(req.user){
         const accessToken = req.user.accessToken;
@@ -46,6 +46,53 @@ router.get("/dataCollector", (req,res) =>{
   }
 
 })    
+
+//Route handling user's data sketches request 
+router.get("/dataSketches", (req, res) => {
+  const apiEndpoint = req.query.endpoint;
+  const startDate = req.query.startdate;
+  const endDate = req.query.enddate;
+
+  const jsonQuery = JSON.stringify({
+    "start_date": startDate,
+    "end_date": endDate
+  });
+
+  dataCollectorAction(apiEndpoint, jsonQuery)
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((error) => {
+      res.status(404).send(json);
+    });
+});
+
+router.get("/dataSketchesCombo", (req, res) => {
+  const apiEndpoint = req.query.endpoint;
+  const startDate = req.query.startdate;
+  const endDate = req.query.enddate;
+  const arrayJson = req.query.array;
+
+  const array = JSON.parse(arrayJson);
+
+
+
+
+  const jsonQuery = JSON.stringify({
+    "start_date": startDate,
+    "end_date": endDate,
+    "data" : array
+  });
+
+  dataCollectorAction(apiEndpoint, jsonQuery)
+    .then((data) => {
+      res.status(200).send(data);
+    })
+    .catch((error) => {
+      res.status(404).send(jsonQuery);
+    });
+});
+ 
 
 module.exports = router
     

@@ -1,0 +1,52 @@
+{
+    "tracks": [
+        {
+            "id": "1",
+            "title": "Title 1",
+            "artists": [
+                {
+                    "id": "100",
+                    "name": "Artist 1"
+                }
+            ],
+            "genre": "pop",
+            "release_date": "2023-08-25",
+            "duration_ms": 171655,
+            "popularity": 86,
+            "energy": 0.571,
+            "danceability": 0.61
+        },
+        {
+            "id": "2",
+            "title": "Title 2",
+            "artists": [
+                {
+                    "id": "200",
+                    "name": "Artist 2"
+                }
+            ],
+            "genre": "pop",
+            "release_date": "2023-08-25",
+            "duration_ms": 150000,
+            "popularity": 100,
+            "energy": 1.000,
+            "danceability": 0.91
+        },
+        {
+            "id": "3",
+            "title": "Title 3",
+            "artists": [
+                {
+                    "id": "200",
+                    "name": "Artist 2"
+                }
+            ],
+            "genre": "rap",
+            "release_date": "2003-01-01",
+            "duration_ms": 181565,
+            "popularity": 75,
+            "energy": 0.871,
+            "danceability": 0.31
+        }
+    ]
+}

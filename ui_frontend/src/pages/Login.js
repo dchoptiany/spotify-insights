@@ -1,27 +1,29 @@
 import Spotify from "../images/spotify.png"
+import { Flex } from "@tremor/react";
 
 
-const spotify = ()=>{
+//Initiating the Spotify authentication process
+const authenticate = ()=>{
     window.open("http://aws_hostname:8000/auth/spotify", "_self")
   }
 
   
-
+//Login page
 const Login = () =>{
     return (
-        <div>
-            <div className="wrapper">
-                <div className="center">
-                <div className="loginButton" onClick={spotify}>
+        <Flex justifyContent="center" alignItems="center">
+        <div className="wrapper">
+                <div className="center" onClick={authenticate}>
+                <div className="loginButton" onClick={authenticate}>
                     <img src={Spotify} alt="" className="icon"></img>
                 </div>
-                <div className="loginDesc">
-                <h1 >Log in with your Spotify account</h1>
+                <div className="loginDesc" >
+                <div>Log in with your Spotify account</div>
 
                 </div>
                 </div>
-            </div>
         </div>
+        </Flex>
     )
 }
 

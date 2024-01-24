@@ -8,12 +8,7 @@
 }
 
 body {
-  width: 100%;
-  height: 100%; 
-  position: center;
   background: black;
-  align-items: center;
-  justify-content: center;
   font-family: Arial, sans-serif; 
 }
 
@@ -69,33 +64,37 @@ body {
 }
 
 .wrapper {
-  margin-top: 5%;
-  position: center; 
-  align-self: center;
-  width: 100%;
-  height: 100%;
-  -webkit-box-shadow: 0px 5px 33px -21px rgb(0, 0, 0);
-  -moz-box-shadow: 0px 5px 33px -21px rgb(0, 0, 0);
-  box-shadow: 0px 5px 33px -21px rgb(0, 0, 0);
-  display: flex;
-  align-items: center;
-  border-radius: 20px;
-}
-
-
-
-.center {
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 20px;
-  padding: 1%;
-  width: 40%;
-  height: 30%;
-  margin: auto;
+  
+
 }
+
+
+
+
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30vh;
+  cursor: pointer;
+}
+
+
+
+.main{
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
 
 
 
@@ -105,7 +104,6 @@ body {
   padding: 15px 25px;
   border-radius: 5px;
   color: white;
-  display: flex;
   font-weight: bold;
   margin-bottom: 20px;
   cursor: pointer;
@@ -128,12 +126,17 @@ body {
   font-size: 20px;
 }
 
-@media screen and (max-width: 992px) {
+@media screen {
 
   .wrapper {
     width: 65%;
     height: 90%;
     flex-direction: column;
+  }
+
+  .sidebar{
+    width: 15%;
+    font-size: small;
   }
 
   .loginTitle {
@@ -158,7 +161,110 @@ body {
     width: 300px;
   }
 
+.plots {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  height: 100%;
+  margin-bottom: 5%;
+ }
+
   
+}
+
+.tab{
+  display: flex;
+  justify-content: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  height: 100%;
+  margin-left: 7%;
+
+}
+
+.recommendations{
+
+  margin-bottom: 5%;
+  margin-left: 20vh;
+}
+.topTracks{
+  margin-bottom: 25%;
+}
+
+.tabList{
+  margin-top: 2%;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.textCart{
+  width: 40vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  
+}
+
+.textCartTop{
+  width: 50vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 5%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  
+}
+
+.textCartRec{
+  width: 50vh;
+  height: min-content;
+  font-weight: bold;  
+  align-items: center;
+  position: center;
+  margin-right: 1%;
+  margin-top: 1%;
+  margin-bottom: 0.5%;
+  
+}
+
+.cart{
+  margin-bottom: 2%;
+}
+
+.cartRec{
+  margin-bottom: 1%;
+}
+
+.text{
+  font-size: 1.2em;
+  align-items: center;
+  position: center;
+  text-align: center;
+
+}
+
+.textItem{
+  align-items: center;
+  position: center;
+  text-align: center;
+
+}
+
+.userInfo{
+  margin-top: 10%;
+  margin-left: 2%;
 }
 
 .input-form-container{
@@ -175,7 +281,6 @@ body {
 
 .input-container {
   width: 100%;
-  margin-top: 5%;;
   text-align: center;
   color :  rgb(122, 122, 122);
  flex-direction: column;
@@ -185,9 +290,11 @@ body {
 }
 
 .input-field {
+  margin-top: 5%;
+  margin-bottom: 3%;
+  margin-left: 1%;
   width: 20%;
   padding: 0.5%;
-  margin: 15px;
   font-size: 18px;
   color :  rgb(0, 0, 0);
   background-color: rgb(122, 122, 122);
@@ -207,14 +314,16 @@ body {
 }
 
 .Button{
-  width: 10%;
-  padding: 0.67%;
+  width: 8%;
+  padding: 0.5%;
   font-size: 20px;
   font-weight: bold;
   margin: 1%;
+  margin-bottom: 0%;
   color:  rgb(41, 40, 40);
   font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   background-color:  rgb(30 215 96);
+  border-radius: 15%;
 }
 
 .checkbox{
@@ -224,15 +333,187 @@ body {
   transform: translateX(+50%);
 }
 
-.plots {
+.form{
+  color: aliceblue;
+  font-size: large;
+}
+
+.element{
+  margin-top: 1%;
+  color: darkgray;
+}
+
+.dateInput{
+  color: gray;
+  background-color: rgb(52, 52, 54);
+}
+
+.plots_liked{
   text-align: center;
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 100%;
   flex-wrap: wrap;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: 0.1%;
   height: 100%;
+  margin-left: 7%;
+}
+
+.plots {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 0.1%;
+  height: 100%;
+  margin-left: 7%;
  }
+
+ .sidebar-item-selected{
+  color: white;
+  border-right: 2px solid white;
+    margin-bottom: 0.5%;
+
+}
+.sidebar-item{
+  border-right: 2px solid transparent;
+  font-size:20px;
+  margin-bottom: 2%;
+  max-width: 100%; 
+  overflow: hidden;
+  white-space: nowrap;
+
+}
+.sidebar-item:hover {
+ color:white;
+cursor: pointer
+}
+
+.sidebar-Title{
+  font-size: 35px;
+  margin-bottom: 20%;
+  font-weight: bold;
+}
+
+.sidebar-Title:hover{
+    color: white;
+}
+
+.userData{
+  margin-top:2%;
+  font-size:15px;
+  
+}
+
+.userDataLogin{
+  margin-top:15%;
+  font-size:15px;
+}
+
+.userDataLogin:hover{
+  cursor: pointer;
+  color: white;
+
+}
+
+.sidebar{
+  background-color: rgba(30, 215, 95, 0.815);
+  color: rgb(243, 236, 236);
+  display: table-cell;
+  align-items:center;
+  justify-content: center;
+  position: fixed;
+  height: 100%; 
+  padding: 3vh;
+  
+}
+
+.overview-container {
+  text-align: center;
+  padding: 20px;
+}
+
+.spotify-insights {
+  margin-top: 2%;
+  font-size: 66px; 
+  font-weight: bold;
+  color: #1DB954;
+}
+
+.music-experience {
+  font-size: 34px; 
+  color: #d8d5d5; 
+  margin-bottom: 2%;
+}
+
+.description {
+  font-size: 21px; 
+  color: #a09d9d; 
+}
+
+.url_desc{
+  margin-top: 1%;
+  font-size: 34px;
+  color: #1DB954; 
+  text-align: center;
+
+
+}
+
+.url_desc2{
+  font-size: 21px;
+  color: #d8d5d5; 
+  text-align: center;
+
+}
+
+.url_desc3{
+  font-size: 18px;
+  text-align: center;
+  color: #9c9999; 
+}
+
+.scatter{
+  width: 50%;
+}
+
+.select{
+  width: fit-content;
+}
+
+.selectItems{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 100%;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 3%;
+  height: 100%;
+}
+
+.add{
+  font-size: 25px;
+  color: #1DB954;
+  font-weight: bold;
+  margin-left: 0.7%;
+  margin-right: 0.7%;
+}
+
+.reactButton{
+  background-color: #1DB954;
+  color: #ffffff;
+  border-color: #1DB954;
+}
+
+.reactButton:hover{
+   background-color: #3ca862;
+  color: #ffffff;
+  border-color: #309e57;
+}

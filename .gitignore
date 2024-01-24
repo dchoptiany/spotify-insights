@@ -21,6 +21,7 @@ yarn-debug.log*
 yarn-error.log*
 /datacollector/_build/*
 /dataanalyser/_build/*
+/dataanalyser/bin
 /dataanalyser_api/_build/*
 
 *.exe
@@ -28,3 +29,5 @@ yarn-error.log*
 .vscode/tasks.json
 
 scripts/secrets.env
+*.o
+dataanalyser/sketches/
