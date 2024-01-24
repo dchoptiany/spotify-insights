@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import generateTextCard from '../components/recommendationCart';
 import { Flex } from "@tremor/react";
 import { DataCollectorRequest } from '../actions/authActions';
@@ -10,8 +10,7 @@ const Recommendations = () => {
     tracks: []
   });
 
-  const isMounted = useRef(true); 
-
+  const isMounted = true;
   useEffect(() => {
     const getData = async () => {
       try {
@@ -21,20 +20,19 @@ const Recommendations = () => {
         const response = await DataCollectorRequest(parsedSpotifyURL);
         const data = await response.text();
         const requestData = JSON.parse(data);
-
-        if (isMounted.current) {
+        if(isMounted){
           setUserData(requestData);
           setDisplay(true);
+        }
+        else{
+          isMounted=false;
         }
       } catch (error) {
         console.error('Błąd podczas zapytania:', error);
       }
     };
 
-    getData();
-    return () => {
-      isMounted.current = false;
-    };
+    getData(); 
 
   }, []); 
 
