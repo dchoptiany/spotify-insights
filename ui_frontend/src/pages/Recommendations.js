@@ -10,8 +10,8 @@ const Recommendations = () => {
     tracks: []
   });
 
-  const isMounted = true;
   useEffect(() => {
+    let isMounted = true; 
     const getData = async () => {
       try {
         const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/recommendations";
@@ -20,21 +20,22 @@ const Recommendations = () => {
         const response = await DataCollectorRequest(parsedSpotifyURL);
         const data = await response.text();
         const requestData = JSON.parse(data);
-        if(isMounted){
+
+        if (isMounted) {
           setUserData(requestData);
           setDisplay(true);
-        }
-        else{
-          isMounted=false;
         }
       } catch (error) {
         console.error('Błąd podczas zapytania:', error);
       }
     };
 
-    getData(); 
+    getData();
+    return () => {
+      isMounted = false;
+    };
 
-  }, []); 
+  }, []);
 
   return (
     <div className="input-form-container">
