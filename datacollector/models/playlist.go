@@ -26,9 +26,9 @@ type SpotifyPlaylist struct {
 
 // Keep basic info about Spotify's playlist
 type PlaylistInfo struct {
-	Name           string `json:"Name"`
-	OwnerName      string `json:"Owner_name"`
-	Desc           string `json:"Description"`
-	Image          string `json:"Image"`
-	NumOfFollowers int    `json:"Num_of_followers"`
+	Name           string `json:"name"`
+	OwnerName      string `json:"owner_name"`
+	Desc           string `json:"desc"`
+	Image          string `json:"image"`
+	NumOfFollowers int    `json:"num_of_followers"`
 }
