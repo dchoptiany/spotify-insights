@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import generateTextCard from '../components/recommendationCart';
 import { Flex } from "@tremor/react";
 import {DataCollectorRequest} from '../actions/authActions';
@@ -15,34 +15,33 @@ const Recommendations = () => {
   let requestData=""
 
 
-  const shouldLog = useRef(true);
-
-  const getData = async () => {
+//Sending request and collecting recieved data
+const getData =  () => {
     try {
-     
-      const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/recommendations";
-      console.log(parsedSpotifyURL);
-
-      const response = await DataCollectorRequest(parsedSpotifyURL);
-      const data = await response.text();
-      const requestData = JSON.parse(data);
-
-      setUserData(requestData);
-      setDisplay(true);
-      
+        const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/recommendations"
+        console.log(parsedSpotifyURL)
+        DataCollectorRequest(parsedSpotifyURL)
+        .then(response => {
+          return response.text();
+        }) 
+        .then(data => {
+          requestData = JSON.parse(data); 
+          setUserData(requestData);
+          setDisplay(true);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);
     }
-  };
+  
+ }
 
-//Sending request and collecting recieved data
-useEffect(() => {
-  if (shouldLog.current) {
-    shouldLog.current = false;
-    getData(); 
-  }
-
-}, []);
+ //Fetches data when the component "mounts"
+  useEffect(() => {
+    getData();
+  }, []);
 
 
   return (
