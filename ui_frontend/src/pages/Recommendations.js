@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import generateTextCard from '../components/recommendationCart';
 import { Flex } from "@tremor/react";
 import { DataCollectorRequest } from '../actions/authActions';
@@ -10,6 +10,8 @@ const Recommendations = () => {
     tracks: []
   });
 
+  const isMounted = useRef(true); 
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -20,14 +22,19 @@ const Recommendations = () => {
         const data = await response.text();
         const requestData = JSON.parse(data);
 
-        setUserData(requestData);
-        setDisplay(true);
+        if (isMounted.current) {
+          setUserData(requestData);
+          setDisplay(true);
+        }
       } catch (error) {
         console.error('Błąd podczas zapytania:', error);
       }
     };
 
-    getData(); 
+    getData();
+    return () => {
+      isMounted.current = false;
+    };
 
   }, []); 
 
