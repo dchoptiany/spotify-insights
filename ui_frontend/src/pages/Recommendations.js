@@ -15,11 +15,11 @@ const Recommendations = () => {
   let requestData=""
 
 
-//Sending request and collecting recieved data
-useEffect(() => {
+  const shouldLog = useRef(true);
+
   const getData = async () => {
     try {
-      const abortController = new AbortController();
+     
       const parsedSpotifyURL = "http://aws_hostname:8080/spotify-api/user/recommendations";
       console.log(parsedSpotifyURL);
 
@@ -29,15 +29,17 @@ useEffect(() => {
 
       setUserData(requestData);
       setDisplay(true);
+      
     } catch (error) {
       console.error('Błąd podczas zapytania:', error);
     }
   };
 
-  getData(); 
-
-  return () => {
-    abortController.abort()
+//Sending request and collecting recieved data
+useEffect(() => {
+  if (shouldLog.current) {
+    shouldLog.current = false;
+    getData(); 
   }
 
 }, []);
